@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --color-cream: #ECE6DF;
+  --color-dark: #1A1A1A;
+  --color-mid: #4A4A4A;
+  --color-muted: #8A8A8A;
+  --color-hair: #D0C9C1;
+}
+
+/* ── CSS custom properties ─────────────────────────────── */
+:root {
+  --brand-cream: #ECE6DF;
+  --brand-dark: #1A1A1A;
+  --brand-mid: #4A4A4A;
+  --brand-light: #8A8A8A;
+  --brand-hair: #D0C9C1;
+}
+
+/* ── Base ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: #ECE6DF;
+  color: #1A1A1A;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+::selection {
+  background-color: #1A1A1A;
+  color: #ECE6DF;
+}
+
+:focus-visible {
+  outline: 1.5px solid #1A1A1A;
+  outline-offset: 3px;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ── Utility classes ────────────────────────────────────── */
+.label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-mid);
+}
+
+.hairline {
+  border-top: 1px solid var(--brand-hair);
+}
+
+.hairline-v {
+  border-left: 1px solid var(--brand-hair);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #1A1A1A;
+  color: #ECE6DF;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.875rem 1.875rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #2E2E2E;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #1A1A1A;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.875rem 1.875rem;
+  border: 1px solid #1A1A1A;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background-color: #1A1A1A;
+  color: #ECE6DF;
+}
+
+.body-text {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  color: #4A4A4A;
+  line-height: 1.75;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  text-decoration: none;
+  border-bottom: 1px solid #1A1A1A;
+  padding-bottom: 1px;
+  transition: opacity 0.2s ease;
+}
+
+.link-arrow:hover {
+  opacity: 0.6;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #ECE6DF;
+}
+::-webkit-scrollbar-thumb {
+  background: #D0C9C1;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1A1A1A;
+}
+
+/* ── Nav links ──────────────────────────────────────────── */
+.nav-link {
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1A1A1A;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #1A1A1A;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ── Scroll indicator animation ─────────────────────────── */
+@keyframes scrollLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scroll-line-anim {
+  position: absolute;
+  inset: 0;
+  background-color: #ECE6DF;
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
