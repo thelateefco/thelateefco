@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+/* ── Google Fonts ────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
 @theme {
-  --font-serif: "Playfair Display", Georgia, serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  /* ── Font Families ────────────────────────────────── */
+  --font-serif: "PT Serif", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
+  /* ── Brand Colors ────────────────────────────────── */
   --color-cream: #ECE6DF;
   --color-dark: #1A1A1A;
   --color-mid: #4A4A4A;
@@ -13,7 +16,7 @@
   --color-hair: #D0C9C1;
 }
 
-/* ── CSS custom properties ─────────────────────────────── */
+/* ── CSS Custom Properties ───────────────────────────── */
 :root {
   --brand-cream: #ECE6DF;
   --brand-dark: #1A1A1A;
@@ -22,7 +25,7 @@
   --brand-hair: #D0C9C1;
 }
 
-/* ── Base ───────────────────────────────────────────────── */
+/* ── Base Styles ──────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -36,7 +39,7 @@ html {
 body {
   background-color: #ECE6DF;
   color: #1A1A1A;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 300;
   line-height: 1.6;
 }
@@ -51,13 +54,22 @@ body {
   outline-offset: 3px;
 }
 
+/* ── Headings ────────────────────────────────────────── */
 h1, h2, h3, h4 {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+  font-weight: 400; /* Regular weight for headlines */
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
-/* ── Utility classes ────────────────────────────────────── */
+/* ── Italic Emphasis ────────────────────────────────── */
+em, .italic-em {
+  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ── Utility Classes ─────────────────────────────────── */
 .label {
   font-family: 'Inter', sans-serif;
   font-size: 0.6875rem;
@@ -75,6 +87,7 @@ h1, h2, h3, h4 {
   border-left: 1px solid var(--brand-hair);
 }
 
+/* ── Buttons ────────────────────────────────────────── */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -147,7 +160,7 @@ h1, h2, h3, h4 {
   opacity: 0.6;
 }
 
-/* ── Scrollbar ──────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -161,7 +174,7 @@ h1, h2, h3, h4 {
   background: #1A1A1A;
 }
 
-/* ── Nav links ──────────────────────────────────────────── */
+/* ── Nav Links ───────────────────────────────────────── */
 .nav-link {
   position: relative;
   font-family: 'Inter', sans-serif;
@@ -189,7 +202,7 @@ h1, h2, h3, h4 {
   width: 100%;
 }
 
-/* ── Scroll indicator animation ─────────────────────────── */
+/* ── Scroll Indicator ────────────────────────────────── */
 @keyframes scrollLine {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
@@ -200,4 +213,25 @@ h1, h2, h3, h4 {
   inset: 0;
   background-color: #ECE6DF;
   animation: scrollLine 1.8s ease-in-out infinite;
+}
+
+
+/* ── Reduced Motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .scroll-line-anim {
+    animation: none !important;
+  }
+
+  [data-motion] {
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

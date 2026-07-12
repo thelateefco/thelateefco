@@ -2,20 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
-const WHATSAPP_URL =
-  "https://wa.me/919769212600?text=Hi%2C%20I%27d%20like%20to%20discuss%20a%20project%20with%20The%20Lateef%20%26%20Co.";
-
-const navLinks = [
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "#contact" },
-];
+import { usePathname } from "next/navigation";
+import { WHATSAPP_URL, NAV_LINKS } from "../../lib/constants";
+import { trackWhatsAppClick } from "../../lib/utils/tracking";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -23,7 +17,18 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleNavClick = () => setMenuOpen(false);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname?.startsWith(href);
+  };
+
+  const handleWhatsAppClick = () => {
+    trackWhatsAppClick("header");
+  };
 
   return (
     <>
@@ -37,36 +42,34 @@ export default function Header() {
         <div className="max-w-[1280px] mx-auto px-6 md:px-10 lg:px-16">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <a
-              href="#hero"
+            <Link
+              href="/"
               className="flex flex-col leading-none group"
               aria-label="The Lateef & Co. — Home"
             >
-              <span
-                className="font-serif text-[1.7rem] md:text-[1.6rem] font-medium tracking-tight text-[#1A1A1A]"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
+              <span className="font-serif text-[1.7rem] md:text-[1.6rem] font-medium tracking-tight text-[#1A1A1A]">
                 The Lateef & Co.
               </span>
-              {/* <span className="label text-[0.55rem] tracking-[0.2em] text-[#8A8A8A] mt-0.5">
-                Web Studio · Mumbai
-              </span> */}
-            </a>
+            </Link>
 
             {/* Desktop Nav */}
-            <nav
-              className="hidden md:flex items-center gap-8"
-              aria-label="Main navigation"
-            >
-              {navLinks.map((link) => (
-                <a key={link.href} href={link.href} className="nav-link">
+            <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`nav-link text-sm ${
+                    isActive(link.href) ? "after:w-full" : ""
+                  }`}
+                >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={handleWhatsAppClick}
                 className="btn-primary text-xs py-3 px-5 ml-4"
                 aria-label="Start a conversation on WhatsApp"
               >
@@ -83,7 +86,7 @@ export default function Header() {
               </a>
             </nav>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Toggle */}
             <button
               className="md:hidden flex flex-col gap-[5px] p-2 -mr-2"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -118,29 +121,26 @@ export default function Header() {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        <nav
-          className="flex flex-col gap-8"
-          aria-label="Mobile navigation"
-        >
-          {navLinks.map((link, i) => (
-            <a
+        <nav className="flex flex-col gap-8" aria-label="Mobile navigation">
+          {NAV_LINKS.map((link, i) => (
+            <Link
               key={link.href}
               href={link.href}
-              onClick={handleNavClick}
-              className="font-serif text-4xl text-[#1A1A1A] border-b border-[#D0C9C1] pb-4"
+              className={`font-serif text-4xl text-[#1A1A1A] border-b border-[#D0C9C1] pb-4 ${
+                isActive(link.href) ? "opacity-60" : ""
+              }`}
               style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
                 transitionDelay: `${i * 60}ms`,
               }}
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <a
             href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={handleNavClick}
+            onClick={handleWhatsAppClick}
             className="btn-primary self-start mt-4"
           >
             Start a conversation

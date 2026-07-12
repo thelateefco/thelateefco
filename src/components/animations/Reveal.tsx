@@ -42,6 +42,7 @@ export default function Reveal({
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay }}
+      data-motion
     >
       {children}
     </motion.div>
