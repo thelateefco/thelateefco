@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { WHATSAPP_URL } from "../../lib/constants";
 import { trackWhatsAppClick } from "../../lib/utils/tracking";
-import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const handleWhatsAppClick = () => {
@@ -103,19 +103,20 @@ export default function Hero() {
         animate={{ opacity: 0.5 }}
         transition={{ duration: 0.8, delay: 1 }}
         className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2"
-      > 
+      >
         <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#8A8A8A]">
           Explore more
-        </span><motion.div
-              animate={{ y: [0, 4, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#8A8A8A]" />
-            </motion.div>
+        </span>
+        <motion.div
+          animate={{ y: [0, 4, 0] }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#8A8A8A]" />
+        </motion.div>
         <div className="w-px h-6 md:h-8 bg-[#D0C9C1]" />
       </motion.div>
     </section>

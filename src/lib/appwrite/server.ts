@@ -1,11 +1,11 @@
 "use server";
 
-import { ID, Query, Models } from "appwrite";
+import { ID, Query } from "appwrite";
 import { databases } from "./client";
 import { DATABASE_ID, LEADS_COLLECTION, PROJECTS_COLLECTION } from "./collections";
 import type { Lead, Project } from "./collections";
 
-// ── Type Definitions ──────────────────────────────
+// ── Leads Functions ──────────────────────────────
 
 interface CreateLeadData {
   name: string;
@@ -19,28 +19,12 @@ interface CreateLeadData {
   status: "new" | "contacted" | "converted" | "archived";
 }
 
-// ── Helper to check if Appwrite is configured ──
-
-function isAppwriteConfigured(): boolean {
-  if (!DATABASE_ID || !LEADS_COLLECTION || !PROJECTS_COLLECTION) {
-    console.warn("⚠️ Appwrite not fully configured:", {
-      DATABASE_ID: DATABASE_ID || "❌ Missing",
-      LEADS_COLLECTION: LEADS_COLLECTION || "❌ Missing",
-      PROJECTS_COLLECTION: PROJECTS_COLLECTION || "❌ Missing",
-    });
-    return false;
-  }
-  return true;
-}
-
-// ── Leads Functions ────────────────────────────────
-
 export async function createLead(data: CreateLeadData) {
-  if (!isAppwriteConfigured()) {
-    console.error("❌ Cannot create lead: Appwrite not configured");
-    return { 
-      success: false, 
-      error: "Appwrite is not configured properly. Please check your environment variables." 
+  if (!DATABASE_ID || !LEADS_COLLECTION) {
+    console.error("❌ Appwrite not configured");
+    return {
+      success: false,
+      error: "Appwrite is not configured properly.",
     };
   }
 
@@ -50,8 +34,15 @@ export async function createLead(data: CreateLeadData) {
       LEADS_COLLECTION,
       ID.unique(),
       {
-        ...data,
-        createdAt: new Date().toISOString(),
+        name: data.name,
+        business: data.business,
+        email: data.email || "",
+        phone: data.phone || "",
+        message: data.message,
+        source: data.source || "website",
+        page: data.page || "unknown",
+        type: data.type || "form",
+        status: data.status || "new",
       }
     );
     return { success: true, data: result };
@@ -62,7 +53,7 @@ export async function createLead(data: CreateLeadData) {
 }
 
 export async function getLeads(limit = 100) {
-  if (!isAppwriteConfigured()) {
+  if (!DATABASE_ID || !LEADS_COLLECTION) {
     return { success: false, error: "Appwrite not configured" };
   }
 
@@ -71,13 +62,13 @@ export async function getLeads(limit = 100) {
       DATABASE_ID,
       LEADS_COLLECTION,
       [
-        Query.orderDesc("createdAt"),
+        Query.orderDesc("$createdAt"),
         Query.limit(limit),
       ]
     );
-    return { 
-      success: true, 
-      data: result.documents as unknown as Lead[] 
+    return {
+      success: true,
+      data: result.documents as unknown as Lead[],
     };
   } catch (error) {
     console.error("❌ Error fetching leads:", error);
@@ -87,8 +78,45 @@ export async function getLeads(limit = 100) {
 
 // ── Projects Functions ──────────────────────────────
 
+// Get featured projects for homepage (only featured = true)
+export async function getFeaturedProjects(limit = 3) {
+  if (!DATABASE_ID || !PROJECTS_COLLECTION) {
+    console.error("❌ Appwrite not configured for projects");
+    return { success: false, error: "Appwrite not configured" };
+  }
+
+  try {
+    const result = await databases.listDocuments(
+      DATABASE_ID,
+      PROJECTS_COLLECTION,
+      [
+        Query.equal("published", "true"),
+        Query.equal("featured", true),
+        Query.orderAsc("order"),
+        Query.limit(limit),
+      ]
+    );
+
+    const projects = result.documents.map((doc) => ({
+      ...doc,
+      published: doc.published === "true",
+      featured: doc.featured === true,
+    }));
+
+    return {
+      success: true,
+      data: projects as unknown as Project[],
+    };
+  } catch (error) {
+    console.error("❌ Error fetching featured projects:", error);
+    return { success: false, error: "Failed to fetch featured projects" };
+  }
+}
+
+// Get all projects for work page
 export async function getProjects(publishedOnly = true) {
-  if (!isAppwriteConfigured()) {
+  if (!DATABASE_ID || !PROJECTS_COLLECTION) {
+    console.error("❌ Appwrite not configured for projects");
     return { success: false, error: "Appwrite not configured" };
   }
 
@@ -97,9 +125,9 @@ export async function getProjects(publishedOnly = true) {
       Query.orderAsc("order"),
       Query.limit(100),
     ];
-    
+
     if (publishedOnly) {
-      queries.push(Query.equal("published", true));
+      queries.push(Query.equal("published", "true"));
     }
 
     const result = await databases.listDocuments(
@@ -107,9 +135,16 @@ export async function getProjects(publishedOnly = true) {
       PROJECTS_COLLECTION,
       queries
     );
-    return { 
-      success: true, 
-      data: result.documents as unknown as Project[] 
+
+    const projects = result.documents.map((doc) => ({
+      ...doc,
+      published: doc.published === "true",
+      featured: doc.featured === true,
+    }));
+
+    return {
+      success: true,
+      data: projects as unknown as Project[],
     };
   } catch (error) {
     console.error("❌ Error fetching projects:", error);
@@ -118,7 +153,7 @@ export async function getProjects(publishedOnly = true) {
 }
 
 export async function getProjectBySlug(slug: string) {
-  if (!isAppwriteConfigured()) {
+  if (!DATABASE_ID || !PROJECTS_COLLECTION) {
     return { success: false, error: "Appwrite not configured" };
   }
 
@@ -128,21 +163,76 @@ export async function getProjectBySlug(slug: string) {
       PROJECTS_COLLECTION,
       [
         Query.equal("slug", slug),
-        Query.equal("published", true),
+        Query.equal("published", "true"),
         Query.limit(1),
       ]
     );
-    
+
     if (result.documents.length === 0) {
       return { success: false, error: "Project not found" };
     }
-    
-    return { 
-      success: true, 
-      data: result.documents[0] as unknown as Project 
+
+    const project = {
+      ...result.documents[0],
+      published: result.documents[0].published === "true",
+      featured: result.documents[0].featured === true,
+    };
+
+    return {
+      success: true,
+      data: project as unknown as Project,
     };
   } catch (error) {
     console.error("❌ Error fetching project:", error);
     return { success: false, error: "Failed to fetch project" };
+  }
+}
+
+// ── Admin: Create/Update Project ──────────────────
+
+export async function createProject(data: {
+  title: string;
+  slug: string;
+  category: string;
+  location: string;
+  result: string;
+  tags: string[];
+  images?: string[];
+  challenge?: string;
+  approach?: string;
+  published: boolean;
+  featured: boolean;
+  featuredImage?: string;
+  order?: number;
+}) {
+  if (!DATABASE_ID || !PROJECTS_COLLECTION) {
+    return { success: false, error: "Appwrite not configured" };
+  }
+
+  try {
+    const result = await databases.createDocument(
+      DATABASE_ID,
+      PROJECTS_COLLECTION,
+      ID.unique(),
+      {
+        title: data.title,
+        slug: data.slug,
+        category: data.category,
+        location: data.location,
+        result: data.result,
+        tags: data.tags || [],
+        images: data.images || [],
+        challenge: data.challenge || "",
+        approach: data.approach || "",
+        published: data.published ? "true" : "false",
+        featured: data.featured,
+        featuredImage: data.featuredImage || "",
+        order: data.order || 0,
+      }
+    );
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("❌ Error creating project:", error);
+    return { success: false, error: "Failed to create project" };
   }
 }

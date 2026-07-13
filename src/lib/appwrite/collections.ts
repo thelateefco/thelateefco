@@ -21,25 +21,27 @@ export interface Lead {
   status: LeadStatus;
   convertedAt?: string;
   metadata?: Record<string, unknown>;
-  createdAt: string;
+  $createdAt: string;
+  $updatedAt: string;
 }
 
 export interface Project {
   $id: string;
   title: string;
-  slug: string;
   category: string;
   location: string;
   result: string;
   tags: string[];
+  slug: string;
+  images?: string[];
   challenge?: string;
   approach?: string;
-  images?: string[];
+  published: string;  // "true" or "false"
+  featured: boolean;  // NEW: true/false
   featuredImage?: string;
-  published: boolean;
   order: number;
-  createdAt: string;
+  $createdAt: string;
+  $updatedAt: string;
 }
 
-// Export for easy access
 export { DATABASE_ID, LEADS_COLLECTION, PROJECTS_COLLECTION };

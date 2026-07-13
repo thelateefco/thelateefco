@@ -80,12 +80,13 @@ export default function ContactForm({
         reset();
         onSuccess?.();
       } else {
+        console.error("❌ Form submission failed:", result.error);
         toast.error("Something went wrong", {
           description: "Please try again or email us directly.",
         });
       }
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error("❌ Form submission error:", error);
       toast.error("Something went wrong", {
         description: "Please try again or email us directly.",
       });
