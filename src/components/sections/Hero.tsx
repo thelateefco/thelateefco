@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { WHATSAPP_URL } from "../../lib/constants";
 import { trackWhatsAppClick } from "../../lib/utils/tracking";
+import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
   const handleWhatsAppClick = () => {
@@ -35,7 +36,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col justify-center bg-[#ECE6DF] pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+      className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg-[#ECE6DF] pt-3 sm:pt-8 md:pt-16 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0">
@@ -44,8 +45,6 @@ export default function Hero() {
       </div>
 
       <div className="max-w-[1280px] mx-auto w-full relative z-10">
-  
-
         {/* Headline with stagger - Centered */}
         <motion.div
           variants={containerVariants}
@@ -63,7 +62,7 @@ export default function Hero() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-6 md:mt-8 flex flex-col items-center gap-6 md:gap-8"
+            className="mt-4 md:mt-8 flex flex-col items-center gap-4 md:gap-8"
           >
             <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[38ch] mx-auto">
               We build websites that bring in customers — not just ones that sit
@@ -97,6 +96,28 @@ export default function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Explore more cue at bottom of Hero */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.5 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2"
+      > 
+        <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#8A8A8A]">
+          Explore more
+        </span><motion.div
+              animate={{ y: [0, 4, 0] }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#8A8A8A]" />
+            </motion.div>
+        <div className="w-px h-6 md:h-8 bg-[#D0C9C1]" />
+      </motion.div>
     </section>
   );
 }

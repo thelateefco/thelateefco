@@ -1,5 +1,6 @@
 import Header from "../../components/shared/Header";
 import Hero from "../../components/sections/Hero";
+import ScrollAnimationWithFallback from "../../components/sections/ScrollAnimationFallback";
 import TrustBar from "../../components/sections/TrustBar";
 import Services from "../../components/sections/Services";
 import WhyUs from "../../components/sections/WhyUs";
@@ -15,6 +16,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <ScrollAnimationWithFallback />
         <TrustBar />
         <Services />
         <WhyUs />
