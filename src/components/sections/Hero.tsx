@@ -44,15 +44,7 @@ export default function Hero() {
       </div>
 
       <div className="max-w-[1280px] mx-auto w-full relative z-10">
-        {/* Eyebrow - Centered */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="label mb-6 md:mb-8 text-center"
-        >
-          Mumbai, India · Est. 2024
-        </motion.p>
+  
 
         {/* Headline with stagger - Centered */}
         <motion.div
