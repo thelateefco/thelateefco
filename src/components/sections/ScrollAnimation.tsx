@@ -25,30 +25,39 @@ export default function ScrollAnimation() {
     offset: ["start start", "end end"],
   });
 
+  // Slower spring for more gradual animation
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 60,
+    damping: 25,
     restDelta: 0.001,
+    restSpeed: 0.001,
   });
 
-  const browserScale = useTransform(smoothProgress, [0, 0.5, 1], [0.85, 1, 1]);
-  const browserOpacity = useTransform(smoothProgress, [0, 0.1, 1], [0, 1, 1]);
-  const browserY = useTransform(smoothProgress, [0, 0.3, 1], [40, 0, 0]);
+  // Browser transforms - slower and more gradual
+  const browserScale = useTransform(smoothProgress, [0, 0.5, 0.8], [0.92, 1, 1]);
+  const browserOpacity = useTransform(smoothProgress, [0, 0.1, 0.3], [0, 1, 1]);
+  const browserY = useTransform(smoothProgress, [0, 0.3, 0.8], [50, 0, 0]);
 
-  const wireframeOpacity = useTransform(smoothProgress, [0, 0.2, 0.5], [1, 1, 0]);
-  const designOpacity = useTransform(smoothProgress, [0.3, 0.6, 1], [0, 0, 1]);
+  // Image transition - design fully shows by 70% scroll
+  const wireframeOpacity = useTransform(smoothProgress, [0, 0.15, 0.5], [1, 1, 0]);
+  const designOpacity = useTransform(smoothProgress, [0.3, 0.5, 0.7], [0, 0, 1]);
 
-  const wireframeScale = useTransform(smoothProgress, [0, 0.45], [1, 1.08]);
-  const designScale = useTransform(smoothProgress, [0.5, 1], [0.92, 1]);
+  // Image zoom - smoother
+  const wireframeScale = useTransform(smoothProgress, [0, 0.45], [1, 1.1]);
+  const designScale = useTransform(smoothProgress, [0.5, 0.8], [0.92, 1]);
 
   const handleImageError = (type: "wireframe" | "design") => {
     setImageErrors((prev) => ({ ...prev, [type]: true }));
   };
 
+  // Step text - reveals after design is fully visible
+  const stepOpacity = useTransform(smoothProgress, [0.5, 0.9], [0, 1]);
+
   return (
     <section
       ref={containerRef}
-      className="relative h-[140vh] md:h-[160vh] bg-[#E8E8EC]"
+      // Extra height so design stays visible while scrolling through
+      className="relative h-[220vh] md:h-[250vh] bg-[#E8E8EC]"
       aria-label="Scroll-triggered animation showing our process"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">
@@ -56,8 +65,8 @@ export default function ScrollAnimation() {
           <motion.p
             className="label text-[#8A8A8A] text-center mb-6 md:mb-8"
             style={{
-              opacity: useTransform(smoothProgress, [0, 0.1, 1], [0, 1, 1]),
-              y: useTransform(smoothProgress, [0, 0.15, 1], [10, 0, 0]),
+              opacity: useTransform(smoothProgress, [0, 0.12, 1], [0, 1, 1]),
+              y: useTransform(smoothProgress, [0, 0.15, 1], [15, 0, 0]),
             }}
           >
             FROM IDEA TO IMPACT
@@ -160,13 +169,21 @@ export default function ScrollAnimation() {
             />
           </motion.div>
 
-          {/* Step Text Reveal */}
+          {/* Step Text Reveal - Shows after design appears */}
           <div className="mt-6 md:mt-8 text-center space-y-1.5 md:space-y-2">
             {STEPS.map((step, index) => {
-              const stepStart = 0.3 + index * 0.15;
-              const stepEnd = stepStart + 0.15;
-              const opacity = useTransform(smoothProgress, [stepStart, stepEnd], [0, 1]);
-              const y = useTransform(smoothProgress, [stepStart, stepEnd], [12, 0]);
+              const stepStart = 0.45 + index * 0.15;
+              const stepEnd = stepStart + 0.2;
+              const opacity = useTransform(
+                smoothProgress,
+                [stepStart, stepEnd],
+                [0, 1]
+              );
+              const y = useTransform(
+                smoothProgress,
+                [stepStart, stepEnd],
+                [15, 0]
+              );
 
               return (
                 <motion.p
@@ -180,17 +197,17 @@ export default function ScrollAnimation() {
             })}
           </div>
 
-          {/* Progress Indicator */}
+          {/* Progress Indicator - Shows at the very end */}
           <motion.div
             className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3"
-            style={{ opacity: useTransform(smoothProgress, [0.7, 0.95], [0.3, 0]) }}
+            style={{ opacity: useTransform(smoothProgress, [0.8, 0.95], [0.3, 0]) }}
           >
             <span className="label text-[0.45rem] md:text-[0.5rem] tracking-[0.25em] text-[#8A8A8A]">
               Scroll
             </span>
             <motion.div
               className="w-px h-5 bg-[#8A8A8A]"
-              style={{ height: useTransform(smoothProgress, [0, 1], [4, 20]) }}
+              style={{ height: useTransform(smoothProgress, [0, 1], [4, 24]) }}
             />
           </motion.div>
         </div>

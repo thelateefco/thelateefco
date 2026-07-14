@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 import Button from "../ui/Button";
 import { WHATSAPP_URL } from "../../lib/constants";
 import { trackWhatsAppClick } from "../../lib/utils/tracking";
@@ -37,12 +38,28 @@ export default function Hero() {
   return (
     <section
       id="hero"
-// Change className to:
-className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg-[#F5F5F7] pt-3 sm:pt-8 md:pt-16 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"    >
-      {/* Background texture */}
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0">
+      className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg-[#1A1A1A] pt-16 sm:pt-20 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+    >
+      {/* Background Image - positioned below navbar */}
+      <div className="absolute inset-0 top-0 z-0">
+        <Image
+          src="/images/homepage1.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/0" />
+      </div>
+
+      {/* Subtle gradient overlay for extra depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none z-0" />
+
+      {/* Background texture overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
         <div className="absolute inset-0 bg-[url('/images/grain.png')] bg-repeat" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,_#1A1A1A_0%,_transparent_70%)] opacity-10" />
       </div>
 
       <div className="max-w-[1280px] mx-auto w-full relative z-10">
@@ -55,17 +72,17 @@ className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg
         >
           <motion.h1
             variants={itemVariants}
-            className="font-serif text-[clamp(2.75rem,7vw,6.5rem)] font-medium text-[#1A1A1A] leading-[1.05] tracking-tight max-w-[14ch] mx-auto"
+            className="font-serif text-[clamp(2.75rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
           >
             Ready to make your competitors{" "}
-            <em className="italic-em">nervous?</em>
+            <em className="italic-em text-[#FFFFFF]">nervous?</em>
           </motion.h1>
 
           <motion.div
             variants={itemVariants}
             className="mt-4 md:mt-8 flex flex-col items-center gap-4 md:gap-8"
           >
-            <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[38ch] mx-auto">
+            <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75]  font-light max-w-[38ch] mx-auto drop-shadow-md">
               We build websites that bring in customers — not just ones that sit
               there looking pretty.
             </p>
@@ -102,9 +119,9 @@ className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.5 }}
         transition={{ duration: 0.8, delay: 1 }}
-        className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2"
+        className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2 z-10"
       >
-        <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#8A8A8A]">
+        <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#FFFFFF]/60">
           Explore more
         </span>
         <motion.div
@@ -115,9 +132,9 @@ className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg
             ease: "easeInOut",
           }}
         >
-          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#8A8A8A]" />
+          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#FFFFFF]/60" />
         </motion.div>
-        <div className="w-px h-6 md:h-8 bg-[#D0C9C1]" />
+        <div className="w-px h-6 md:h-8 bg-[#FFFFFF]/20" />
       </motion.div>
     </section>
   );
