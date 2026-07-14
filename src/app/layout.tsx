@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
+import PageTransition from "../components/animations/PageTransition";
+import PageLoader from "../components/animations/PageLoader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,12 +23,21 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://thelateefco.com",
     siteName: "The Lateef & Co.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "The Lateef & Co. — Web Design & Development Studio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Lateef & Co. — Web Design & Development Studio",
     description:
       "We build websites that bring in customers — not just ones that sit there looking pretty.",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -61,9 +72,12 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
-      <body>
-        {children}
+      <body className="cursor-auto">
+        <PageLoader />
+        <PageTransition>{children}</PageTransition>
         <Toaster
           position="bottom-right"
           expand={false}

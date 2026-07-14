@@ -65,8 +65,8 @@ export default function Process() {
     <section
       ref={sectionRef}
       id="process"
-      className="bg-[#ECE6DF] py-28 md:py-36 px-6 md:px-10 lg:px-16 relative"
-    >
+// Change className to:
+className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16 relative"    >
       {/* Vertical line that draws down */}
       <div className="absolute left-6 md:left-10 lg:left-16 top-0 bottom-0 w-px overflow-hidden">
         <motion.div

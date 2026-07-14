@@ -53,8 +53,8 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="bg-[#ECE6DF] py-28 md:py-36 px-6 md:px-10 lg:px-16"
-    >
+// Change className to:
+className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16"    >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
           <div className="flex items-center justify-center gap-6 mb-5 md:mb-20 hairline pt-6">

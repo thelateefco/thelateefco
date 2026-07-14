@@ -47,18 +47,18 @@ export default function WhyUs() {
   return (
     <section
       id="why"
-      className="bg-[#1A1A1A] py-28 md:py-36 px-6 md:px-10 lg:px-16"
+      className="dark-section py-28 md:py-36 px-6 md:px-10 lg:px-16"
     >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
           <h2 className="font-serif text-[clamp(2rem,5vw,4rem)] font-medium text-[#ECE6DF] leading-[1.1] tracking-tight mb-6 max-w-[20ch]">
             Not a website.{" "}
-            <em className="italic-em">An asset that works for you.</em>
+            <em className="italic-em text-[#ECE6DF]">An asset that works for you.</em>
           </h2>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <p className="text-[#8A8A8A] text-[1rem] md:text-[1.0625rem] font-light leading-[1.8] max-w-[48ch] mb-20 md:mb-28">
+          <p className="text-[#A0A0A0] text-[1rem] md:text-[1.0625rem] font-light leading-[1.8] max-w-[48ch] mb-20 md:mb-28">
             Most agencies focus on the deliverable. We focus on the outcome.
             There&apos;s a difference — and your customers will feel it the
             moment they land on your site.
@@ -85,7 +85,7 @@ export default function WhyUs() {
               <h3 className="font-serif text-[1.375rem] md:text-[1.5rem] font-medium text-[#ECE6DF] mb-4 leading-snug">
                 {pillar.title}
               </h3>
-              <p className="text-[#6A6A6A] text-[0.9375rem] leading-[1.8] font-light">
+              <p className="text-[#A0A0A0] text-[0.9375rem] leading-[1.8] font-light">
                 {pillar.body}
               </p>
             </motion.div>

@@ -51,11 +51,11 @@ const itemVariants = {
 
 export default function Testimonials() {
   return (
-    <section className="bg-[#1A1A1A] py-28 md:py-36 px-6 md:px-10 lg:px-16">
+    <section className="dark-section py-28 md:py-36 px-6 md:px-10 lg:px-16">
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
-          <div className="hairline border-[#2E2E2E] pt-6 mb-16 md:mb-20">
-            <span className="label text-[#8A8A8A]">What our clients say</span>
+          <div className="hairline pt-6 mb-16 md:mb-20">
+            <span className="label">What our clients say</span>
           </div>
         </Reveal>
 

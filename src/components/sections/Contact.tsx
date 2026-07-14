@@ -43,8 +43,8 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="bg-[#ECE6DF] py-28 md:py-40 px-6 md:px-10 lg:px-16"
-    >
+// Change className to:
+className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"    >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
           <div className="hairline pt-6 mb-16 md:mb-24">

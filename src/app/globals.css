@@ -10,7 +10,9 @@
 
   /* ── Brand Colors ────────────────────────────────── */
   --color-cream: #ECE6DF;
-  --color-dark: #1A1A1A;
+  --color-cream-dark: #E5DFD6;
+  --color-cream-light: #F2EDE6;
+  --color-dark: #000000;
   --color-mid: #4A4A4A;
   --color-muted: #8A8A8A;
   --color-hair: #D0C9C1;
@@ -19,7 +21,9 @@
 /* ── CSS Custom Properties ───────────────────────────── */
 :root {
   --brand-cream: #ECE6DF;
-  --brand-dark: #1A1A1A;
+  --brand-cream-dark: #E5DFD6;
+  --brand-cream-light: #F2EDE6;
+  --brand-dark: #000000;
   --brand-mid: #4A4A4A;
   --brand-light: #8A8A8A;
   --brand-hair: #D0C9C1;
@@ -38,35 +42,66 @@ html {
 
 body {
   background-color: #ECE6DF;
-  color: #1A1A1A;
+  color: #000000;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 300;
   line-height: 1.6;
 }
 
+/* ── Selection ────────────────────────────────────────── */
 ::selection {
-  background-color: #1A1A1A;
+  background-color: #000000;
   color: #ECE6DF;
 }
 
 :focus-visible {
-  outline: 1.5px solid #1A1A1A;
+  outline: 1.5px solid #000000;
   outline-offset: 3px;
 }
 
-/* ── Headings ────────────────────────────────────────── */
+/* ── Typography ───────────────────────────────────────── */
 h1, h2, h3, h4 {
   font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
-  font-weight: 400; /* Regular weight for headlines */
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  color: #000000;
 }
 
-/* ── Italic Emphasis ────────────────────────────────── */
+/* Display text gets tighter tracking */
+.text-display {
+  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: #000000;
+}
+
+/* Italic emphasis */
 em, .italic-em {
   font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
   font-style: italic;
   font-weight: 400;
+  color: #000000;
+}
+
+/* Tabular numerals for stats/dates */
+.tabular-nums {
+  font-feature-settings: "tnum";
+}
+
+/* ── Vertical Rhythm ─────────────────────────────────── */
+.rhythm-sm {
+  line-height: 1.4;
+}
+.rhythm-base {
+  line-height: 1.6;
+}
+.rhythm-lg {
+  line-height: 1.75;
+}
+.rhythm-xl {
+  line-height: 1.85;
 }
 
 /* ── Utility Classes ─────────────────────────────────── */
@@ -76,7 +111,7 @@ em, .italic-em {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--brand-mid);
+  color: #000000;
 }
 
 .hairline {
@@ -92,7 +127,7 @@ em, .italic-em {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #1A1A1A;
+  background-color: #000000;
   color: #ECE6DF;
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
@@ -107,7 +142,7 @@ em, .italic-em {
 }
 
 .btn-primary:hover {
-  background-color: #2E2E2E;
+  background-color: #1A1A1A;
 }
 
 .btn-outline {
@@ -115,28 +150,28 @@ em, .italic-em {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #1A1A1A;
+  color: #000000;
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 0.875rem 1.875rem;
-  border: 1px solid #1A1A1A;
+  border: 1px solid #000000;
   transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
   text-decoration: none;
 }
 
 .btn-outline:hover {
-  background-color: #1A1A1A;
+  background-color: #000000;
   color: #ECE6DF;
 }
 
 .body-text {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  color: #4A4A4A;
+  color: #000000;
   line-height: 1.75;
 }
 
@@ -149,9 +184,9 @@ em, .italic-em {
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #1A1A1A;
+  color: #000000;
   text-decoration: none;
-  border-bottom: 1px solid #1A1A1A;
+  border-bottom: 1px solid #000000;
   padding-bottom: 1px;
   transition: opacity 0.2s ease;
 }
@@ -171,7 +206,7 @@ em, .italic-em {
   background: #D0C9C1;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #1A1A1A;
+  background: #000000;
 }
 
 /* ── Nav Links ───────────────────────────────────────── */
@@ -182,7 +217,7 @@ em, .italic-em {
   font-weight: 400;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #1A1A1A;
+  color: #000000;
   text-decoration: none;
   padding-bottom: 2px;
 }
@@ -194,7 +229,7 @@ em, .italic-em {
   left: 0;
   width: 0;
   height: 1px;
-  background-color: #1A1A1A;
+  background-color: #000000;
   transition: width 0.25s ease;
 }
 
@@ -215,8 +250,42 @@ em, .italic-em {
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 
+/* ── Dark Section Overrides ──────────────────────────── */
+.dark-section {
+  background-color: #1A1A1A;
+}
 
-/* ── Reduced Motion ────────────────────────────────────── */
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4,
+.dark-section p,
+.dark-section .body-text,
+.dark-section .italic-em,
+.dark-section em,
+.dark-section .link-arrow,
+.dark-section .nav-link {
+  color: #ECE6DF !important;
+}
+
+.dark-section .label {
+  color: #8A8A8A !important;
+}
+
+.dark-section .link-arrow {
+  color: #ECE6DF !important;
+  border-bottom-color: #ECE6DF !important;
+}
+
+.dark-section .hairline {
+  border-top-color: #2E2E2E !important;
+}
+
+.dark-section .hairline-v {
+  border-left-color: #2E2E2E !important;
+}
+
+/* ── Reduced Motion ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -236,16 +305,43 @@ em, .italic-em {
   }
 }
 
-/* ── Scroll Animation Section ────────────────────── */
-.scroll-animation-section {
-  scroll-snap-align: start;
+/* ── Dark Section Overrides ──────────────────────────── */
+.dark-section {
+  background-color: #1A1A1A;
 }
 
-/* ── Reduced Motion ────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  .scroll-animation-section * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+/* Headings stay white/cream */
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4,
+.dark-section .italic-em,
+.dark-section em,
+.dark-section .link-arrow,
+.dark-section .nav-link {
+  color: #ECE6DF !important;
+}
+
+/* Paragraphs and body text are greyish */
+.dark-section p,
+.dark-section .body-text {
+  color: #A0A0A0 !important;
+}
+
+/* Labels stay muted */
+.dark-section .label {
+  color: #8A8A8A !important;
+}
+
+.dark-section .link-arrow {
+  color: #ECE6DF !important;
+  border-bottom-color: #ECE6DF !important;
+}
+
+.dark-section .hairline {
+  border-top-color: #2E2E2E !important;
+}
+
+.dark-section .hairline-v {
+  border-left-color: #2E2E2E !important;
 }

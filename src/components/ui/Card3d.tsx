@@ -131,14 +131,16 @@ export default function Card3D({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px" }}
-      className={cn(
-        "group relative",
-        "border border-[#D0C9C1]/60",
-        "bg-transparent",
-        "transition-all duration-300",
-        "hover:border-[#1A1A1A]",
-        className
-      )}
+   className={cn(
+  "group relative",
+  "border border-[#E8E8EC]",
+  "bg-[#FFFFFF]",
+  "rounded-[6px]",
+  "transition-all duration-300",
+  "hover:border-[#D0D0D5]",
+  "hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]",
+  className
+)}
       style={
         !simpleHover
           ? {

@@ -16,8 +16,8 @@ export default function TrustBar() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="bg-[#ECE6DF] px-6 md:px-10 lg:px-16 border-t border-b border-[#D0C9C1]"
-    >
+// Change className to:
+className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 border-t border-b border-[#D0D0D5]"    >
       <div className="max-w-[1280px] mx-auto">
         <div className="py-6 md:py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
