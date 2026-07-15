@@ -44,7 +44,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
           <Image
-            src="/images/homepage2.jpg"
+            src="/images/homepage4.jpg"
             alt="Background"
             fill
             className="object-cover object-top scale-[1.08] sm:scale-100"
