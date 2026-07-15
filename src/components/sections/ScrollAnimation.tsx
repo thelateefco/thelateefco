@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
@@ -19,30 +19,56 @@ const IMAGES = {
 export default function ScrollAnimation() {
   const containerRef = useRef<HTMLElement>(null);
   const [imageErrors, setImageErrors] = useState({ wireframe: false, design: false });
+  const [manualProgress, setManualProgress] = useState(0);
 
+  // Framer Motion scroll tracking
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
+  // Manual scroll tracking as fallback
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const totalHeight = containerRef.current.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY - rect.top + window.innerHeight;
+      const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
+      
+      setManualProgress(progress);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Initial calculation
+    setTimeout(handleScroll, 100);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Use the first non-zero progress value
+  const activeProgress = scrollYProgress.get() > 0.001 
+    ? scrollYProgress 
+    : manualProgress;
+
   // Smoother spring for better feel
-  const smoothProgress = useSpring(scrollYProgress, {
+  const smoothProgress = useSpring(activeProgress, {
     stiffness: 80,
     damping: 28,
     restDelta: 0.001,
     restSpeed: 0.001,
   });
 
-  // Browser transforms - faster initial appearance
+  // Browser transforms
   const browserScale = useTransform(smoothProgress, [0, 0.3, 0.7], [0.95, 1, 1]);
-  const browserOpacity = useTransform(smoothProgress, [0, 0.05, 0.2], [0, 1, 1]); // Faster fade-in
+  const browserOpacity = useTransform(smoothProgress, [0, 0.05, 0.2], [0, 1, 1]);
   const browserY = useTransform(smoothProgress, [0, 0.2, 0.7], [30, 0, 0]);
 
-  // Image transition - design fully shows by 70% scroll
+  // Image transition
   const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.45], [1, 1, 0]);
   const designOpacity = useTransform(smoothProgress, [0.25, 0.45, 0.7], [0, 0, 1]);
 
-  // Image zoom - smoother
   const wireframeScale = useTransform(smoothProgress, [0, 0.4], [1, 1.08]);
   const designScale = useTransform(smoothProgress, [0.45, 0.75], [0.95, 1]);
 
@@ -166,7 +192,7 @@ export default function ScrollAnimation() {
             />
           </motion.div>
 
-          {/* Step Text Reveal - Shows after design appears */}
+          {/* Step Text Reveal */}
           <div className="mt-6 md:mt-8 text-center space-y-1.5 md:space-y-2">
             {STEPS.map((step, index) => {
               const stepStart = 0.4 + index * 0.15;
@@ -194,7 +220,7 @@ export default function ScrollAnimation() {
             })}
           </div>
 
-          {/* Progress Indicator - Shows at the very end */}
+          {/* Progress Indicator */}
           <motion.div
             className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3"
             style={{ opacity: useTransform(smoothProgress, [0.8, 0.95], [0.3, 0]) }}

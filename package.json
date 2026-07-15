@@ -28,14 +28,14 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.0.0",
+    "@eslint/eslintrc": "^3.3.6",
     "@tailwindcss/postcss": "^4.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.0.0",
+    "eslint": "^8.57.1",
     "eslint-config-next": "15.2.4",
     "prettier": "^3.3.0",
     "prettier-plugin-tailwindcss": "^0.6.0",
