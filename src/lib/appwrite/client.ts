@@ -1,4 +1,4 @@
-import { Client, Databases, Storage } from "appwrite";
+import { Client, Databases, Storage, Account } from "appwrite";
 
 // Get environment variables
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
@@ -27,6 +27,7 @@ if (endpoint && projectId) {
 
 export const databases = new Databases(client);
 export const storage = new Storage(client);
+export const account = new Account(client);  // ← ADD THIS for authentication
 
 // Export collection IDs with fallbacks
 export const DATABASE_ID = databaseId || "";

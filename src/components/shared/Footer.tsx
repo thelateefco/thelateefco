@@ -1,12 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { WHATSAPP_URL, EMAIL } from "../../lib/constants";
 import { trackWhatsAppClick, trackEmailClick } from "../../lib/utils/tracking";
+import { account } from "../../lib/appwrite/client";
 import BackToTop from "../shared/BackToTop";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check if user is logged in as admin
+    const isLoggedIn = sessionStorage.getItem("adminLoggedIn");
+    setIsAdmin(isLoggedIn === "true");
+  }, []);
 
   const handleWhatsAppClick = async () => {
     await trackWhatsAppClick("footer");
@@ -14,6 +25,22 @@ export default function Footer() {
 
   const handleEmailClick = async () => {
     await trackEmailClick("footer");
+  };
+
+  const handleLogout = async () => {
+    try {
+      // Clear Appwrite session
+      await account.deleteSession("current");
+    } catch {
+      // Ignore
+    }
+    // Clear session storage
+    sessionStorage.removeItem("adminLoggedIn");
+    sessionStorage.removeItem("adminEmail");
+    sessionStorage.removeItem("adminName");
+    setIsAdmin(false);
+    // Redirect to home page
+    router.push("/");
   };
 
   return (
@@ -25,7 +52,8 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <Link
                 href="/"
-                className="font-serif text-[1.125rem] md:text-[1.25rem] text-[#1A1A1A] font-medium hover:opacity-60 transition-opacity"
+                className="font-serif text-[1.125rem] md:text-[1.25rem] font-medium hover:opacity-60 transition-opacity"
+                style={{ color: "#000000" }}
               >
                 The Lateef & Co.
               </Link>
@@ -52,17 +80,51 @@ export default function Footer() {
               >
                 WhatsApp
               </a>
-              <span className="text-[#D0C9C1]">|</span>
+              <span className="text-[#D0D0D5]">|</span>
               <span className="label text-[#8A8A8A] text-[0.5rem]">
                 Built with purpose
               </span>
             </div>
 
-            {/* Right - Back to top (desktop) */}
-            <div className="hidden md:block">
+            {/* Right - Admin Links & Back to Top */}
+            <div className="flex items-center gap-4">
+              {/* Admin Links */}
+              {isAdmin ? (
+                <>
+                  <Link
+                    href="/admin/dashboard"
+                    className="label text-[0.55rem] hover:opacity-60 transition-colors"
+                    style={{ color: "#000000" }}
+                  >
+                    Dashboard
+                  </Link>
+                  <span className="text-[#D0D0D5]">|</span>
+                  <button
+                    onClick={handleLogout}
+                    className="label text-[0.55rem] hover:opacity-60 transition-colors"
+                    style={{ color: "#B91C1C" }}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/admin/login"
+                    className="label text-[0.55rem] hover:opacity-60 transition-colors"
+                    style={{ color: "#000000" }}
+                  >
+                    Admin
+                  </Link>
+                </>
+              )}
+
+              <span className="text-[#D0D0D5]">|</span>
+
+              {/* Back to top */}
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="label text-[#8A8A8A] text-[0.5rem] hover:text-[#1A1A1A] transition-colors flex items-center gap-2"
+                className="label text-[#8A8A8A] text-[0.5rem] hover:text-[#000000] transition-colors flex items-center gap-2"
               >
                 Back to top
                 <svg

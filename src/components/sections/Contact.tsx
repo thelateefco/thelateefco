@@ -3,9 +3,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MapPin, Clock, MessageCircle, X, Send } from "lucide-react";
+import { toast } from "sonner";
 import Reveal from "../animations/Reveal";
 import { WHATSAPP_URL, EMAIL } from "../../lib/constants";
 import { trackWhatsAppClick, trackEmailClick } from "../../lib/utils/tracking";
+import { sendEmail } from "../../lib/services/email";
+import { createLead } from "../../lib/appwrite/server";
 import Button from "../../components/ui/Button";
 
 const containerVariants = {
@@ -30,21 +33,23 @@ const itemVariants = {
   },
 };
 
+
+
 const popupVariants = {
-  hidden: { opacity: 0, scale: 0.95, y: 10 },
+  hidden: { opacity: 0, scale: 0.95, y: 20 },
   visible: {
     opacity: 1,
     scale: 1,
     y: 0,
     transition: {
-      duration: 0.25,
+      duration: 0.3,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
   exit: {
     opacity: 0,
     scale: 0.95,
-    y: 10,
+    y: 20,
     transition: {
       duration: 0.2,
       ease: [0.25, 0.1, 0.25, 1],
@@ -57,30 +62,103 @@ export default function Contact() {
   const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    business: "",
+    email: "",
+  });
 
   const handleWhatsAppClick = async () => {
-    await trackWhatsAppClick("contact");
-    setIsPopupOpen(false);
+  // Track WhatsApp click with user info if available
+  await trackWhatsAppClick("contact", {
+    name: formData.name || "WhatsApp Click",
+    business: formData.business || "Click Tracking",
+    email: formData.email || "",
+    message: "User clicked on WhatsApp button from contact popup",
+  });
+  setIsPopupOpen(false);
+};
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
   };
 
-  const handleEmailClick = async () => {
-    await trackEmailClick("contact");
-  };
+const handleSendEmail = async (e: React.FormEvent) => {
+  e.preventDefault();
+  
+  // Validate form
+  if (!formData.name || !formData.business || !emailMessage) {
+    toast.error("Please fill in all required fields");
+    return;
+  }
 
-  const handleSendEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSending(true);
-    
-    // Open mailto with subject and body
-    const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailMessage)}`;
-    window.location.href = mailtoLink;
-    
-    await trackEmailClick("contact");
+  setIsSending(true);
+
+  try {
+    // 1. Save to Appwrite
+    const leadResult = await createLead({
+      name: formData.name,
+      business: formData.business,
+      email: formData.email || "",
+      message: emailMessage,
+      source: "popup_form",
+      page: "contact",
+      type: "email",
+      status: "new",
+    });
+
+    console.log('📝 Lead saved to Appwrite:', leadResult);
+
+    // 2. Send email via EmailJS
+    const emailResult = await sendEmail({
+      name: formData.name,
+      business: formData.business,
+      email: formData.email || "",
+      message: emailMessage,
+      source: "popup_form",
+      page: "contact",
+    });
+
+    console.log('📧 Email result:', emailResult);
+
+    if (emailResult.success) {
+      toast.success("Message sent!", {
+        description: "We'll get back to you within one business day.",
+      });
+      
+      setFormData({ name: "", business: "", email: "" });
+      setEmailSubject("");
+      setEmailMessage("");
+      setIsPopupOpen(false);
+      await trackEmailClick("contact");
+    } else {
+      // If email fails but Appwrite worked
+      if (leadResult.success) {
+        toast.success("Message received!", {
+          description: "We'll get back to you within one business day.",
+        });
+        setIsPopupOpen(false);
+        setFormData({ name: "", business: "", email: "" });
+        setEmailSubject("");
+        setEmailMessage("");
+      } else {
+        toast.error("Something went wrong", {
+          description: emailResult.error || "Please try again or email us directly.",
+        });
+      }
+    }
+  } catch (error) {
+    console.error('❌ Error:', error);
+    toast.error("Something went wrong", {
+      description: "Please try again or email us directly.",
+    });
+  } finally {
     setIsSending(false);
-    setIsPopupOpen(false);
-    setEmailSubject("");
-    setEmailMessage("");
-  };
+  }
+};
 
   return (
     <section
@@ -143,116 +221,19 @@ export default function Contact() {
                 >
                   Message on WhatsApp
                 </Button>
-{/* Drop us a note button with popup */}
-<div className="relative">
-  <button
-    id="contact-note"
-    onClick={() => setIsPopupOpen(!isPopupOpen)}
-    className="inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[4px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline self-start"
-    aria-label="Drop us a note"
-  >
-    <Mail className="w-4 h-4" />
-    Drop us a note
-  </button>
 
-  {/* Popup Menu */}
-  <AnimatePresence>
-    {isPopupOpen && (
-      <>
-        {/* Backdrop */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
-          onClick={() => setIsPopupOpen(false)}
-        />
-        
-        {/* Popup */}
-        <motion.div
-          variants={popupVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          className="absolute z-50 mt-2 w-80 bg-[#FFFFFF] border border-[#E8E8EC] rounded-[8px] shadow-lg overflow-hidden"
-        >
-          <div className="p-5">
-            <div className="flex items-center justify-between mb-4">
-              <span className="label text-[0.55rem] text-[#8A8A8A]">
-                Send us a message
-              </span>
-              <button
-                onClick={() => setIsPopupOpen(false)}
-                className="text-[#8A8A8A] hover:text-[#000000] transition-colors"
-                aria-label="Close menu"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-
-            {/* Quick action button */}
-            <div className="flex flex-col gap-2 mb-4 pb-4 border-b border-[#E8E8EC]">
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleWhatsAppClick}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-[4px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
-              >
-                <MessageCircle className="w-4 h-4 text-[#8A8A8A]" />
-                <span>Message on WhatsApp</span>
-              </a>
-            </div>
-
-            {/* Email Form */}
-            <form onSubmit={handleSendEmail} className="flex flex-col gap-3">
-              <div>
-                <label htmlFor="popup-subject" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
-                  Subject
-                </label>
-                <input
-                  id="popup-subject"
-                  type="text"
-                  value={emailSubject}
-                  onChange={(e) => setEmailSubject(e.target.value)}
-                  placeholder="What's this about?"
-                  className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="popup-message" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
-                  Message
-                </label>
-                <textarea
-                  id="popup-message"
-                  value={emailMessage}
-                  onChange={(e) => setEmailMessage(e.target.value)}
-                  rows={3}
-                  placeholder="Tell us about your project..."
-                  className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200 resize-none"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                disabled={isSending}
-                className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-5 py-2.5 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] disabled:opacity-60 disabled:cursor-not-allowed self-end mt-1"
-              >
-                {isSending ? "Sending…" : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    Send
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
-        </motion.div>
-      </>
-    )}
-  </AnimatePresence>
-</div>
+                {/* Drop us a note button */}
+                <div className="relative">
+                  <button
+                    id="contact-note"
+                    onClick={() => setIsPopupOpen(!isPopupOpen)}
+                    className="inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[4px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline self-start"
+                    aria-label="Drop us a note"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Drop us a note
+                  </button>
+                </div>
               </div>
             </motion.div>
 
@@ -295,6 +276,132 @@ export default function Contact() {
           </motion.div>
         </div>
       </div>
+
+      {/* Popup Modal - Centered on Screen */}
+      <AnimatePresence>
+        {isPopupOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4"
+              onClick={() => setIsPopupOpen(false)}
+            >
+              {/* Popup */}
+              <motion.div
+                variants={popupVariants}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                className="w-full max-w-md bg-[#FFFFFF] border border-[#E8E8EC] rounded-[8px] shadow-2xl overflow-hidden"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="label text-[0.55rem] text-[#8A8A8A]">
+                      Send us a message
+                    </span>
+                    <button
+                      onClick={() => setIsPopupOpen(false)}
+                      className="text-[#8A8A8A] hover:text-[#000000] transition-colors"
+                      aria-label="Close menu"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Quick action button */}
+                  <div className="flex flex-col gap-2 mb-4 pb-4 border-b border-[#E8E8EC]">
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleWhatsAppClick}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-[4px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#8A8A8A]" />
+                      <span>Message on WhatsApp</span>
+                    </a>
+                  </div>
+
+                  {/* Email Form */}
+                  <form onSubmit={handleSendEmail} className="flex flex-col gap-4">
+                    <div>
+                      <label htmlFor="name" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                        Your name <span className="text-[#B91C1C]">*</span>
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Aarav Mehta"
+                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="business" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                        Business name <span className="text-[#B91C1C]">*</span>
+                      </label>
+                      <input
+                        id="business"
+                        type="text"
+                        value={formData.business}
+                        onChange={handleInputChange}
+                        placeholder="Mehta & Associates"
+                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                        Email address
+                      </label>
+                      <input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="a.mehta@example.com"
+                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="popup-message" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                        Message <span className="text-[#B91C1C]">*</span>
+                      </label>
+                      <textarea
+                        id="popup-message"
+                        value={emailMessage}
+                        onChange={(e) => setEmailMessage(e.target.value)}
+                        rows={4}
+                        placeholder="Tell us about your project..."
+                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200 resize-none"
+                        required
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSending}
+                      className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-5 py-2.5 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] disabled:opacity-60 disabled:cursor-not-allowed self-end mt-1"
+                    >
+                      {isSending ? "Sending…" : (
+                        <>
+                          <Send className="w-3.5 h-3.5" />
+                          Send
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

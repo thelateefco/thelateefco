@@ -15,7 +15,7 @@ interface CreateLeadData {
   message: string;
   source?: string;
   page?: string;
-  type: "form" | "whatsapp" | "email";
+  type: "form" | "whatsapp" | "email" | "whatsapp_click" | "email_click";
   status: "new" | "contacted" | "converted" | "archived";
 }
 
@@ -45,11 +45,84 @@ export async function createLead(data: CreateLeadData) {
         status: data.status || "new",
       }
     );
+    console.log("✅ Lead created in Appwrite:", result.$id);
     return { success: true, data: result };
   } catch (error) {
     console.error("❌ Error creating lead:", error);
     return { success: false, error: "Failed to save lead" };
   }
+}
+
+// ── Track WhatsApp Click ──────────────────────────
+
+export async function trackWhatsAppClick(data: {
+  name?: string;
+  business?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  source?: string;
+  page?: string;
+}) {
+  return await createLead({
+    name: data.name || "WhatsApp Click",
+    business: data.business || "Click Tracking",
+    email: data.email || "",
+    phone: data.phone || "",
+    message: data.message || "User clicked on WhatsApp button",
+    source: data.source || "website",
+    page: data.page || "unknown",
+    type: "whatsapp_click",
+    status: "new",
+  });
+}
+
+// ── Track Email Click ─────────────────────────────
+
+export async function trackEmailClick(data: {
+  name?: string;
+  business?: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  source?: string;
+  page?: string;
+}) {
+  return await createLead({
+    name: data.name || "Email Click",
+    business: data.business || "Click Tracking",
+    email: data.email || "",
+    phone: data.phone || "",
+    message: data.message || "User clicked on Email button",
+    source: data.source || "website",
+    page: data.page || "unknown",
+    type: "email_click",
+    status: "new",
+  });
+}
+
+// ── Track WhatsApp Message ────────────────────────
+
+export async function trackWhatsAppMessage(data: {
+  name: string;
+  business: string;
+  email?: string;
+  phone?: string;
+  message: string;
+  source?: string;
+  page?: string;
+}) {
+  return await createLead({
+    name: data.name,
+    business: data.business,
+    email: data.email || "",
+    phone: data.phone || "",
+    message: data.message,
+    source: data.source || "whatsapp",
+    page: data.page || "contact",
+    type: "whatsapp",
+    status: "new",
+  });
 }
 
 export async function getLeads(limit = 100) {
@@ -76,9 +149,33 @@ export async function getLeads(limit = 100) {
   }
 }
 
+// ── Update Lead Status ──────────────────────────────
+
+export async function updateLeadStatus(leadId: string, status: string) {
+  if (!DATABASE_ID || !LEADS_COLLECTION) {
+    console.error("❌ Appwrite not configured");
+    return { success: false, error: "Appwrite not configured" };
+  }
+
+  try {
+    const result = await databases.updateDocument(
+      DATABASE_ID,
+      LEADS_COLLECTION,
+      leadId,
+      {
+        status: status,
+      }
+    );
+    console.log("✅ Lead status updated:", result.$id);
+    return { success: true, data: result };
+  } catch (error) {
+    console.error("❌ Error updating lead status:", error);
+    return { success: false, error: "Failed to update lead status" };
+  }
+}
+
 // ── Projects Functions ──────────────────────────────
 
-// Get featured projects for homepage (only featured = true)
 export async function getFeaturedProjects(limit = 3) {
   if (!DATABASE_ID || !PROJECTS_COLLECTION) {
     console.error("❌ Appwrite not configured for projects");
@@ -113,10 +210,8 @@ export async function getFeaturedProjects(limit = 3) {
   }
 }
 
-// Get all projects for work page
 export async function getProjects(publishedOnly = true) {
   if (!DATABASE_ID || !PROJECTS_COLLECTION) {
-    console.error("❌ Appwrite not configured for projects");
     return { success: false, error: "Appwrite not configured" };
   }
 
@@ -187,8 +282,6 @@ export async function getProjectBySlug(slug: string) {
     return { success: false, error: "Failed to fetch project" };
   }
 }
-
-// ── Admin: Create/Update Project ──────────────────
 
 export async function createProject(data: {
   title: string;
