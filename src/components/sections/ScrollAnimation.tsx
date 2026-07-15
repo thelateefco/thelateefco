@@ -25,48 +25,45 @@ export default function ScrollAnimation() {
     offset: ["start start", "end end"],
   });
 
-  // Slower spring for more gradual animation
+  // Smoother spring for better feel
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 25,
+    stiffness: 80,
+    damping: 28,
     restDelta: 0.001,
     restSpeed: 0.001,
   });
 
-  // Browser transforms - slower and more gradual
-  const browserScale = useTransform(smoothProgress, [0, 0.5, 0.8], [0.92, 1, 1]);
-  const browserOpacity = useTransform(smoothProgress, [0, 0.1, 0.3], [0, 1, 1]);
-  const browserY = useTransform(smoothProgress, [0, 0.3, 0.8], [50, 0, 0]);
+  // Browser transforms - faster initial appearance
+  const browserScale = useTransform(smoothProgress, [0, 0.3, 0.7], [0.95, 1, 1]);
+  const browserOpacity = useTransform(smoothProgress, [0, 0.05, 0.2], [0, 1, 1]); // Faster fade-in
+  const browserY = useTransform(smoothProgress, [0, 0.2, 0.7], [30, 0, 0]);
 
   // Image transition - design fully shows by 70% scroll
-  const wireframeOpacity = useTransform(smoothProgress, [0, 0.15, 0.5], [1, 1, 0]);
-  const designOpacity = useTransform(smoothProgress, [0.3, 0.5, 0.7], [0, 0, 1]);
+  const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.45], [1, 1, 0]);
+  const designOpacity = useTransform(smoothProgress, [0.25, 0.45, 0.7], [0, 0, 1]);
 
   // Image zoom - smoother
-  const wireframeScale = useTransform(smoothProgress, [0, 0.45], [1, 1.1]);
-  const designScale = useTransform(smoothProgress, [0.5, 0.8], [0.92, 1]);
+  const wireframeScale = useTransform(smoothProgress, [0, 0.4], [1, 1.08]);
+  const designScale = useTransform(smoothProgress, [0.45, 0.75], [0.95, 1]);
 
   const handleImageError = (type: "wireframe" | "design") => {
     setImageErrors((prev) => ({ ...prev, [type]: true }));
   };
 
-  // Step text - reveals after design is fully visible
-  const stepOpacity = useTransform(smoothProgress, [0.5, 0.9], [0, 1]);
-
   return (
     <section
       ref={containerRef}
-      // Extra height so design stays visible while scrolling through
       className="relative h-[220vh] md:h-[250vh] bg-[#E8E8EC]"
       aria-label="Scroll-triggered animation showing our process"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">
         <div className="max-w-[1280px] mx-auto w-full">
+          {/* Label - appears quickly */}
           <motion.p
             className="label text-[#8A8A8A] text-center mb-6 md:mb-8"
             style={{
-              opacity: useTransform(smoothProgress, [0, 0.12, 1], [0, 1, 1]),
-              y: useTransform(smoothProgress, [0, 0.15, 1], [15, 0, 0]),
+              opacity: useTransform(smoothProgress, [0, 0.05, 0.15], [0, 1, 1]),
+              y: useTransform(smoothProgress, [0, 0.05, 0.15], [10, 0, 0]),
             }}
           >
             FROM IDEA TO IMPACT
@@ -158,7 +155,7 @@ export default function ScrollAnimation() {
               style={{
                 background: useTransform(
                   smoothProgress,
-                  [0.2, 0.5, 0.8],
+                  [0.15, 0.45, 0.75],
                   [
                     "radial-gradient(circle at center, transparent 0%, transparent 100%)",
                     "radial-gradient(circle at center, rgba(26,26,26,0.15) 0%, transparent 70%)",
@@ -172,7 +169,7 @@ export default function ScrollAnimation() {
           {/* Step Text Reveal - Shows after design appears */}
           <div className="mt-6 md:mt-8 text-center space-y-1.5 md:space-y-2">
             {STEPS.map((step, index) => {
-              const stepStart = 0.45 + index * 0.15;
+              const stepStart = 0.4 + index * 0.15;
               const stepEnd = stepStart + 0.2;
               const opacity = useTransform(
                 smoothProgress,

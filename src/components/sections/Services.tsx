@@ -57,7 +57,7 @@ export default function Services() {
 className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16"    >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
-          <div className="flex items-center justify-center gap-6 mb-5 md:mb-20 hairline pt-6">
+          <div className="flex items-center justify-center gap-6 mb-5 md:mb-20 ">
             <span className="label">What we do</span>
           </div>
         </Reveal>

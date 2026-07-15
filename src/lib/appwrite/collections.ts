@@ -24,7 +24,6 @@ export interface Lead {
   $createdAt: string;
   $updatedAt: string;
 }
-
 export interface Project {
   $id: string;
   title: string;
@@ -33,15 +32,14 @@ export interface Project {
   result: string;
   tags: string[];
   slug: string;
-  images?: string[];
+  images?: string;           // Single text field (not array)
   challenge?: string;
   approach?: string;
-  published: string;  // "true" or "false"
-  featured: boolean;  // NEW: true/false
+  published: string | boolean;
+  featured: boolean;
   featuredImage?: string;
   order: number;
   $createdAt: string;
   $updatedAt: string;
 }
-
 export { DATABASE_ID, LEADS_COLLECTION, PROJECTS_COLLECTION };

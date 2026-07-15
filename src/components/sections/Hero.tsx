@@ -38,20 +38,22 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[90vh] sm:min-h-screen flex flex-col justify-center bg-[#1A1A1A] pt-16 sm:pt-20 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+      className="relative h-screen w-full flex flex-col justify-center bg-[#1A1A1A] pt-16 sm:pt-20 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
-      {/* Background Image - positioned below navbar */}
-      <div className="absolute inset-0 top-0 z-0">
-        <Image
-          src="/images/homepage1.jpg"
-          alt="Background"
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/0" />
+      {/* Background Image - zoomed and expanded on mobile */}
+      <div className="absolute inset-0 z-0">
+        <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
+          <Image
+            src="/images/homepage2.jpg"
+            alt="Background"
+            fill
+            className="object-cover object-top scale-[1.08] sm:scale-100"
+            priority
+            sizes="100vw"
+          />
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-black/0" />
+        </div>
       </div>
 
       {/* Subtle gradient overlay for extra depth */}
@@ -82,7 +84,7 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-4 md:mt-8 flex flex-col items-center gap-4 md:gap-8"
           >
-            <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75]  font-light max-w-[38ch] mx-auto drop-shadow-md">
+            <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75] font-light max-w-[38ch] mx-auto drop-shadow-md">
               We build websites that bring in customers — not just ones that sit
               there looking pretty.
             </p>

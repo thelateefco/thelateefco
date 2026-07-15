@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Mail, MapPin, Clock, MessageCircle, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, MapPin, Clock, MessageCircle, X, Send } from "lucide-react";
 import Reveal from "../animations/Reveal";
-import ContactForm from "../forms/ContactForm";
 import { WHATSAPP_URL, EMAIL } from "../../lib/constants";
 import { trackWhatsAppClick, trackEmailClick } from "../../lib/utils/tracking";
 import Button from "../../components/ui/Button";
@@ -31,20 +30,63 @@ const itemVariants = {
   },
 };
 
+const popupVariants = {
+  hidden: { opacity: 0, scale: 0.95, y: 10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.25,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    y: 10,
+    transition: {
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
 export default function Contact() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailMessage, setEmailMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+
   const handleWhatsAppClick = async () => {
     await trackWhatsAppClick("contact");
+    setIsPopupOpen(false);
   };
 
   const handleEmailClick = async () => {
     await trackEmailClick("contact");
   };
 
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSending(true);
+    
+    // Open mailto with subject and body
+    const mailtoLink = `mailto:${EMAIL}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailMessage)}`;
+    window.location.href = mailtoLink;
+    
+    await trackEmailClick("contact");
+    setIsSending(false);
+    setIsPopupOpen(false);
+    setEmailSubject("");
+    setEmailMessage("");
+  };
+
   return (
     <section
       id="contact"
-// Change className to:
-className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"    >
+      className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"
+    >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
           <div className="hairline pt-6 mb-16 md:mb-24">
@@ -61,14 +103,14 @@ className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"    >
             viewport={{ once: true }}
           >
             <motion.div variants={itemVariants}>
-              <h2 className="font-serif text-[clamp(2rem,4.5vw,3.75rem)] font-medium text-[#1A1A1A] leading-[1.05] tracking-tight mb-8">
+              <h2 className="font-serif text-[clamp(2rem,4.5vw,3.75rem)] font-medium text-[#000000] leading-[1.05] tracking-tight mb-8">
                 Google your business.{" "}
-                <em className="italic-em">Then decide.</em>
+                <em className="italic-em text-[#000000]">Then decide.</em>
               </h2>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <p className="body-text text-[0.9375rem] leading-[1.8] max-w-[38ch] mb-12">
+              <p className="body-text text-[0.9375rem] leading-[1.8] max-w-[38ch] mb-12 text-[#000000]">
                 If you&apos;re not happy with what you see, let&apos;s talk. No
                 sales calls, no proposal decks — just a direct conversation
                 about what your business actually needs.
@@ -101,47 +143,155 @@ className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"    >
                 >
                   Message on WhatsApp
                 </Button>
+{/* Drop us a note button with popup */}
+<div className="relative">
+  <button
+    id="contact-note"
+    onClick={() => setIsPopupOpen(!isPopupOpen)}
+    className="inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[4px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline self-start"
+    aria-label="Drop us a note"
+  >
+    <Mail className="w-4 h-4" />
+    Drop us a note
+  </button>
 
-                <Button
-                  id="contact-email"
-                  href={`mailto:${EMAIL}`}
-                  onClick={handleEmailClick}
-                  variant="secondary"
-                  icon={<Mail className="w-4 h-4" />}
-                  iconPosition="left"
-                  className="self-start"
-                  aria-label={`Send email to ${EMAIL}`}
-                >
-                  {EMAIL}
-                </Button>
+  {/* Popup Menu */}
+  <AnimatePresence>
+    {isPopupOpen && (
+      <>
+        {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm"
+          onClick={() => setIsPopupOpen(false)}
+        />
+        
+        {/* Popup */}
+        <motion.div
+          variants={popupVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="absolute z-50 mt-2 w-80 bg-[#FFFFFF] border border-[#E8E8EC] rounded-[8px] shadow-lg overflow-hidden"
+        >
+          <div className="p-5">
+            <div className="flex items-center justify-between mb-4">
+              <span className="label text-[0.55rem] text-[#8A8A8A]">
+                Send us a message
+              </span>
+              <button
+                onClick={() => setIsPopupOpen(false)}
+                className="text-[#8A8A8A] hover:text-[#000000] transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+
+            {/* Quick action button */}
+            <div className="flex flex-col gap-2 mb-4 pb-4 border-b border-[#E8E8EC]">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handleWhatsAppClick}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-[4px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
+              >
+                <MessageCircle className="w-4 h-4 text-[#8A8A8A]" />
+                <span>Message on WhatsApp</span>
+              </a>
+            </div>
+
+            {/* Email Form */}
+            <form onSubmit={handleSendEmail} className="flex flex-col gap-3">
+              <div>
+                <label htmlFor="popup-subject" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                  Subject
+                </label>
+                <input
+                  id="popup-subject"
+                  type="text"
+                  value={emailSubject}
+                  onChange={(e) => setEmailSubject(e.target.value)}
+                  placeholder="What's this about?"
+                  className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="popup-message" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
+                  Message
+                </label>
+                <textarea
+                  id="popup-message"
+                  value={emailMessage}
+                  onChange={(e) => setEmailMessage(e.target.value)}
+                  rows={3}
+                  placeholder="Tell us about your project..."
+                  className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200 resize-none"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSending}
+                className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-5 py-2.5 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] disabled:opacity-60 disabled:cursor-not-allowed self-end mt-1"
+              >
+                {isSending ? "Sending…" : (
+                  <>
+                    <Send className="w-3.5 h-3.5" />
+                    Send
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </motion.div>
+      </>
+    )}
+  </AnimatePresence>
+</div>
               </div>
             </motion.div>
 
             <motion.div variants={itemVariants}>
               <div className="mt-16 pt-8 hairline">
                 <p className="label text-[#8A8A8A] mb-2">Based in</p>
-                <p className="text-[#1A1A1A] font-light text-sm">
+                <p className="text-[#000000] font-light text-sm">
                   Mumbai, Maharashtra, India
                 </p>
                 <p className="label text-[#8A8A8A] mt-5 mb-2">
                   Working with clients
                 </p>
-                <p className="text-[#1A1A1A] font-light text-sm">
+                <p className="text-[#000000] font-light text-sm">
                   Locally & internationally
                 </p>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Right column — Contact Form */}
+          {/* Right column - decorative */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            className="hidden md:flex flex-col items-center justify-center"
           >
-            <p className="label text-[#8A8A8A] mb-8">Or drop us a note</p>
-            <ContactForm source="website" page="contact" />
+            <div className="max-w-sm text-center">
+              <div className="w-16 h-px bg-[#D0C9C1] mx-auto mb-8" />
+              <p className="font-serif text-[1.5rem] text-[#000000] font-medium leading-tight mb-4">
+                Let's build something
+                <br />
+                <em className="italic-em text-[#000000]">worth remembering.</em>
+              </p>
+              <p className="text-[0.875rem] text-[#8A8A8A] font-light leading-[1.7]">
+                No sales calls, no proposal decks — just a direct conversation
+                about what your business actually needs.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>

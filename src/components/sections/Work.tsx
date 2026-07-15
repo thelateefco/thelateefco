@@ -31,6 +31,17 @@ export default function Work() {
     fetchProjects();
   }, []);
 
+  // Get image URL - checks images field first, then featuredImage
+  const getProjectImage = (project: Project) => {
+    if (project.images) {
+      return getImageUrl(project.images);
+    }
+    if (project.featuredImage) {
+      return getImageUrl(project.featuredImage);
+    }
+    return "";
+  };
+
   return (
     <section
       id="work"
@@ -72,10 +83,7 @@ export default function Work() {
         ) : (
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {projects.map((project, index) => {
-              // Get the full image URL from Appwrite
-              const imageUrl = project.featuredImage 
-                ? getImageUrl(project.featuredImage) 
-                : "";
+              const imageUrl = getProjectImage(project);
 
               return (
                 <motion.article

@@ -6,5 +6,6 @@ const APPWRITE_BUCKET_ID = process.env.NEXT_PUBLIC_APPWRITE_BUCKET_ID || "6a55a0
 
 export function getImageUrl(fileId: string): string {
   if (!fileId) return "";
+  // Remove &mode=admin from the URL for public access
   return `${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${fileId}/view?project=${APPWRITE_PROJECT_ID}`;
 }
