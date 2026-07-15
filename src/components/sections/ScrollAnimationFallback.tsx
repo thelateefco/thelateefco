@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import ScrollAnimation from "./ScrollAnimation";
 
 export default function ScrollAnimationWithFallback() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
+    
+    // Check if reduced motion is preferred
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
 
@@ -19,9 +22,10 @@ export default function ScrollAnimationWithFallback() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  if (prefersReducedMotion) {
+  // On server or if reduced motion is preferred, show fallback
+  if (!isClient || prefersReducedMotion) {
     return (
-      <section className="bg-[#ECE6DF] py-24 px-6 md:px-10 lg:px-16">
+      <section className="bg-[#E8E8EC] py-24 px-6 md:px-10 lg:px-16">
         <div className="max-w-[1280px] mx-auto text-center">
           <p className="label text-[#8A8A8A] mb-6">FROM IDEA TO IMPACT</p>
           <div className="max-w-4xl mx-auto aspect-[16/10] bg-[#1A1A1A] rounded-xl overflow-hidden shadow-2xl flex items-center justify-center">
