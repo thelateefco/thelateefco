@@ -34,12 +34,12 @@ export default function ScrollAnimation() {
     restSpeed: 0.001,
   });
 
-  // Browser transforms
-  const browserScale = useTransform(smoothProgress, [0, 0.3, 0.7], [0.95, 1, 1]);
-  const browserOpacity = useTransform(smoothProgress, [0, 0.05, 0.2], [0, 1, 1]);
-  const browserY = useTransform(smoothProgress, [0, 0.2, 0.7], [30, 0, 0]);
+  // Browser transforms - starts visible
+  const browserScale = useTransform(smoothProgress, [0, 0.3, 0.7], [0.92, 1, 1]);
+  const browserOpacity = useTransform(smoothProgress, [0, 0.02, 0.15], [0.6, 1, 1]);
+  const browserY = useTransform(smoothProgress, [0, 0.15, 0.7], [20, 0, 0]);
 
-  const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.45], [1, 1, 0]);
+  const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.4], [1, 1, 0]);
   const designOpacity = useTransform(smoothProgress, [0.25, 0.45, 0.7], [0, 0, 1]);
 
   const wireframeScale = useTransform(smoothProgress, [0, 0.4], [1, 1.08]);
@@ -49,7 +49,7 @@ export default function ScrollAnimation() {
     setImageErrors((prev) => ({ ...prev, [type]: true }));
   };
 
-  // Manual scroll tracking as fallback for Windows browsers
+  // Manual scroll tracking as fallback
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -86,13 +86,11 @@ export default function ScrollAnimation() {
       updateProgress();
     };
 
-    // Initial update
     setTimeout(updateProgress, 100);
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
 
-    // Intersection Observer to check if section is visible
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
@@ -124,11 +122,21 @@ export default function ScrollAnimation() {
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">
         <div className="max-w-[1280px] mx-auto w-full">
+          {/* Heading - Always visible */}
+          <div className="text-center mb-4 md:mb-6">
+            <h2 className="font-serif text-[clamp(2rem,3vw,2.5rem)] font-medium text-[#000000] leading-[1.1] tracking-tight">
+              From Idea to Impact
+            </h2>
+            <p className="text-[1rem] text-[#4A4A4A] font-light mt-2 max-w-[38ch] mx-auto">
+              Scroll to see how we transform concepts<br></br> into livin breathing websites.
+            </p>
+          </div>
+
           <motion.p
-            className="label text-[#8A8A8A] text-center mb-6 md:mb-8"
+            className="label text-[#8A8A8A] text-center mb-4 md:mb-6"
             style={{
-              opacity: useTransform(smoothProgress, [0, 0.05, 0.15], [0, 1, 1]),
-              y: useTransform(smoothProgress, [0, 0.05, 0.15], [10, 0, 0]),
+              opacity: useTransform(smoothProgress, [0, 0.05, 0.15], [0.5, 1, 1]),
+              y: useTransform(smoothProgress, [0, 0.05, 0.15], [8, 0, 0]),
             }}
           >
             FROM IDEA TO IMPACT

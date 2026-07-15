@@ -67,7 +67,7 @@ export default function Header() {
               {/* Logo */}
               <Link
                 href="/"
-                aria-label="The Lateef & Co. — Home"
+                aria-label="The Lateef & Co. - Home"
                 className="leading-none"
               >
                 <span className="font-serif text-[1.65rem] md:text-[1.75rem] font-medium tracking-tight text-[#1A1A1A]">

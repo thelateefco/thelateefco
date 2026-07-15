@@ -181,7 +181,7 @@ export default function ContactForm({
         variants={fieldVariants}
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary self-start mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="btn-primary rounded-[7px] self-start mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         transition={{ duration: 0.2 }}

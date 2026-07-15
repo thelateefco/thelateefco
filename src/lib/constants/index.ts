@@ -4,7 +4,7 @@ export const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919769212600";
 
 export const COMPANY = {
   name: "The Lateef & Co.",
-  fullName: "The Lateef & Co. — Web Design & Development Studio",
+  fullName: "The Lateef & Co. - Web Design & Development Studio",
   tagline: "Websites that bring in customers",
   location: "Mumbai, Maharashtra, India",
   established: "2024",

@@ -324,16 +324,16 @@ export default function AdminDashboard() {
                           <Icon className="w-4 h-4 text-[#8A8A8A]" />
                         </td>
                         <td className="py-3 px-4 text-[0.875rem] font-light text-[#000000]">
-                          {lead.name || "—"}
+                          {lead.name || "-"}
                         </td>
                         <td className="py-3 px-4 text-[0.875rem] font-light text-[#000000]">
-                          {lead.business || "—"}
+                          {lead.business || "-"}
                         </td>
                         <td className="py-3 px-4 text-[0.875rem] font-light text-[#000000]">
-                          {lead.email || "—"}
+                          {lead.email || "-"}
                         </td>
                         <td className="py-3 px-4 text-[0.875rem] font-light text-[#8A8A8A] max-w-[200px] truncate">
-                          {lead.message || "—"}
+                          {lead.message || "-"}
                         </td>
                         <td className="py-3 px-4">
                           <span className={`inline-block px-2.5 py-1 rounded-full text-[0.6rem] font-medium tracking-[0.06em] uppercase ${getStatusColor(lead.status || "new")}`}>
@@ -379,37 +379,37 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Name</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.name || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.name || "-"}</p>
                 </div>
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Business</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.business || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.business || "-"}</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Email</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.email || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.email || "-"}</p>
                 </div>
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Phone</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.phone || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.phone || "-"}</p>
                 </div>
               </div>
               <div>
                 <p className="label text-[0.5rem] text-[#8A8A8A]">Message</p>
                 <p className="text-[0.9375rem] font-light text-[#000000] bg-[#F5F5F7] p-4 rounded-[4px] mt-1">
-                  {selectedLead.message || "—"}
+                  {selectedLead.message || "-"}
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Source</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.source || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.source || "-"}</p>
                 </div>
                 <div>
                   <p className="label text-[0.5rem] text-[#8A8A8A]">Page</p>
-                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.page || "—"}</p>
+                  <p className="text-[0.9375rem] font-light text-[#000000]">{selectedLead.page || "-"}</p>
                 </div>
               </div>
               <div>

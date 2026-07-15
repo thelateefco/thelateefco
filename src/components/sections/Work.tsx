@@ -10,6 +10,8 @@ import { getFeaturedProjects } from "../../lib/appwrite/server";
 import { getImageUrl } from "../../lib/utils/images";
 import type { Project } from "../../lib/appwrite/collections";
 
+const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
+
 export default function Work() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
@@ -88,15 +90,16 @@ export default function Work() {
               return (
                 <motion.article
                   key={project.$id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  whileHover={{ y: -6 }}
                   transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                    ease: [0.25, 0.1, 0.25, 1],
+                    duration: 0.8,
+                    delay: index * 0.12,
+                    ease: SOOTHING_EASE,
                   }}
-                  className="group border border-[#E8E8EC] hover:border-[#D0D0D5] bg-[#FFFFFF] rounded-[6px] transition-all duration-300 overflow-hidden hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+                  className="group border border-[#E8E8EC] hover:border-[#D0D0D5] bg-[#FFFFFF] rounded-[6px] overflow-hidden transition-[border-color,box-shadow] duration-500 ease-out hover:shadow-[0_12px_32px_rgba(0,0,0,0.06)]"
                 >
                   {/* Project Image */}
                   <div className="relative aspect-[16/10] bg-[#E8E8EC]/30 overflow-hidden">
@@ -105,7 +108,7 @@ export default function Work() {
                         src={imageUrl}
                         alt={project.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     ) : (
@@ -142,7 +145,7 @@ export default function Work() {
                         {project.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="border border-[#E8E8EC] px-2.5 py-1 text-[0.5rem] font-medium tracking-[0.1em] uppercase text-[#4A4A4A] transition-colors duration-300 group-hover:border-[#D0D0D5]"
+                            className="border border-[#E8E8EC] px-2.5 py-1 text-[0.5rem] font-medium tracking-[0.1em] uppercase text-[#4A4A4A] transition-colors duration-500 group-hover:border-[#D0D0D5]"
                           >
                             {tag}
                           </span>

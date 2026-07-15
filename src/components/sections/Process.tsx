@@ -10,28 +10,28 @@ const steps = [
     number: "01",
     title: "Discovery",
     duration: "Week 1",
-    body: "We start with a focused conversation — your business, your customers, what's working, what isn't. Then we audit your current digital presence and map what the site actually needs to achieve. No briefs for the sake of briefs.",
+    body: "We start with a focused conversation - your business, your customers, what's working, what isn't. Then we audit your current digital presence and map what the site actually needs to achieve. No briefs for the sake of briefs.",
   },
   {
     id: "design",
     number: "02",
     title: "Design",
     duration: "Weeks 2–3",
-    body: "We design in the browser with real content from day one — not abstract wireframes. You'll see how the site looks and moves before a single line of production code is written. Feedback loops are tight, revisions are structured.",
+    body: "We design in the browser with real content from day one - not abstract wireframes. You'll see how the site looks and moves before a single line of production code is written. Feedback loops are tight, revisions are structured.",
   },
   {
     id: "build",
     number: "03",
     title: "Build",
     duration: "Weeks 3–5",
-    body: "Development happens in parallel as design is confirmed, so nothing gets rebuilt twice. We build on modern, fast infrastructure — performance and accessibility are baked in, not bolted on at the end.",
+    body: "Development happens in parallel as design is confirmed, so nothing gets rebuilt twice. We build on modern, fast infrastructure - performance and accessibility are baked in, not bolted on at the end.",
   },
   {
     id: "launch",
     number: "04",
     title: "Launch",
     duration: "Week 6",
-    body: "We handle the technical side of going live — domain, hosting, redirects, analytics — so you don't have to coordinate between multiple vendors. After launch, we stay available for 30 days to catch anything that needs attention.",
+    body: "We handle the technical side of going live - domain, hosting, redirects, analytics - so you don't have to coordinate between multiple vendors. After launch, we stay available for 30 days to catch anything that needs attention.",
   },
 ];
 

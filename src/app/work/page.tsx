@@ -33,7 +33,7 @@ export default function WorkPage() {
   return (
     <>
       <Header />
-      <main className="pt-28 md:pt-32 bg-[#ECE6DF]">
+      <main className="pt-28 md:pt-32 bg-[#FFFFFF]">
         <section className="px-6 md:px-10 lg:px-16 pb-12 md:pb-20">
           <div className="max-w-[1280px] mx-auto">
             <Reveal>
@@ -43,10 +43,10 @@ export default function WorkPage() {
             </Reveal>
 
             <Reveal>
-              <h1 className="font-serif text-[clamp(2.5rem,6vw,4.5rem)] font-medium text-[#1A1A1A] leading-[1.05] tracking-tight max-w-[14ch] mb-6">
+              <h1 className="font-serif text-[clamp(2.5rem,6vw,4.5rem)] font-medium text-[#000000] leading-[1.05] tracking-tight max-w-[14ch] mb-6">
                 Projects that
                 <br />
-                <em className="italic-em">speak for themselves.</em>
+                <em className="italic-em text-[#000000]">speak for themselves.</em>
               </h1>
             </Reveal>
 
@@ -64,13 +64,13 @@ export default function WorkPage() {
               // Loading state
               <div className="grid md:grid-cols-2 gap-8 md:gap-10">
                 {[1, 2].map((i) => (
-                  <div key={i} className="border border-[#D0C9C1] bg-[#D0C9C1]/20 animate-pulse">
-                    <div className="aspect-[16/10] bg-[#D0C9C1]/40" />
+                  <div key={i} className="border border-[#E8E8EC] bg-[#F5F5F7]/50 animate-pulse rounded-[12px] overflow-hidden">
+                    <div className="aspect-[16/10] bg-[#E8E8EC]/50" />
                     <div className="p-6 md:p-8 space-y-3">
-                      <div className="h-4 bg-[#D0C9C1]/40 rounded w-20" />
-                      <div className="h-6 bg-[#D0C9C1]/40 rounded w-3/4" />
-                      <div className="h-4 bg-[#D0C9C1]/40 rounded w-1/2" />
-                      <div className="h-16 bg-[#D0C9C1]/40 rounded" />
+                      <div className="h-4 bg-[#E8E8EC]/50 rounded w-20" />
+                      <div className="h-6 bg-[#E8E8EC]/50 rounded w-3/4" />
+                      <div className="h-4 bg-[#E8E8EC]/50 rounded w-1/2" />
+                      <div className="h-16 bg-[#E8E8EC]/50 rounded" />
                     </div>
                   </div>
                 ))}
@@ -78,7 +78,7 @@ export default function WorkPage() {
             ) : projects.length === 0 ? (
               // Empty state
               <div className="py-20 text-center">
-                <p className="font-serif text-2xl text-[#1A1A1A] font-medium mb-4">
+                <p className="font-serif text-2xl text-[#000000] font-medium mb-4">
                   Coming soon.
                 </p>
                 <p className="body-text text-[0.9375rem] text-[#4A4A4A] max-w-[38ch] mx-auto">
@@ -90,9 +90,9 @@ export default function WorkPage() {
               <div className="grid md:grid-cols-2 gap-8 md:gap-10">
                 {projects.map((project, index) => (
                   <Reveal key={project.$id} delay={index * 0.1}>
-                    <div className="group border border-[#D0C9C1] hover:border-[#1A1A1A] transition-all duration-300 overflow-hidden">
+                    <div className="group bg-[#FFFFFF] border border-[#E8E8EC] hover:border-[#D0D0D5] rounded-[12px] overflow-hidden transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
                       {/* Project Image */}
-                      <div className="relative aspect-[16/10] bg-[#D0C9C1]/30 overflow-hidden">
+                      <div className="relative aspect-[16/10] bg-[#F0F0F2] overflow-hidden">
                         {project.featuredImage ? (
                           <Image
                             src={project.featuredImage}
@@ -114,7 +114,7 @@ export default function WorkPage() {
                             <p className="label text-[#8A8A8A] text-[0.55rem] mb-1.5">
                               {project.category}
                             </p>
-                            <h2 className="font-serif text-[1.5rem] md:text-[1.75rem] font-medium text-[#1A1A1A] leading-tight">
+                            <h2 className="font-serif text-[1.5rem] md:text-[1.75rem] font-medium text-[#000000] leading-tight">
                               {project.title}
                             </h2>
                             <span className="label text-[#8A8A8A] text-[0.55rem] mt-1 block">
@@ -126,7 +126,7 @@ export default function WorkPage() {
                           </span>
                         </div>
 
-                        <p className="body-text text-[0.9375rem] leading-[1.8] mt-4">
+                        <p className="body-text text-[0.9375rem] leading-[1.8] mt-4 text-[#000000]">
                           {project.result}
                         </p>
 
@@ -135,7 +135,7 @@ export default function WorkPage() {
                             {project.tags.map((tag: string) => (
                               <span
                                 key={tag}
-                                className="border border-[#D0C9C1] px-3 py-1 text-[0.55rem] font-medium tracking-[0.12em] uppercase text-[#4A4A4A]"
+                                className="border border-[#E8E8EC] px-3 py-1 text-[0.55rem] font-medium tracking-[0.12em] uppercase text-[#4A4A4A] rounded-full"
                               >
                                 {tag}
                               </span>

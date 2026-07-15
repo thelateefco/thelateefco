@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../../app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard — The Lateef & Co.",
+  title: "Admin Dashboard - The Lateef & Co.",
   description: "Admin dashboard for managing leads and projects.",
   robots: {
     index: false,

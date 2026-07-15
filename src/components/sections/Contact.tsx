@@ -190,7 +190,7 @@ const handleSendEmail = async (e: React.FormEvent) => {
             <motion.div variants={itemVariants}>
               <p className="body-text text-[0.9375rem] leading-[1.8] max-w-[38ch] mb-12 text-[#000000]">
                 If you&apos;re not happy with what you see, let&apos;s talk. No
-                sales calls, no proposal decks — just a direct conversation
+                sales calls, no proposal decks - just a direct conversation
                 about what your business actually needs.
               </p>
             </motion.div>
@@ -269,7 +269,7 @@ const handleSendEmail = async (e: React.FormEvent) => {
                 <em className="italic-em text-[#000000]">worth remembering.</em>
               </p>
               <p className="text-[0.875rem] text-[#8A8A8A] font-light leading-[1.7]">
-                No sales calls, no proposal decks — just a direct conversation
+                No sales calls, no proposal decks - just a direct conversation
                 about what your business actually needs.
               </p>
             </div>

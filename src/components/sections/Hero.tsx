@@ -38,25 +38,24 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-screen w-full flex flex-col justify-center bg-[#1A1A1A] pt-16 sm:pt-20 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
+      className="relative h-screen w-full flex flex-col justify-center bg-[#1A1A1A] pt-12 sm:pt-16 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
-      {/* Background Image - zoomed and expanded on mobile */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
           <Image
-            src="/images/homepage4.jpg"
+            src="/images/homepage5.jpg"
             alt="Background"
             fill
             className="object-cover object-top scale-[1.08] sm:scale-100"
             priority
             sizes="100vw"
           />
-          {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-white/20" />
         </div>
       </div>
 
-      {/* Subtle gradient overlay for extra depth */}
+      {/* Subtle gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none z-0" />
 
       {/* Background texture overlay */}
@@ -64,7 +63,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[url('/images/grain.png')] bg-repeat" />
       </div>
 
-      <div className="max-w-[1280px] mx-auto w-full relative z-10">
+      <div className="max-w-[1280px] mx-auto w-full relative z-10 mt-[-20px] sm:mt-0">
         {/* Headline with stagger - Centered */}
         <motion.div
           variants={containerVariants}
@@ -74,7 +73,7 @@ export default function Hero() {
         >
           <motion.h1
             variants={itemVariants}
-            className="font-serif text-[clamp(2.75rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
+            className="font-serif text-[clamp(3.5rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
           >
             Ready to make your competitors{" "}
             <em className="italic-em text-[#FFFFFF]">nervous?</em>
@@ -82,10 +81,10 @@ export default function Hero() {
 
           <motion.div
             variants={itemVariants}
-            className="mt-4 md:mt-8 flex flex-col items-center gap-4 md:gap-8"
+            className="mt-3 md:mt-8 flex flex-col items-center gap-3 md:gap-8"
           >
-            <p className="text-[1.0625rem] md:text-[1.125rem] leading-[1.75] font-light max-w-[38ch] mx-auto drop-shadow-md">
-              We build websites that bring in customers — not just ones that sit
+            <p className="text-[1.3rem] sm:text-[1.3rem] md:text-[1.3rem] leading-[1.75] font-light max-w-[38ch] mx-auto drop-shadow-md ">
+              We build websites that bring in customers - not just ones that sit
               there looking pretty.
             </p>
 
@@ -134,9 +133,8 @@ export default function Hero() {
             ease: "easeInOut",
           }}
         >
-          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#FFFFFF]/60" />
+          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#000000]/60" />
         </motion.div>
-        <div className="w-px h-6 md:h-8 bg-[#FFFFFF]/20" />
       </motion.div>
     </section>
   );

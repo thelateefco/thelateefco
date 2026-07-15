@@ -21,7 +21,7 @@ const services = [
     number: "02",
     title: "Web Dev & Engineering",
     description:
-      "Fast, scalable, production-grade websites and web apps built on modern frameworks like Next.js and React. No bloated templates — just clean, performant code that's secure and easy to grow.",
+      "Fast, scalable, production-grade websites and web apps built on modern frameworks like Next.js and React. No bloated templates - just clean, performant code that's secure and easy to grow.",
     tags: ["Next.js", "React", "TypeScript", "Performance"],
     image: "/images/services/webdeveng.jpg",
     imageAlt: "Web Development Process",
@@ -31,24 +31,13 @@ const services = [
     number: "03",
     title: "AI Integration",
     description:
-      "Embed AI directly into your business — from smart chat agents to content and workflow tools your customers actually use. We turn ambiguous AI ideas into production features your users trust.",
+      "Embed AI directly into your business - from smart chat agents to content and workflow tools your customers actually use. We turn ambiguous AI ideas into production features your users trust.",
     tags: ["AI Chat", "Custom AI", "Workflow Automation", "Smart Agents"],
     image: "/images/services/aiintegrate.jpg",
     imageAlt: "AI Integration Process",
-  }
-  // {
-  //   id: "brand-strategy",
-  //   number: "04",
-  //   title: "Brand Strategy",
-  //   description:
-  //     "Before we write a single line of code, we define who you are, who you're speaking to, and what you want them to feel. A clear brand strategy ensures your website doesn't just look good — it connects.",
-  //   tags: ["Strategy", "Positioning", "Audience", "Storytelling"],
-  //   image: "/images/services/brand-strategy.jpg",
-  //   imageAlt: "Brand Strategy Process",
-  // },
+  },
 ];
 
-// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -71,21 +60,19 @@ const itemVariants = {
   },
 };
 
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.92 },
+const imageFadeVariants = {
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
     transition: {
-      duration: 0.7,
+      duration: 0.4,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
   exit: {
     opacity: 0,
-    scale: 0.92,
     transition: {
-      duration: 0.4,
+      duration: 0.3,
       ease: [0.25, 0.1, 0.25, 1],
     },
   },
@@ -93,21 +80,18 @@ const imageVariants = {
 
 export default function Services() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-change every 6 seconds
+  const activeService = services[activeIndex];
+
+  // Auto-rotate every 5 seconds
   useEffect(() => {
     if (!isAutoRotating) return;
     
     timerRef.current = setInterval(() => {
-      if (!isTransitioning) {
-        const nextIndex = (activeIndex + 1) % services.length;
-        handleToggle(nextIndex);
-      }
-    }, 6000);
+      setActiveIndex((prev) => (prev + 1) % services.length);
+    }, 5000);
 
     return () => {
       if (timerRef.current) {
@@ -115,204 +99,212 @@ export default function Services() {
         timerRef.current = null;
       }
     };
-  }, [isAutoRotating, activeIndex, isTransitioning]);
+  }, [isAutoRotating]);
 
-  const handleToggle = (index: number) => {
-    if (isTransitioning || index === activeIndex) return;
-    
-    setIsTransitioning(true);
+  const handleCardClick = (index: number) => {
+    // Stop auto-rotation on user interaction
+    setIsAutoRotating(false);
     setActiveIndex(index);
     
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 800);
-    
+    // Reset timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    
+    // Resume auto-rotation after 8 seconds of inactivity
     setTimeout(() => {
       setIsAutoRotating(true);
-    }, 10000);
+    }, 8000);
   };
-
-  const activeService = services[activeIndex];
 
   return (
     <section
       id="services"
-      className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 overflow-hidden"
+      className="bg-[#F5F5F7] px-4 sm:px-6 md:px-10 lg:px-16 overflow-hidden"
       style={{ 
-        paddingTop: "clamp(4rem, 12vh, 7rem)", 
-        paddingBottom: "clamp(6rem, 16vh, 10rem)" 
+        paddingTop: "clamp(3rem, 10vh, 7rem)", 
+        paddingBottom: "clamp(4rem, 12vh, 10rem)" 
       }}
     >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
-          <div className="flex items-center gap-6 mb-12 md:mb-16 hairline pt-6">
+          <div className="flex items-center justify-between gap-6 mb-8 md:mb-14 hairline pt-6">
             <span className="label">What we do</span>
           </div>
         </Reveal>
 
-        <div className="relative w-full" style={{ minHeight: "600px" }}>
-          <div className="grid md:grid-cols-2 gap-10 md:gap-30">
-            {/* Left Column - Heading + Accordion */}
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="flex flex-col"
-            >
-              {/* Heading */}
-              <motion.div variants={itemVariants} className="mb-8 md:mb-10">
-                <p className="text-[0.9375rem] text-[#4A4A4A] font-light leading-[1.7] max-w-[38ch]">
-                  We don't just build websites — we build digital assets that grow your business.
-                </p>
-              </motion.div>
-
-              {/* Accordion Items - FIXED HEIGHT CONTAINER */}
-              <div className="flex flex-col gap-3">
-                {services.map((service, index) => {
-                  const isActive = activeIndex === index;
-
-                  return (
-                    <motion.div
-                      key={service.id}
-                      variants={itemVariants}
-                      className="relative"
-                      style={{
-                        height: "auto",
-                        minHeight: "80px",
-                      }}
-                    >
-                      <motion.button
-                        onClick={() => handleToggle(index)}
-                        onMouseEnter={() => setHoveredIndex(index)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                        className={`w-full text-left p-5 md:p-6 rounded-[12px] transition-all duration-700 ease-in-out ${
-                          isActive
-                            ? "bg-[#1A1A1A] text-[#F5F5F7] shadow-[0_4px_24px_rgba(26,26,26,0.15)]"
-                            : "bg-[#FFFFFF] text-[#000000] hover:bg-[#F5F5F7] hover:shadow-[0_2px_12px_rgba(26,26,26,0.04)] border border-[#E8E8EC]"
-                        }`}
-                        style={{
-                          transform: isActive ? "scale(1)" : "scale(1)",
-                        }}
-                      >
-                        {/* Header - ALWAYS VISIBLE, DOESN'T MOVE */}
-                        <div className="flex items-center justify-between gap-4">
-                          <span
-                            className={`font-serif text-[1.1rem] md:text-[1.25rem] font-medium transition-all duration-700 ease-in-out ${
-                              isActive ? "text-[#F5F5F7]" : "text-[#000000]"
-                            }`}
-                          >
-                            {service.title}
-                          </span>
-                          <span
-                            className={`font-serif text-[1.1rem] md:text-[1.25rem] font-medium transition-all duration-700 ease-in-out ${
-                              isActive ? "text-[#FFFFFF]" : "text-[#8A8A8A]"
-                            }`}
-                          >
-                            {service.number}
-                          </span>
-                        </div>
-
-                        {/* Content - ANIMATES INSIDE WITHOUT MOVING HEADER */}
-                        <div className="overflow-hidden">
-                          <motion.div
-                            initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                            animate={{ 
-                              opacity: isActive ? 1 : 0,
-                              height: isActive ? "auto" : 0,
-                              marginTop: isActive ? 16 : 0,
-                              transition: {
-                                duration: 0.6,
-                                ease: [0.25, 0.1, 0.25, 1],
-                                opacity: {
-                                  duration: 0.5,
-                                  delay: isActive ? 0.1 : 0,
-                                },
-                              }
-                            }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pt-2 pb-1">
-                              <p className="text-[0.875rem] leading-[1.7] text-[#D0D0D5] font-light line-clamp-3">
-                                {service.description}
-                              </p>
-                              <div className="flex flex-wrap gap-1.5 mt-3">
-                                {service.tags.slice(0, 3).map((tag) => (
-                                  <span
-                                    key={tag}
-                                    className="px-2.5 py-1 bg-[#2A2A2A] text-[#F5F5F7] rounded-full text-[0.5rem] font-medium tracking-[0.06em] uppercase"
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </motion.div>
-                        </div>
-                      </motion.button>
-                    </motion.div>
-                  );
-                })}
-              </div>
+        {/* Main Content */}
+        <div className="grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16">
+          {/* Left Column - Desktop Image */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="hidden md:block order-1"
+          >
+            <motion.div variants={itemVariants} className="mb-6">
+              <p className="text-[0.9375rem] text-[#4A4A4A] font-light leading-[1.7] max-w-[38ch]">
+                We don't just build websites - we build digital assets that grow your business.
+              </p>
             </motion.div>
 
-            {/* Right Column - Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-              className="relative order-first md:order-last"
-            >
-              <div className="sticky top-32 md:top-50">
-                <div className="relative aspect-[3/2] w-full rounded-[12px] overflow-hidden bg-[#D0D0D5]/20">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeIndex}
-                      variants={imageVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      className="absolute inset-0"
-                      transition={{
-                        duration: 0.7,
-                        ease: [0.25, 0.1, 0.25, 1],
-                      }}
-                    >
-                      {activeService?.image ? (
-                        <Image
-                          src={activeService.image}
-                          alt={activeService.imageAlt || activeService.title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                          priority
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#8A8A8A] text-sm font-light">
-                          Image coming soon
-                        </div>
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {/* Subtle gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/20 to-transparent pointer-events-none" />
-
-                  {/* Number overlay */}
-                  <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6">
-                    <span className="font-serif text-[3rem] md:text-[4.5rem] font-medium text-[#FFFFFF]/10">
-                      {activeService?.number}
-                    </span>
-                  </div>
+            <motion.div variants={itemVariants}>
+              <div className="relative aspect-[4/3] w-full rounded-[12px] overflow-hidden bg-[#D0D0D5]/20">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIndex}
+                    variants={imageFadeVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={activeService.image}
+                      alt={activeService.imageAlt || activeService.title}
+                      fill
+                      className="object-cover"
+                      sizes="50vw"
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6">
+                  <span className="font-serif text-[3rem] md:text-[4.5rem] font-medium text-[#FFFFFF]/10">
+                    {activeService.number}
+                  </span>
                 </div>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
+
+          {/* Right Column - Cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="order-1 md:order-2"
+          >
+            {/* Mobile: Mini Image with overlay */}
+            <motion.div variants={itemVariants} className="md:hidden mb-6">
+              <div className="relative w-full aspect-[16/9] rounded-[12px] overflow-hidden bg-[#D0D0D5]/20">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeIndex}
+                    variants={imageFadeVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="absolute inset-0"
+                  >
+                    <Image
+                      src={activeService.image}
+                      alt={activeService.imageAlt || activeService.title}
+                      fill
+                      className="object-cover"
+                      sizes="100vw"
+                      priority
+                    />
+                  </motion.div>
+                </AnimatePresence>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000000]/60 via-[#000000]/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  {/* <p className="text-[#FFFFFF] text-xs font-light opacity-80">
+                    {isAutoRotating ? "Auto-rotating" : "Paused"}
+                  </p> */}
+                  <p className="text-[#FFFFFF] font-serif text-lg font-medium">
+                    {activeService.title}
+                  </p>
+                </div>
+                <div className="absolute top-4 right-4">
+                  <span className="font-serif text-[2rem] font-medium text-[#FFFFFF]/20">
+                    {activeService.number}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="flex flex-col gap-3 md:gap-4">
+              {services.map((service, index) => {
+                const isActive = activeIndex === index;
+
+                return (
+                  <motion.div
+                    key={service.id}
+                    variants={itemVariants}
+                    onClick={() => handleCardClick(index)}
+                    className={`
+                      w-full text-left p-4 sm:p-5 md:p-6 rounded-[10px] md:rounded-[12px] 
+                      transition-all duration-300 cursor-pointer
+                      border 
+                      ${isActive 
+                        ? "bg-[#1A1A1A] text-[#F5F5F7] border-[#1A1A1A] shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
+                        : "bg-[#FFFFFF] text-[#000000] border-[#E8E8EC] hover:border-[#D0D0D5] hover:shadow-[0_2px_12px_rgba(26,26,26,0.04)]"
+                      }
+                    `}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span
+                        className={`font-serif text-[1rem] sm:text-[1.1rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
+                          isActive ? "text-[#F5F5F7]" : "text-[#000000]"
+                        }`}
+                      >
+                        {service.title}
+                      </span>
+                      <span
+                        className={`font-serif text-[1rem] sm:text-[1.1rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
+                          isActive ? "text-[#FFFFFF]" : "text-[#8A8A8A]"
+                        }`}
+                      >
+                        {service.number}
+                      </span>
+                    </div>
+
+                    <div className="mt-1.5 md:mt-2">
+                      <p className={`text-[0.8125rem] sm:text-[0.875rem] leading-[1.6] transition-colors duration-300 ${
+                        isActive ? "text-[#D0D0D5]" : "text-[#4A4A4A]"
+                      }`}>
+                        {service.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mt-2.5">
+                        {service.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className={`px-2.5 py-1 rounded-full text-[0.45rem] sm:text-[0.5rem] font-medium tracking-[0.06em] uppercase transition-colors duration-300 ${
+                              isActive 
+                                ? "bg-[#2A2A2A] text-[#F5F5F7]" 
+                                : "bg-[#F5F5F7] text-[#4A4A4A]"
+                            }`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+
+            {/* Mobile indicator dots */}
+            <div className="flex justify-center gap-2 mt-5 md:hidden">
+              {services.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleCardClick(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    activeIndex === index
+                      ? "bg-[#000000] w-5"
+                      : "bg-[#D0D0D5] hover:bg-[#8A8A8A]"
+                  }`}
+                  aria-label={`Show ${services[index].title}`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

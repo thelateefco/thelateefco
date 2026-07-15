@@ -9,24 +9,26 @@
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
   /* ── Brand Colors ────────────────────────────────── */
-  --color-cream: #ECE6DF;
-  --color-cream-dark: #E5DFD6;
-  --color-cream-light: #F2EDE6;
+  --color-white: #FFFFFF;
+  --color-off-white: #F5F5F7;
+  --color-light-gray: #F0F0F2;
+  --color-gray: #E8E8EC;
   --color-dark: #000000;
   --color-mid: #4A4A4A;
   --color-muted: #8A8A8A;
-  --color-hair: #D0C9C1;
+  --color-hair: #E0E0E4;
 }
 
 /* ── CSS Custom Properties ───────────────────────────── */
 :root {
-  --brand-cream: #ECE6DF;
-  --brand-cream-dark: #E5DFD6;
-  --brand-cream-light: #F2EDE6;
+  --brand-white: #FFFFFF;
+  --brand-off-white: #F5F5F7;
+  --brand-light-gray: #F0F0F2;
+  --brand-gray: #E8E8EC;
   --brand-dark: #000000;
   --brand-mid: #4A4A4A;
   --brand-light: #8A8A8A;
-  --brand-hair: #D0C9C1;
+  --brand-hair: #E0E0E4;
 }
 
 /* ── Base Styles ──────────────────────────────────────── */
@@ -41,7 +43,7 @@ html {
 }
 
 body {
-  background-color: #ECE6DF;
+  background-color: #FFFFFF;
   color: #000000;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 300;
@@ -51,7 +53,7 @@ body {
 /* ── Selection ────────────────────────────────────────── */
 ::selection {
   background-color: #000000;
-  color: #ECE6DF;
+  color: #FFFFFF;
 }
 
 :focus-visible {
@@ -115,11 +117,11 @@ em, .italic-em {
 }
 
 .hairline {
-  border-top: 1px solid var(--brand-hair);
+  border-top: 1px solid #E0E0E4;
 }
 
 .hairline-v {
-  border-left: 1px solid var(--brand-hair);
+  border-left: 1px solid #E0E0E4;
 }
 
 /* ── Buttons ────────────────────────────────────────── */
@@ -128,7 +130,7 @@ em, .italic-em {
   align-items: center;
   gap: 0.5rem;
   background-color: #000000;
-  color: #ECE6DF;
+  color: #FFFFFF;
   font-family: 'Inter', sans-serif;
   font-size: 0.8125rem;
   font-weight: 500;
@@ -165,7 +167,7 @@ em, .italic-em {
 
 .btn-outline:hover {
   background-color: #000000;
-  color: #ECE6DF;
+  color: #FFFFFF;
 }
 
 .body-text {
@@ -200,10 +202,10 @@ em, .italic-em {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #ECE6DF;
+  background: #FFFFFF;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D0C9C1;
+  background: #E0E0E4;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #000000;
@@ -246,7 +248,7 @@ em, .italic-em {
 .scroll-line-anim {
   position: absolute;
   inset: 0;
-  background-color: #ECE6DF;
+  background-color: #FFFFFF;
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 
@@ -259,13 +261,16 @@ em, .italic-em {
 .dark-section h2,
 .dark-section h3,
 .dark-section h4,
-.dark-section p,
-.dark-section .body-text,
 .dark-section .italic-em,
 .dark-section em,
 .dark-section .link-arrow,
 .dark-section .nav-link {
-  color: #ECE6DF !important;
+  color: #FFFFFF !important;
+}
+
+.dark-section p,
+.dark-section .body-text {
+  color: #A0A0A0 !important;
 }
 
 .dark-section .label {
@@ -273,8 +278,8 @@ em, .italic-em {
 }
 
 .dark-section .link-arrow {
-  color: #ECE6DF !important;
-  border-bottom-color: #ECE6DF !important;
+  color: #FFFFFF !important;
+  border-bottom-color: #FFFFFF !important;
 }
 
 .dark-section .hairline {
@@ -303,45 +308,4 @@ em, .italic-em {
     transform: none !important;
     opacity: 1 !important;
   }
-}
-
-/* ── Dark Section Overrides ──────────────────────────── */
-.dark-section {
-  background-color: #1A1A1A;
-}
-
-/* Headings stay white/cream */
-.dark-section h1,
-.dark-section h2,
-.dark-section h3,
-.dark-section h4,
-.dark-section .italic-em,
-.dark-section em,
-.dark-section .link-arrow,
-.dark-section .nav-link {
-  color: #ECE6DF !important;
-}
-
-/* Paragraphs and body text are greyish */
-.dark-section p,
-.dark-section .body-text {
-  color: #A0A0A0 !important;
-}
-
-/* Labels stay muted */
-.dark-section .label {
-  color: #8A8A8A !important;
-}
-
-.dark-section .link-arrow {
-  color: #ECE6DF !important;
-  border-bottom-color: #ECE6DF !important;
-}
-
-.dark-section .hairline {
-  border-top-color: #2E2E2E !important;
-}
-
-.dark-section .hairline-v {
-  border-left-color: #2E2E2E !important;
 }

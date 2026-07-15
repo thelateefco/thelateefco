@@ -179,14 +179,15 @@ export default function MobileNav({
                 <motion.button
                   onClick={onClose}
                   whileHover={{
-                    rotate: 0,
+                    
                     scale: 1.09,
                   }}
                   whileTap={{
                     scale: 0.9,
                   }}
                   transition={{
-                    duration: 0.25,
+                    duration: 0.3,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                   className="
                     w-11
@@ -209,7 +210,7 @@ export default function MobileNav({
 
               </div>
 
-              <nav className="flex-1 flex flex-col justify-center">
+              <nav className="flex-1 flex flex-col justify-start pt-10">
 
                 {NAV_LINKS.map((link, i) => (
                   <motion.div
@@ -224,7 +225,7 @@ export default function MobileNav({
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className={`block py-3 font-serif text-[2rem] font-medium transition-all duration-300 ${
+                      className={`block py-2.5 font-serif text-[1.5rem] font-medium tracking-tight transition-all duration-300 ${
                         isActive(link.href)
                           ? "opacity-60"
                           : "hover:opacity-60"
@@ -233,7 +234,9 @@ export default function MobileNav({
                       {link.label}
                     </Link>
 
-                    <div className="w-14 h-px bg-black/10 mx-auto my-3" />
+                    {i < NAV_LINKS.length - 1 && (
+                      <div className="w-full h-px bg-black/10 my-2.5" />
+                    )}
 
                   </motion.div>
                 ))}
