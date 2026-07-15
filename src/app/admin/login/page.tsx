@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { Lock, Mail, User, Loader2, ArrowLeft, Key } from "lucide-react";
 import { account } from "../../../lib/appwrite/client";
@@ -12,7 +12,7 @@ const ALLOWED_EMAILS = [
   "thelateefco@gmail.com",
 ];
 
-export default function AdminLogin() {
+function AdminLoginForm() {
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [name, setName] = useState("");
@@ -415,5 +415,20 @@ export default function AdminLogin() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-2 border-[#000000] border-t-transparent rounded-full animate-spin" />
+          <span className="label text-[#8A8A8A]">Loading...</span>
+        </div>
+      </div>
+    }>
+      <AdminLoginForm />
+    </Suspense>
   );
 }
