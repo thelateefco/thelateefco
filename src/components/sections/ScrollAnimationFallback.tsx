@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import ScrollAnimation from "./ScrollAnimation";
 
 const STEPS = [
@@ -10,9 +11,12 @@ const STEPS = [
   { label: "Becomes a website that works.", delay: 0.5 },
 ];
 
+const FALLBACK_IMAGE = "/images/projects/projectaimagixafter.png";
+
 export default function ScrollAnimationWithFallback() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -26,7 +30,7 @@ export default function ScrollAnimationWithFallback() {
 
     mediaQuery.addEventListener("change", handler);
     return () => mediaQuery.removeEventListener("change", handler);
-  }, []); // ✅ Empty dependency array - runs only once
+  }, []);
 
   // Show fallback for reduced motion or server-side
   if (!isClient || prefersReducedMotion) {
@@ -37,20 +41,36 @@ export default function ScrollAnimationWithFallback() {
             FROM IDEA TO IMPACT
           </p>
 
-          <div className="max-w-4xl mx-auto aspect-[16/10] bg-[#1A1A1A] rounded-xl overflow-hidden shadow-2xl flex items-center justify-center">
-            <div className="text-[#ECE6DF] font-serif text-2xl md:text-3xl font-medium px-8 text-center">
-              {STEPS.map((step, index) => (
-                <motion.p
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="mb-4 last:mb-0"
-                >
-                  {step.label}
-                </motion.p>
-              ))}
-            </div>
+          <div className="max-w-4xl mx-auto aspect-[16/10] bg-[#1A1A1A] rounded-xl overflow-hidden shadow-2xl relative">
+            {!imageError ? (
+              <Image
+                src={FALLBACK_IMAGE}
+                alt="Final website design"
+                fill
+                className="object-cover"
+                onError={() => setImageError(true)}
+                priority
+              />
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-[#1A1A1A] p-8">
+                <div className="text-[#ECE6DF] font-serif text-2xl md:text-3xl font-medium px-8 text-center">
+                  {STEPS.map((step, index) => (
+                    <motion.p
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5, delay: index * 0.15 }}
+                      className="mb-4 last:mb-0"
+                    >
+                      {step.label}
+                    </motion.p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Subtle gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A]/20 via-transparent to-[#1A1A1A]/40 pointer-events-none" />
           </div>
 
           <div className="mt-6 md:mt-8 text-center space-y-1.5 md:space-y-2">
