@@ -31,11 +31,15 @@ function AdminLoginForm() {
       try {
         const session = await account.get();
         if (session && ALLOWED_EMAILS.includes(session.email)) {
-          // Already logged in, redirect to dashboard
           router.replace("/admin/dashboard");
           return;
         }
-      } catch {
+      } catch (err: any) {
+        console.error("Auth check error:", err);
+        // Check if it's a network error
+        if (err?.message?.includes("fetch") || err?.code === 0) {
+          setError("Cannot connect to authentication server. Please check your internet connection.");
+        }
         // Not logged in - stay on login page
       } finally {
         setIsCheckingAuth(false);
@@ -79,7 +83,11 @@ function AdminLoginForm() {
       router.replace("/admin/dashboard");
     } catch (err: any) {
       console.error("Login error:", err);
-      if (err?.message?.includes("Invalid credentials")) {
+      
+      // Network error
+      if (err?.message?.includes("fetch") || err?.code === 0) {
+        setError("Cannot connect to authentication server. Please check your internet connection.");
+      } else if (err?.message?.includes("Invalid credentials")) {
         setError("Invalid email or password. Please try again.");
       } else if (err?.message?.includes("User not found")) {
         setError("Account not found. Please sign up first.");
@@ -118,12 +126,11 @@ function AdminLoginForm() {
 
       await account.create(ID.unique(), email, password, name);
       
-      setSuccessMessage("Account created successfully! Please login.");
+      setSuccessMessage("Account created successfully!");
       setIsLogin(true);
       setPassword("");
       setConfirmPassword("");
       
-      // Auto-login after signup
       await account.createEmailPasswordSession(email, password);
       
       sessionStorage.setItem("adminLoggedIn", "true");
@@ -133,7 +140,9 @@ function AdminLoginForm() {
       router.replace("/admin/dashboard");
     } catch (err: any) {
       console.error("Signup error:", err);
-      if (err?.message?.includes("already exists")) {
+      if (err?.message?.includes("fetch") || err?.code === 0) {
+        setError("Cannot connect to authentication server. Please check your internet connection.");
+      } else if (err?.message?.includes("already exists")) {
         setError("This email is already registered. Please login.");
       } else {
         setError(err?.message || "Failed to create account");
@@ -163,7 +172,11 @@ function AdminLoginForm() {
       setIsForgotPassword(false);
     } catch (err: any) {
       console.error("Forgot password error:", err);
-      setError(err?.message || "Failed to send reset link");
+      if (err?.message?.includes("fetch") || err?.code === 0) {
+        setError("Cannot connect to authentication server. Please check your internet connection.");
+      } else {
+        setError(err?.message || "Failed to send reset link");
+      }
     } finally {
       setIsLoading(false);
     }
