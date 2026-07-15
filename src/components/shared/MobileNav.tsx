@@ -134,7 +134,7 @@ export default function MobileNav({
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="fixed inset-0 z-50 md:hidden bg-black/20 backdrop-blur-xl p-4"
+          className="fixed inset-0 z-50 md:hidden bg-black/10 backdrop-blur-xl p-3"
         >
           <motion.div
             variants={panelVariants}
@@ -145,7 +145,7 @@ export default function MobileNav({
               relative
               w-full
               h-full
-              rounded-[32px]
+              rounded-[15px]
               overflow-hidden
               border border-white/40
               bg-white/60
@@ -179,8 +179,8 @@ export default function MobileNav({
                 <motion.button
                   onClick={onClose}
                   whileHover={{
-                    rotate: 90,
-                    scale: 1.08,
+                    rotate: 0,
+                    scale: 1.09,
                   }}
                   whileTap={{
                     scale: 0.9,
@@ -191,16 +191,14 @@ export default function MobileNav({
                   className="
                     w-11
                     h-11
-                    rounded-full
+                    rounded-[10px]
                     flex
                     items-center
                     justify-center
                     bg-white/70
                     backdrop-blur-xl
                     border
-                    border-white/60
-                    shadow-lg
-                  "
+                    border-white/10"
                   aria-label="Close Menu"
                 >
                   <X
@@ -265,7 +263,7 @@ export default function MobileNav({
                   rel="noopener noreferrer"
                   onClick={handleWhatsAppClick}
                   variant="primary"
-className="w-full justify-center rounded-xl py-3.5 text-sm shadow-lg"                  icon={
+className="w-full justify-center rounded-[7px] py-3.5 text-sm shadow-lg"                  icon={
                     <svg
                       width="16"
                       height="16"

@@ -44,7 +44,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       "inline-flex items-center justify-center gap-2",
       "font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase",
       "px-6 py-3.5 md:px-7 md:py-4",
-      "rounded-[4px]",
+      "rounded-[7px]",
       "transition-colors duration-300 ease-out",
       "border border-transparent",
       "cursor-pointer",
