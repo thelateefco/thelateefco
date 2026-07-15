@@ -10,7 +10,6 @@ const STEPS = [
   { label: "Becomes a website that works.", delay: 0.5 },
 ];
 
-// Update these with your actual image paths
 const IMAGES = {
   wireframe: "/images/projects/projectaimagixbefore.png",
   design: "/images/projects/projectaimagixafter.png",
@@ -19,7 +18,8 @@ const IMAGES = {
 export default function ScrollAnimation() {
   const containerRef = useRef<HTMLElement>(null);
   const [imageErrors, setImageErrors] = useState({ wireframe: false, design: false });
-  const [manualProgress, setManualProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Framer Motion scroll tracking
   const { scrollYProgress } = useScroll({
@@ -27,33 +27,7 @@ export default function ScrollAnimation() {
     offset: ["start start", "end end"],
   });
 
-  // Manual scroll tracking as fallback
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      
-      const rect = containerRef.current.getBoundingClientRect();
-      const totalHeight = containerRef.current.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY - rect.top + window.innerHeight;
-      const progress = Math.max(0, Math.min(1, scrolled / totalHeight));
-      
-      setManualProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    // Initial calculation
-    setTimeout(handleScroll, 100);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Use the first non-zero progress value
-  const activeProgress = scrollYProgress.get() > 0.001 
-    ? scrollYProgress 
-    : manualProgress;
-
-  // Smoother spring for better feel
-  const smoothProgress = useSpring(activeProgress, {
+  const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 80,
     damping: 28,
     restDelta: 0.001,
@@ -65,7 +39,6 @@ export default function ScrollAnimation() {
   const browserOpacity = useTransform(smoothProgress, [0, 0.05, 0.2], [0, 1, 1]);
   const browserY = useTransform(smoothProgress, [0, 0.2, 0.7], [30, 0, 0]);
 
-  // Image transition
   const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.45], [1, 1, 0]);
   const designOpacity = useTransform(smoothProgress, [0.25, 0.45, 0.7], [0, 0, 1]);
 
@@ -76,6 +49,73 @@ export default function ScrollAnimation() {
     setImageErrors((prev) => ({ ...prev, [type]: true }));
   };
 
+  // Manual scroll tracking as fallback for Windows browsers
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let ticking = false;
+    let rafId: number;
+
+    const updateProgress = () => {
+      if (!container) return;
+
+      const rect = container.getBoundingClientRect();
+      const sectionTop = rect.top + window.scrollY;
+      const sectionHeight = container.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const scrollTop = window.scrollY;
+
+      const start = sectionTop;
+      const end = sectionTop + sectionHeight - windowHeight;
+      const rawProgress = (scrollTop - start) / (end - start);
+      const clampedProgress = Math.max(0, Math.min(1, rawProgress));
+
+      setProgress(clampedProgress);
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafId = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    const handleResize = () => {
+      updateProgress();
+    };
+
+    // Initial update
+    setTimeout(updateProgress, 100);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Intersection Observer to check if section is visible
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          updateProgress();
+        }
+      },
+      { threshold: [0, 0.1, 0.5, 1] }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  // Use manual progress as fallback
+  const activeProgress = progress > 0.001 ? progress : scrollYProgress;
+
   return (
     <section
       ref={containerRef}
@@ -84,7 +124,6 @@ export default function ScrollAnimation() {
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">
         <div className="max-w-[1280px] mx-auto w-full">
-          {/* Label - appears quickly */}
           <motion.p
             className="label text-[#8A8A8A] text-center mb-6 md:mb-8"
             style={{
@@ -128,7 +167,7 @@ export default function ScrollAnimation() {
                   >
                     <Image
                       src={IMAGES.wireframe}
-                      alt="Website wireframe / early design"
+                      alt="Website wireframe"
                       fill
                       className="object-cover"
                       sizes="(max-width: 1280px) 100vw, 1280px"
@@ -140,7 +179,6 @@ export default function ScrollAnimation() {
                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#1A1A1A] p-8">
                   <div className="text-[#8A8A8A] text-sm font-light mb-2">📐</div>
                   <div className="text-[#8A8A8A] text-sm font-light">Wireframe</div>
-                  <div className="text-[#5A5A5A] text-xs font-light mt-1">Add your wireframe image</div>
                 </div>
               )}
             </motion.div>
@@ -170,7 +208,6 @@ export default function ScrollAnimation() {
                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7] p-8">
                   <div className="text-[#8A8A8A] text-sm font-light mb-2">🎨</div>
                   <div className="text-[#8A8A8A] text-sm font-light">Final Design</div>
-                  <div className="text-[#5A5A5A] text-xs font-light mt-1">Add your design image</div>
                 </div>
               )}
             </motion.div>
