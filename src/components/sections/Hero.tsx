@@ -52,7 +52,7 @@ export default function Hero() {
             sizes="100vw"
           />
           {/* Dark overlay for text readability */}
-          <div className="absolute inset-0 bg-black/0" />
+          <div className="absolute inset-0 bg-white/20" />
         </div>
       </div>
 
