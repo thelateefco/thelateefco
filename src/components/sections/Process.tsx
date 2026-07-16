@@ -35,6 +35,8 @@ const steps = [
   },
 ];
 
+const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -46,13 +48,14 @@ const containerVariants = {
 };
 
 const stepVariants = {
-  hidden: { opacity: 0, x: -30 },
+  hidden: { opacity: 0, x: -30, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     x: 0,
+    filter: "blur(0px)",
     transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1],
+      duration: 0.7,
+      ease: SOOTHING_EASE,
     },
   },
 };
@@ -65,14 +68,14 @@ export default function Process() {
     <section
       ref={sectionRef}
       id="process"
-// Change className to:
-className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16 relative"    >
+      className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16 relative"
+    >
       {/* Vertical line that draws down */}
       <div className="absolute left-6 md:left-10 lg:left-16 top-0 bottom-0 w-px overflow-hidden">
         <motion.div
           initial={{ scaleY: 0 }}
           animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 1.2, ease: SOOTHING_EASE }}
           className="w-full h-full bg-[#D0C9C1] origin-top"
           style={{ transformOrigin: "top" }}
         />
@@ -96,14 +99,22 @@ className="bg-[#E8E8EC] py-28 md:py-36 px-6 md:px-10 lg:px-16 relative"    >
             <motion.div
               key={step.id}
               variants={stepVariants}
-              className="relative pb-16 md:pb-20 last:pb-0"
+              whileHover={{ x: 4 }}
+              transition={{ duration: 0.4, ease: SOOTHING_EASE }}
+              className="relative pb-16 md:pb-20 last:pb-0 group"
             >
               {/* Timeline dot */}
-              <div className="absolute -left-[27px] md:-left-[37px] top-0 w-3 h-3 rounded-full border-2 border-[#1A1A1A] bg-[#ECE6DF]" />
+              <motion.div
+                whileHover={{ scale: 1.3 }}
+                transition={{ duration: 0.3, ease: SOOTHING_EASE }}
+                className="absolute -left-[27px] md:-left-[37px] top-0 w-3 h-3 rounded-full border-2 border-[#1A1A1A] bg-[#ECE6DF] shadow-[2px_2px_5px_rgba(163,177,198,0.4)]"
+              />
 
               <div className="grid md:grid-cols-[120px_1fr_1fr] gap-6 md:gap-10">
                 <div className="flex items-start gap-4">
-                  <span className="label text-[#8A8A8A]">{step.number}</span>
+                  <span className="label text-[#8A8A8A] transition-colors duration-300 group-hover:text-[#1A1A1A]">
+                    {step.number}
+                  </span>
                   <span className="label text-[#8A8A8A] text-[0.55rem]">
                     {step.duration}
                   </span>

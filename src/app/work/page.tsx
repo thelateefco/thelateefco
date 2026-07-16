@@ -6,8 +6,13 @@ import Header from "../../components/shared/Header";
 import Footer from "../../components/shared/Footer";
 import Reveal from "../../components/animations/Reveal";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { getProjects } from "../../lib/appwrite/server";
+import { getImageUrl } from "../../lib/utils/images";
 import type { Project } from "../../lib/appwrite/collections";
+
+const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function WorkPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -29,6 +34,17 @@ export default function WorkPage() {
 
     fetchProjects();
   }, []);
+
+  // Get image URL - checks images field first, then featuredImage
+  const getProjectImage = (project: Project) => {
+    if (project.images) {
+      return getImageUrl(project.images);
+    }
+    if (project.featuredImage) {
+      return getImageUrl(project.featuredImage);
+    }
+    return "";
+  };
 
   return (
     <>
@@ -61,16 +77,18 @@ export default function WorkPage() {
         <section className="px-6 md:px-10 lg:px-16 pb-28 md:pb-36">
           <div className="max-w-[1280px] mx-auto">
             {loading ? (
-              // Loading state
+              // Loading state with neumorphism
               <div className="grid md:grid-cols-2 gap-8 md:gap-10">
                 {[1, 2].map((i) => (
-                  <div key={i} className="border border-[#E8E8EC] bg-[#F5F5F7]/50 animate-pulse rounded-[12px] overflow-hidden">
-                    <div className="aspect-[16/10] bg-[#E8E8EC]/50" />
+                  <div
+                    key={i}
+                    className="bg-[#F5F5F7] rounded-[20px] animate-pulse shadow-[8px_8px_20px_rgba(163,177,198,0.35),-8px_-8px_20px_rgba(255,255,255,0.8)]"
+                  >
+                    <div className="aspect-[16/10] bg-[#E8E8EC]/40 rounded-[20px] m-3 mb-0" style={{ height: "calc(100% - 3rem)" }} />
                     <div className="p-6 md:p-8 space-y-3">
-                      <div className="h-4 bg-[#E8E8EC]/50 rounded w-20" />
-                      <div className="h-6 bg-[#E8E8EC]/50 rounded w-3/4" />
-                      <div className="h-4 bg-[#E8E8EC]/50 rounded w-1/2" />
-                      <div className="h-16 bg-[#E8E8EC]/50 rounded" />
+                      <div className="h-4 bg-[#E8E8EC]/40 rounded w-20" />
+                      <div className="h-6 bg-[#E8E8EC]/40 rounded w-3/4" />
+                      <div className="h-16 bg-[#E8E8EC]/40 rounded" />
                     </div>
                   </div>
                 ))}
@@ -86,22 +104,47 @@ export default function WorkPage() {
                 </p>
               </div>
             ) : (
-              // Projects grid
+              // Projects grid with neumorphism cards
               <div className="grid md:grid-cols-2 gap-8 md:gap-10">
-                {projects.map((project, index) => (
-                  <Reveal key={project.$id} delay={index * 0.1}>
-                    <div className="group bg-[#FFFFFF] border border-[#E8E8EC] hover:border-[#D0D0D5] rounded-[12px] overflow-hidden transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+                {projects.map((project, index) => {
+                  const imageUrl = getProjectImage(project);
+
+                  return (
+                    <motion.article
+                      key={project.$id}
+                      initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
+                      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      whileHover={{ y: -8, scale: 1.015 }}
+                      transition={{
+                        duration: 0.8,
+                        delay: index * 0.12,
+                        ease: SOOTHING_EASE,
+                      }}
+                      className="
+                        group
+                        bg-[#F5F5F7]
+                        rounded-[20px]
+                        overflow-hidden
+                        shadow-[8px_8px_20px_rgba(163,177,198,0.35),-8px_-8px_20px_rgba(255,255,255,0.8)]
+                        hover:shadow-[12px_12px_28px_rgba(163,177,198,0.45),-12px_-12px_28px_rgba(255,255,255,0.9)]
+                        transition-shadow
+                        duration-500
+                        ease-out
+                      "
+                    >
                       {/* Project Image */}
-                      <div className="relative aspect-[16/10] bg-[#F0F0F2] overflow-hidden">
-                        {project.featuredImage ? (
+                      <div className="relative aspect-[16/10] m-3 mb-0 rounded-[16px] overflow-hidden shadow-[inset_2px_2px_6px_rgba(163,177,198,0.3),inset_-2px_-2px_6px_rgba(255,255,255,0.6)]">
+                        {imageUrl ? (
                           <Image
-                            src={project.featuredImage}
+                            src={imageUrl}
                             alt={project.title}
                             fill
-                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[#8A8A8A] text-sm font-light">
+                          <div className="w-full h-full flex items-center justify-center text-[#8A8A8A] text-sm font-light bg-[#E8E8EC]/40">
                             {project.category}
                           </div>
                         )}
@@ -142,10 +185,20 @@ export default function WorkPage() {
                             ))}
                           </div>
                         )}
+
+                        <div className="mt-6">
+                          <Link
+                            href={`/work/${project.slug}`}
+                            className="link-arrow text-xs inline-flex items-center gap-1.5"
+                          >
+                            View case study
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </Reveal>
-                ))}
+                    </motion.article>
+                  );
+                })}
               </div>
             )}
           </div>

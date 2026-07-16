@@ -33,8 +33,6 @@ const itemVariants = {
   },
 };
 
-
-
 const popupVariants = {
   hidden: { opacity: 0, scale: 0.95, y: 20 },
   visible: {
@@ -59,7 +57,6 @@ const popupVariants = {
 
 export default function Contact() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [emailSubject, setEmailSubject] = useState("");
   const [emailMessage, setEmailMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [formData, setFormData] = useState({
@@ -67,112 +64,151 @@ export default function Contact() {
     business: "",
     email: "",
   });
+  const [errors, setErrors] = useState<{
+    name?: string;
+    business?: string;
+    email?: string;
+    message?: string;
+  }>({});
 
   const handleWhatsAppClick = async () => {
-  // Track WhatsApp click with user info if available
-  await trackWhatsAppClick("contact", {
-    name: formData.name || "WhatsApp Click",
-    business: formData.business || "Click Tracking",
-    email: formData.email || "",
-    message: "User clicked on WhatsApp button from contact popup",
-  });
-  setIsPopupOpen(false);
-};
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
+    await trackWhatsAppClick("contact", {
+      name: formData.name || "WhatsApp Click",
+      business: formData.business || "Click Tracking",
+      email: formData.email || "",
+      message: "User clicked on WhatsApp button from contact popup",
     });
+    setIsPopupOpen(false);
   };
 
-const handleSendEmail = async (e: React.FormEvent) => {
-  e.preventDefault();
-  
-  // Validate form
-  if (!formData.name || !formData.business || !emailMessage) {
-    toast.error("Please fill in all required fields");
-    return;
-  }
-
-  setIsSending(true);
-
-  try {
-    // 1. Save to Appwrite
-    const leadResult = await createLead({
-      name: formData.name,
-      business: formData.business,
-      email: formData.email || "",
-      message: emailMessage,
-      source: "popup_form",
-      page: "contact",
-      type: "email",
-      status: "new",
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
     });
+    // Clear error for this field when user types
+    if (errors[id as keyof typeof errors]) {
+      setErrors({ ...errors, [id]: undefined });
+    }
+  };
 
-    console.log('📝 Lead saved to Appwrite:', leadResult);
+  const validateForm = (): boolean => {
+    const newErrors: { name?: string; business?: string; email?: string; message?: string } = {};
 
-    // 2. Send email via EmailJS
-    const emailResult = await sendEmail({
-      name: formData.name,
-      business: formData.business,
-      email: formData.email || "",
-      message: emailMessage,
-      source: "popup_form",
-      page: "contact",
-    });
+    if (!formData.name || formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
 
-    console.log('📧 Email result:', emailResult);
+    if (!formData.business || formData.business.trim().length < 2) {
+      newErrors.business = "Business name must be at least 2 characters";
+    }
 
-    if (emailResult.success) {
-      toast.success("Message sent!", {
-        description: "We'll get back to you within one business day.",
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!emailMessage || emailMessage.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate form
+    if (!validateForm()) {
+      toast.error("Please fix the errors before submitting");
+      return;
+    }
+
+    setIsSending(true);
+
+    try {
+      // 1. Save to Appwrite
+      const leadResult = await createLead({
+        name: formData.name.trim(),
+        business: formData.business.trim(),
+        email: formData.email?.trim() || "",
+        message: emailMessage.trim(),
+        source: "popup_form",
+        page: "contact",
+        type: "email",
+        status: "new",
       });
-      
-      setFormData({ name: "", business: "", email: "" });
-      setEmailSubject("");
-      setEmailMessage("");
-      setIsPopupOpen(false);
-      await trackEmailClick("contact");
-    } else {
-      // If email fails but Appwrite worked
-      if (leadResult.success) {
-        toast.success("Message received!", {
+
+      console.log('📝 Lead saved to Appwrite:', leadResult);
+
+      if (!leadResult.success) {
+        console.error('❌ Lead save failed:', leadResult.error);
+        // Continue to email anyway
+      }
+
+      // 2. Send email via EmailJS
+      const emailResult = await sendEmail({
+        name: formData.name.trim(),
+        business: formData.business.trim(),
+        email: formData.email?.trim() || "",
+        message: emailMessage.trim(),
+        source: "popup_form",
+        page: "contact",
+      });
+
+      console.log('📧 Email result:', emailResult);
+
+      if (emailResult.success) {
+        toast.success("Message sent!", {
           description: "We'll get back to you within one business day.",
         });
-        setIsPopupOpen(false);
+
+        // Reset form
         setFormData({ name: "", business: "", email: "" });
-        setEmailSubject("");
         setEmailMessage("");
+        setErrors({});
+        setIsPopupOpen(false);
+        await trackEmailClick("contact");
       } else {
-        toast.error("Something went wrong", {
-          description: emailResult.error || "Please try again or email us directly.",
-        });
+        // If email fails but Appwrite worked, still show success
+        if (leadResult.success) {
+          toast.success("Message received!", {
+            description: "We'll get back to you within one business day.",
+          });
+          setIsPopupOpen(false);
+          setFormData({ name: "", business: "", email: "" });
+          setEmailMessage("");
+          setErrors({});
+        } else {
+          toast.error("Something went wrong", {
+            description: emailResult.error || "Please try again or email us directly.",
+          });
+        }
       }
+    } catch (error) {
+      console.error('❌ Error:', error);
+      toast.error("Something went wrong", {
+        description: "Please try again or email us directly.",
+      });
+    } finally {
+      setIsSending(false);
     }
-  } catch (error) {
-    console.error('❌ Error:', error);
-    toast.error("Something went wrong", {
-      description: "Please try again or email us directly.",
-    });
-  } finally {
-    setIsSending(false);
-  }
-};
+  };
 
   return (
     <section
       id="contact"
-      className="bg-[#F5F5F7] py-28 md:py-40 px-6 md:px-10 lg:px-16"
+      className="bg-[#F5F5F7] py-20 sm:py-28 md:py-40 px-5 sm:px-6 md:px-10 lg:px-16 xl:px-24"
     >
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
-          <div className="hairline pt-6 mb-16 md:mb-24">
+          <div className="hairline pt-6 mb-12 sm:mb-16 md:mb-24">
             <span className="label">Get in touch</span>
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-24 xl:gap-32">
           {/* Left column */}
           <motion.div
             variants={containerVariants}
@@ -181,14 +217,14 @@ const handleSendEmail = async (e: React.FormEvent) => {
             viewport={{ once: true }}
           >
             <motion.div variants={itemVariants}>
-              <h2 className="font-serif text-[clamp(2rem,4.5vw,3.75rem)] font-medium text-[#000000] leading-[1.05] tracking-tight mb-8">
+              <h2 className="font-serif text-[clamp(1.85rem,6vw,3.75rem)] xl:text-[4.25rem] font-medium text-[#000000] leading-[1.08] tracking-tight mb-6 sm:mb-8">
                 Google your business.{" "}
                 <em className="italic-em text-[#000000]">Then decide.</em>
               </h2>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <p className="body-text text-[0.9375rem] leading-[1.8] max-w-[38ch] mb-12 text-[#000000]">
+              <p className="body-text text-[0.9375rem] leading-[1.8] max-w-[38ch] mb-10 sm:mb-12 text-[#000000]">
                 If you&apos;re not happy with what you see, let&apos;s talk. No
                 sales calls, no proposal decks - just a direct conversation
                 about what your business actually needs.
@@ -196,7 +232,7 @@ const handleSendEmail = async (e: React.FormEvent) => {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
                 <Button
                   id="contact-whatsapp"
                   href={WHATSAPP_URL}
@@ -216,29 +252,27 @@ const handleSendEmail = async (e: React.FormEvent) => {
                     </svg>
                   }
                   iconPosition="left"
-                  className="self-start"
+                  className="w-full sm:w-auto justify-center"
                   aria-label="Message us on WhatsApp"
                 >
                   Message on WhatsApp
                 </Button>
 
                 {/* Drop us a note button */}
-                <div className="relative">
-                  <button
-                    id="contact-note"
-                    onClick={() => setIsPopupOpen(!isPopupOpen)}
-                    className="inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[4px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline self-start"
-                    aria-label="Drop us a note"
-                  >
-                    <Mail className="w-4 h-4" />
-                    Drop us a note
-                  </button>
-                </div>
+                <button
+                  id="contact-note"
+                  onClick={() => setIsPopupOpen(!isPopupOpen)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline"
+                  aria-label="Drop us a note"
+                >
+                  <Mail className="w-4 h-4" />
+                  Drop us a note
+                </button>
               </div>
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              <div className="mt-16 pt-8 hairline">
+              <div className="mt-14 sm:mt-16 pt-8 hairline">
                 <p className="label text-[#8A8A8A] mb-2">Based in</p>
                 <p className="text-[#000000] font-light text-sm">
                   Mumbai, Maharashtra, India
@@ -261,9 +295,9 @@ const handleSendEmail = async (e: React.FormEvent) => {
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             className="hidden md:flex flex-col items-center justify-center"
           >
-            <div className="max-w-sm text-center">
-              <div className="w-16 h-px bg-[#D0C9C1] mx-auto mb-8" />
-              <p className="font-serif text-[1.5rem] text-[#000000] font-medium leading-tight mb-4">
+            <div className="max-w-sm xl:max-w-md text-center">
+              <div className="w-16 h-px bg-[#D0D0D5] mx-auto mb-8" />
+              <p className="font-serif text-[1.5rem] xl:text-[1.75rem] text-[#000000] font-medium leading-tight mb-4">
                 Let's build something
                 <br />
                 <em className="italic-em text-[#000000]">worth remembering.</em>
@@ -286,7 +320,7 @@ const handleSendEmail = async (e: React.FormEvent) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-start sm:items-center justify-center p-4 overflow-y-auto"
               onClick={() => setIsPopupOpen(false)}
             >
               {/* Popup */}
@@ -295,17 +329,17 @@ const handleSendEmail = async (e: React.FormEvent) => {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="w-full max-w-md bg-[#FFFFFF] border border-[#E8E8EC] rounded-[8px] shadow-2xl overflow-hidden"
+                className="w-full max-w-md bg-[#FFFFFF] border border-[#E8E8EC] rounded-[8px] shadow-2xl overflow-hidden my-8 sm:my-auto max-h-[85vh] flex flex-col"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="p-6">
+                <div className="p-5 sm:p-6 overflow-y-auto">
                   <div className="flex items-center justify-between mb-4">
                     <span className="label text-[0.55rem] text-[#8A8A8A]">
                       Send us a message
                     </span>
                     <button
                       onClick={() => setIsPopupOpen(false)}
-                      className="text-[#8A8A8A] hover:text-[#000000] transition-colors"
+                      className="text-[#8A8A8A] hover:text-[#000000] transition-colors p-1 -m-1"
                       aria-label="Close menu"
                     >
                       <X className="w-4 h-4" />
@@ -319,7 +353,7 @@ const handleSendEmail = async (e: React.FormEvent) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={handleWhatsAppClick}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-[4px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-[7px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
                     >
                       <MessageCircle className="w-4 h-4 text-[#8A8A8A]" />
                       <span>Message on WhatsApp</span>
@@ -337,10 +371,15 @@ const handleSendEmail = async (e: React.FormEvent) => {
                         type="text"
                         value={formData.name}
                         onChange={handleInputChange}
-                        placeholder="Aarav Mehta"
-                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                        placeholder="Lateef shaikh"
+                        className={`w-full bg-transparent border-b py-2 text-[16px] sm:text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none transition-colors duration-200 ${
+                          errors.name ? "border-[#B91C1C]" : "border-[#D0C9C1] focus:border-[#000000]"
+                        }`}
                         required
                       />
+                      {errors.name && (
+                        <p className="text-[0.75rem] text-[#B91C1C] mt-1">{errors.name}</p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="business" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
@@ -351,10 +390,15 @@ const handleSendEmail = async (e: React.FormEvent) => {
                         type="text"
                         value={formData.business}
                         onChange={handleInputChange}
-                        placeholder="Mehta & Associates"
-                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                        placeholder="The Lateef & Co."
+                        className={`w-full bg-transparent border-b py-2 text-[16px] sm:text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none transition-colors duration-200 ${
+                          errors.business ? "border-[#B91C1C]" : "border-[#D0C9C1] focus:border-[#000000]"
+                        }`}
                         required
                       />
+                      {errors.business && (
+                        <p className="text-[0.75rem] text-[#B91C1C] mt-1">{errors.business}</p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="email" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
@@ -365,9 +409,14 @@ const handleSendEmail = async (e: React.FormEvent) => {
                         type="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="a.mehta@example.com"
-                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200"
+                        placeholder="thelateefco@gmail.com.com"
+                        className={`w-full bg-transparent border-b py-2 text-[16px] sm:text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none transition-colors duration-200 ${
+                          errors.email ? "border-[#B91C1C]" : "border-[#D0C9C1] focus:border-[#000000]"
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="text-[0.75rem] text-[#B91C1C] mt-1">{errors.email}</p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="popup-message" className="label text-[0.5rem] text-[#8A8A8A] mb-1 block">
@@ -379,14 +428,19 @@ const handleSendEmail = async (e: React.FormEvent) => {
                         onChange={(e) => setEmailMessage(e.target.value)}
                         rows={4}
                         placeholder="Tell us about your project..."
-                        className="w-full bg-transparent border-b border-[#D0C9C1] py-2 text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#000000] transition-colors duration-200 resize-none"
+                        className={`w-full bg-transparent border-b py-2 text-[16px] sm:text-[0.875rem] font-light text-[#000000] placeholder:text-[#C0B9B1] focus:outline-none transition-colors duration-200 resize-none ${
+                          errors.message ? "border-[#B91C1C]" : "border-[#D0C9C1] focus:border-[#000000]"
+                        }`}
                         required
                       />
+                      {errors.message && (
+                        <p className="text-[0.75rem] text-[#B91C1C] mt-1">{errors.message}</p>
+                      )}
                     </div>
                     <button
                       type="submit"
                       disabled={isSending}
-                      className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-5 py-2.5 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] disabled:opacity-60 disabled:cursor-not-allowed self-end mt-1"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-5 py-3 sm:py-2.5 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] disabled:opacity-60 disabled:cursor-not-allowed sm:self-end mt-1"
                     >
                       {isSending ? "Sending…" : (
                         <>

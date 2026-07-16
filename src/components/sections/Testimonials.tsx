@@ -27,24 +27,27 @@ const testimonials = [
   },
 ];
 
+const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
+
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.12,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30, filter: "blur(6px)" },
   visible: {
     opacity: 1,
     y: 0,
+    filter: "blur(0px)",
     transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1],
+      duration: 0.7,
+      ease: SOOTHING_EASE,
     },
   },
 };
@@ -63,16 +66,22 @@ export default function Testimonials() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-80px" }}
           className="grid md:grid-cols-3 gap-8 md:gap-10"
         >
           {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
               variants={itemVariants}
-              className="flex flex-col"
+              whileHover={{ y: -6 }}
+              transition={{ duration: 0.5, ease: SOOTHING_EASE }}
+              className="group flex flex-col rounded-[16px] p-2 -m-2 transition-colors duration-500"
             >
-              <div className="mb-6">
+              <motion.div
+                className="mb-6"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.4, ease: SOOTHING_EASE }}
+              >
                 <svg
                   width="32"
                   height="32"
@@ -81,19 +90,20 @@ export default function Testimonials() {
                   stroke="#ECE6DF"
                   strokeWidth="1"
                   aria-hidden="true"
+                  className="opacity-60 transition-opacity duration-500 group-hover:opacity-100"
                 >
                   <path d="M10 11h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
                   <path d="M19 11h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
                   <path d="M10 19h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
                   <path d="M19 19h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
                 </svg>
-              </div>
+              </motion.div>
 
               <blockquote className="text-[#ECE6DF] text-[0.9375rem] font-light leading-[1.8] mb-6 flex-1">
                 "{testimonial.quote}"
               </blockquote>
 
-              <div>
+              <div className="pt-5 border-t border-white/10">
                 <cite className="font-serif text-[1.125rem] font-medium text-[#ECE6DF] not-italic block">
                   {testimonial.name}
                 </cite>

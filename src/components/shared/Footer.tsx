@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { WHATSAPP_URL, EMAIL } from "../../lib/constants";
 import { trackWhatsAppClick, trackEmailClick } from "../../lib/utils/tracking";
 import { account } from "../../lib/appwrite/client";
-import BackToTop from "../shared/BackToTop";
+// import BackToTop from "../shared/BackToTop";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -143,7 +143,7 @@ export default function Footer() {
           </div>
         </div>
       </footer>
-      <BackToTop />
+      
     </>
   );
 }

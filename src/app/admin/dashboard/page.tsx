@@ -9,11 +9,17 @@ import {
   LogOut,
   RefreshCw,
   Search,
-  X
+  X,
+  Trash2,
+  Eye,
+  CheckCircle,
+  Circle,
+  Clock
 } from "lucide-react";
-import { getLeads, updateLeadStatus } from "../../../lib/appwrite/server";
+import { getLeads, updateLeadStatus, deleteLead } from "../../../lib/appwrite/server";
 import type { Lead } from "../../../lib/appwrite/collections";
 import { account } from "../../../lib/appwrite/client";
+import { toast } from "sonner";
 
 type LeadStatus = "new" | "contacted" | "converted" | "archived";
 
@@ -53,6 +59,7 @@ export default function AdminDashboard() {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [updatingStatus, setUpdatingStatus] = useState(false);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Check authentication using Appwrite session
   useEffect(() => {
@@ -81,6 +88,7 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error("Error fetching leads:", error);
+      toast.error("Failed to fetch leads");
     } finally {
       setLoading(false);
     }
@@ -101,11 +109,40 @@ export default function AdminDashboard() {
         if (selectedLead && selectedLead.$id === leadId) {
           setSelectedLead({ ...selectedLead, status: newStatus });
         }
+        toast.success(`Lead marked as ${STATUS_LABELS[newStatus]}`);
+      } else {
+        toast.error("Failed to update status");
       }
     } catch (error) {
       console.error("Error updating status:", error);
+      toast.error("Failed to update status");
     } finally {
       setUpdatingStatus(false);
+    }
+  };
+
+  const handleDeleteLead = async (leadId: string) => {
+    if (!confirm("Are you sure you want to delete this lead? This action cannot be undone.")) {
+      return;
+    }
+
+    setIsDeleting(true);
+    try {
+      const result = await deleteLead(leadId);
+      if (result.success) {
+        setLeads(prev => prev.filter(lead => lead.$id !== leadId));
+        if (selectedLead && selectedLead.$id === leadId) {
+          setSelectedLead(null);
+        }
+        toast.success("Lead deleted successfully");
+      } else {
+        toast.error("Failed to delete lead");
+      }
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+      toast.error("Failed to delete lead");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -192,14 +229,14 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-3">
             <button
               onClick={fetchLeads}
-              className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-4 py-2 rounded-[4px] transition-colors duration-300 ease-out border border-[#E8E8EC] bg-[#FFFFFF] text-[#000000] hover:bg-[#F5F5F7] cursor-pointer"
+              className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-4 py-2 rounded-[7px] transition-colors duration-300 ease-out border border-[#E8E8EC] bg-[#FFFFFF] text-[#000000] hover:bg-[#F5F5F7] cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               Refresh
             </button>
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-4 py-2 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] cursor-pointer"
+              className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-4 py-2 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
               Logout
@@ -264,7 +301,7 @@ export default function AdminDashboard() {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-2 rounded-[4px] text-[0.75rem] font-medium uppercase tracking-[0.06em] whitespace-nowrap transition-colors ${
+                className={`px-4 py-2 rounded-[7px] text-[0.75rem] font-medium uppercase tracking-[0.06em] whitespace-nowrap transition-colors ${
                   filterStatus === status
                     ? "bg-[#000000] text-[#F5F5F7]"
                     : "bg-[#FFFFFF] border border-[#E8E8EC] text-[#4A4A4A] hover:bg-[#F5F5F7]"
@@ -309,6 +346,7 @@ export default function AdminDashboard() {
                     <th className="text-left py-3 px-4 label text-[0.5rem] text-[#8A8A8A]">Message</th>
                     <th className="text-left py-3 px-4 label text-[0.5rem] text-[#8A8A8A]">Status</th>
                     <th className="text-left py-3 px-4 label text-[0.5rem] text-[#8A8A8A]">Date</th>
+                    <th className="text-left py-3 px-4 label text-[0.5rem] text-[#8A8A8A]">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -317,8 +355,7 @@ export default function AdminDashboard() {
                     return (
                       <tr
                         key={lead.$id}
-                        className="border-b border-[#F5F5F7] hover:bg-[#F5F5F7]/50 transition-colors cursor-pointer"
-                        onClick={() => setSelectedLead(lead)}
+                        className="border-b border-[#F5F5F7] hover:bg-[#F5F5F7]/50 transition-colors"
                       >
                         <td className="py-3 px-4">
                           <Icon className="w-4 h-4 text-[#8A8A8A]" />
@@ -342,6 +379,29 @@ export default function AdminDashboard() {
                         </td>
                         <td className="py-3 px-4 text-[0.75rem] text-[#8A8A8A] font-light whitespace-nowrap">
                           {formatDate(lead.$createdAt)}
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center gap-1.5">
+                            {/* View Button */}
+                            <button
+                              onClick={() => setSelectedLead(lead)}
+                              className="p-1.5 rounded-[6px] hover:bg-[#F5F5F7] transition-colors text-[#8A8A8A] hover:text-[#000000]"
+                              aria-label="View lead details"
+                              title="View details"
+                            >
+                              <Eye className="w-4 h-4" />
+                            </button>
+                            {/* Delete Button */}
+                            <button
+                              onClick={() => handleDeleteLead(lead.$id)}
+                              disabled={isDeleting}
+                              className="p-1.5 rounded-[6px] hover:bg-[#FEE2E2] transition-colors text-[#8A8A8A] hover:text-[#B91C1C] disabled:opacity-50 disabled:cursor-not-allowed"
+                              aria-label="Delete lead"
+                              title="Delete lead"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     );
@@ -367,12 +427,27 @@ export default function AdminDashboard() {
               <h2 className="font-serif text-[1.25rem] font-medium text-[#000000]">
                 Lead Details
               </h2>
-              <button
-                onClick={() => setSelectedLead(null)}
-                className="text-[#8A8A8A] hover:text-[#000000] transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Delete button in modal */}
+                <button
+                  onClick={() => {
+                    setSelectedLead(null);
+                    handleDeleteLead(selectedLead.$id);
+                  }}
+                  disabled={isDeleting}
+                  className="p-2 rounded-[6px] hover:bg-[#FEE2E2] transition-colors text-[#8A8A8A] hover:text-[#B91C1C] disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Delete lead"
+                  title="Delete lead"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => setSelectedLead(null)}
+                  className="text-[#8A8A8A] hover:text-[#000000] transition-colors p-1"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             <div className="p-6 space-y-4">
@@ -398,7 +473,7 @@ export default function AdminDashboard() {
               </div>
               <div>
                 <p className="label text-[0.5rem] text-[#8A8A8A]">Message</p>
-                <p className="text-[0.9375rem] font-light text-[#000000] bg-[#F5F5F7] p-4 rounded-[4px] mt-1">
+                <p className="text-[0.9375rem] font-light text-[#000000] bg-[#F5F5F7] p-4 rounded-[7px] mt-1">
                   {selectedLead.message || "-"}
                 </p>
               </div>

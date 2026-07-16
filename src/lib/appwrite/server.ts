@@ -174,6 +174,28 @@ export async function updateLeadStatus(leadId: string, status: string) {
   }
 }
 
+// ── Delete Lead ──────────────────────────────────────
+
+export async function deleteLead(leadId: string) {
+  if (!DATABASE_ID || !LEADS_COLLECTION) {
+    console.error("❌ Appwrite not configured");
+    return { success: false, error: "Appwrite not configured" };
+  }
+
+  try {
+    await databases.deleteDocument(
+      DATABASE_ID,
+      LEADS_COLLECTION,
+      leadId
+    );
+    console.log("✅ Lead deleted:", leadId);
+    return { success: true };
+  } catch (error) {
+    console.error("❌ Error deleting lead:", error);
+    return { success: false, error: "Failed to delete lead" };
+  }
+}
+
 // ── Projects Functions ──────────────────────────────
 
 export async function getFeaturedProjects(limit = 3) {

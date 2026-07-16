@@ -238,7 +238,7 @@ function AdminLoginForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
@@ -281,13 +281,13 @@ function AdminLoginForm() {
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-[#FEE2E2] border border-[#B91C1C] rounded-[4px]">
+          <div className="mb-4 p-3 bg-[#FEE2E2] border border-[#B91C1C] rounded-[7px]">
             <p className="text-[0.75rem] text-[#B91C1C]">{error}</p>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-3 bg-[#D1FAE5] border border-[#10B981] rounded-[4px]">
+          <div className="mb-4 p-3 bg-[#D1FAE5] border border-[#10B981] rounded-[7px]">
             <p className="text-[0.75rem] text-[#10B981]">{successMessage}</p>
           </div>
         )}
@@ -368,7 +368,7 @@ function AdminLoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>

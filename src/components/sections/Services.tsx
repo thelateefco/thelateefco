@@ -102,17 +102,14 @@ export default function Services() {
   }, [isAutoRotating]);
 
   const handleCardClick = (index: number) => {
-    // Stop auto-rotation on user interaction
     setIsAutoRotating(false);
     setActiveIndex(index);
     
-    // Reset timer
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
     
-    // Resume auto-rotation after 8 seconds of inactivity
     setTimeout(() => {
       setIsAutoRotating(true);
     }, 8000);
@@ -180,7 +177,7 @@ export default function Services() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Cards */}
+          {/* Right Column - Cards with Section Background */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -212,9 +209,6 @@ export default function Services() {
                 </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#000000]/60 via-[#000000]/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
-                  {/* <p className="text-[#FFFFFF] text-xs font-light opacity-80">
-                    {isAutoRotating ? "Auto-rotating" : "Paused"}
-                  </p> */}
                   <p className="text-[#FFFFFF] font-serif text-lg font-medium">
                     {activeService.title}
                   </p>
@@ -227,7 +221,7 @@ export default function Services() {
               </div>
             </motion.div>
 
-            <div className="flex flex-col gap-3 md:gap-4">
+            <div className="flex flex-col gap-4 md:gap-5">
               {services.map((service, index) => {
                 const isActive = activeIndex === index;
 
@@ -237,12 +231,11 @@ export default function Services() {
                     variants={itemVariants}
                     onClick={() => handleCardClick(index)}
                     className={`
-                      w-full text-left p-4 sm:p-5 md:p-6 rounded-[10px] md:rounded-[12px] 
+                      w-full text-left p-4 sm:p-5 md:p-6 rounded-[14px] 
                       transition-all duration-300 cursor-pointer
-                      border 
                       ${isActive 
-                        ? "bg-[#1A1A1A] text-[#F5F5F7] border-[#1A1A1A] shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
-                        : "bg-[#FFFFFF] text-[#000000] border-[#E8E8EC] hover:border-[#D0D0D5] hover:shadow-[0_2px_12px_rgba(26,26,26,0.04)]"
+                        ? "bg-[#1A1A1A] text-[#F5F5F7] border  shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
+                        : "bg-[#F5F5F7] text-[#000000]  shadow-[8px_8px_16px_#e0e0e4,_-8px_-8px_16px_#ffffff] hover:shadow-[6px_6px_12px_#e0e0e4,_-6px_-6px_12px_#ffffff] hover:border-[#D0D0D5]"
                       }
                     `}
                   >
@@ -276,7 +269,7 @@ export default function Services() {
                             className={`px-2.5 py-1 rounded-full text-[0.45rem] sm:text-[0.5rem] font-medium tracking-[0.06em] uppercase transition-colors duration-300 ${
                               isActive 
                                 ? "bg-[#2A2A2A] text-[#F5F5F7]" 
-                                : "bg-[#F5F5F7] text-[#4A4A4A]"
+                                : "bg-[#E8E8EC] text-[#4A4A4A] shadow-[inset_2px_2px_4px_#d0d0d4,_inset_-2px_-2px_4px_#ffffff]"
                             }`}
                           >
                             {tag}

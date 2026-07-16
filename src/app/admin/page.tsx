@@ -114,7 +114,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[4px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#F5F5F7] hover:bg-[#2E2E2E] active:bg-[#000000] cursor-pointer no-underline w-full mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? "Loading..." : "Access Dashboard"}
           </button>

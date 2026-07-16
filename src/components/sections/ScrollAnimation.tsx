@@ -117,7 +117,7 @@ export default function ScrollAnimation() {
   return (
     <section
       ref={containerRef}
-      className="relative h-[220vh] md:h-[250vh] bg-[#E8E8EC]"
+      className="relative h-[220vh] md:h-[250vh] bg-[#FFFFFF]"
       aria-label="Scroll-triggered animation showing our process"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">

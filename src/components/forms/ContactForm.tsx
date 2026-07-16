@@ -113,7 +113,7 @@ export default function ContactForm({
           id="contact-name"
           type="text"
           {...register("name")}
-          placeholder="Aarav Mehta"
+          placeholder="Lateef shaikh"
           className="w-full bg-transparent border-b border-[#D0C9C1] py-3 text-[0.9375rem] font-light text-[#1A1A1A] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#1A1A1A] transition-colors duration-200"
           aria-invalid={errors.name ? "true" : "false"}
           disabled={isSubmitting}
@@ -131,7 +131,7 @@ export default function ContactForm({
           id="contact-business"
           type="text"
           {...register("business")}
-          placeholder="Mehta & Associates"
+          placeholder="The Lateef & Co."
           className="w-full bg-transparent border-b border-[#D0C9C1] py-3 text-[0.9375rem] font-light text-[#1A1A1A] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#1A1A1A] transition-colors duration-200"
           aria-invalid={errors.business ? "true" : "false"}
           disabled={isSubmitting}
@@ -149,7 +149,7 @@ export default function ContactForm({
           id="contact-email"
           type="email"
           {...register("email")}
-          placeholder="a.mehta@example.com"
+          placeholder="thelateefco@gmail.com.com"
           className="w-full bg-transparent border-b border-[#D0C9C1] py-3 text-[0.9375rem] font-light text-[#1A1A1A] placeholder:text-[#C0B9B1] focus:outline-none focus:border-[#1A1A1A] transition-colors duration-200"
           aria-invalid={errors.email ? "true" : "false"}
           disabled={isSubmitting}

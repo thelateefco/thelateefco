@@ -12,8 +12,8 @@ import { trackWhatsAppClick } from "../../lib/utils/tracking";
 const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
+  
+  { label: "About", href: "/about" },{ label: "Services", href: "/services" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -165,9 +165,7 @@ export default function MobileNav({
             <div className="relative z-10 flex flex-col h-full px-6 pt-5 pb-6">
 
               {/* Header */}
-
               <div className="flex items-center justify-between">
-
                 <Link
                   href="/"
                   onClick={onClose}
@@ -178,13 +176,8 @@ export default function MobileNav({
 
                 <motion.button
                   onClick={onClose}
-                  whileHover={{
-                    
-                    scale: 1.09,
-                  }}
-                  whileTap={{
-                    scale: 0.9,
-                  }}
+                  whileHover={{ scale: 1.09 }}
+                  whileTap={{ scale: 0.9 }}
                   transition={{
                     duration: 0.3,
                     ease: [0.22, 1, 0.36, 1],
@@ -199,7 +192,8 @@ export default function MobileNav({
                     bg-white/70
                     backdrop-blur-xl
                     border
-                    border-white/10"
+                    border-white/10
+                  "
                   aria-label="Close Menu"
                 >
                   <X
@@ -207,11 +201,9 @@ export default function MobileNav({
                     className="w-5 h-5"
                   />
                 </motion.button>
-
               </div>
 
               <nav className="flex-1 flex flex-col justify-start pt-10">
-
                 {NAV_LINKS.map((link, i) => (
                   <motion.div
                     key={link.href}
@@ -221,11 +213,10 @@ export default function MobileNav({
                     animate="visible"
                     className="text-center"
                   >
-
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className={`block py-2.5 font-serif text-[1.5rem] font-medium tracking-tight transition-all duration-300 ${
+                      className={`block py-2.5 font-sans text-[1.6rem] font-light tracking-wide transition-all duration-300 ${
                         isActive(link.href)
                           ? "opacity-60"
                           : "hover:opacity-60"
@@ -237,14 +228,12 @@ export default function MobileNav({
                     {i < NAV_LINKS.length - 1 && (
                       <div className="w-full h-px bg-black/10 my-2.5" />
                     )}
-
                   </motion.div>
                 ))}
-
               </nav>
 
               <div className="w-full h-px bg-black/10 mb-6" />
-                            <motion.div
+              <motion.div
                 initial={{
                   opacity: 0,
                   y: 20,
@@ -266,7 +255,8 @@ export default function MobileNav({
                   rel="noopener noreferrer"
                   onClick={handleWhatsAppClick}
                   variant="primary"
-className="w-full justify-center rounded-[7px] py-3.5 text-sm shadow-lg"                  icon={
+                  className="w-full justify-center rounded-[7px] py-3.5 text-sm shadow-lg"
+                  icon={
                     <svg
                       width="16"
                       height="16"
