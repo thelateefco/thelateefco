@@ -114,11 +114,10 @@ export default function WorkPage() {
                       key={project.$id}
                       initial={{ opacity: 0, y: 40, filter: "blur(6px)" }}
                       whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      viewport={{ once: true, margin: "-80px" }}
+                      viewport={{ once: true, margin: "-40px" }}
                       whileHover={{ y: -8, scale: 1.015 }}
                       transition={{
                         duration: 0.8,
-                        delay: index * 0.12,
                         ease: SOOTHING_EASE,
                       }}
                       className="
@@ -196,6 +195,7 @@ export default function WorkPage() {
                           </Link>
                         </div>
                       </div>
+                      
                     </motion.article>
                   );
                 })}

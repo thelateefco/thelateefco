@@ -7,23 +7,23 @@ const testimonials = [
   {
     id: "1",
     quote: "The Lateef & Co. completely transformed our online presence. Within 60 days, we saw a 3× increase in qualified enquiries. They understood our firm's voice immediately.",
-    name: "Priya Mehta",
+    name: "Sunil Kabadiya",
     business: "Meridian Law Chambers",
-    location: "Mumbai",
+    location: "India",
   },
   {
     id: "2",
     quote: "We came to them with a vague idea and they delivered a polished, conversion-focused website that our customers actually trust. The AI integration for booking was a game-changer.",
-    name: "Rahul Khanna",
+    name: "Sheikh Zainab",
     business: "Saffron Table",
     location: "Dubai",
   },
   {
     id: "3",
-    quote: "They built us a portfolio site that won us two international commissions in the first quarter. The attention to detail and strategic thinking sets them apart.",
-    name: "Aisha Patel",
+    quote: "They built us a site that made us more confident in our advertisements. The attention to detail and strategic thinking sets them apart.",
+    name: "Shruti Malani",
     business: "Verdant Studio",
-    location: "London",
+    location: "India",
   },
 ];
 
@@ -79,7 +79,7 @@ export default function Testimonials() {
             >
               <motion.div
                 className="mb-6"
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1 }}
                 transition={{ duration: 0.4, ease: SOOTHING_EASE }}
               >
                 <svg
@@ -107,9 +107,9 @@ export default function Testimonials() {
                 <cite className="font-serif text-[1.125rem] font-medium text-[#ECE6DF] not-italic block">
                   {testimonial.name}
                 </cite>
-                <span className="text-[#8A8A8A] text-[0.8125rem] font-light block mt-0.5">
+                {/* <span className="text-[#8A8A8A] text-[0.8125rem] font-light block mt-0.5">
                   {testimonial.business}
-                </span>
+                </span> */}
                 <span className="text-[#6A6A6A] text-[0.6875rem] font-light block mt-0.5">
                   {testimonial.location}
                 </span>
