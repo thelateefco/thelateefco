@@ -65,13 +65,23 @@ export default function AIChatWidget() {
 
   return (
     <>
-      {/* Chat Button */}
+      {/* Chat Button - Now with text instead of icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#000000] text-[#FFFFFF] flex items-center justify-center shadow-lg hover:bg-[#1A1A1A] transition-colors duration-300"
+        className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-[#000000] text-[#FFFFFF] shadow-lg hover:bg-[#1A1A1A] transition-colors duration-300 flex items-center gap-2"
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
-        {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
+        {isOpen ? (
+          <>
+            <X className="w-4 h-4" />
+            <span className="text-[0.7rem] font-light tracking-[0.05em]">Close</span>
+          </>
+        ) : (
+          <>
+            <MessageCircle className="w-4 h-4" />
+            <span className="text-[0.7rem] font-light tracking-[0.05em]">AI</span>
+          </>
+        )}
       </button>
 
       {/* Chat Window */}
@@ -90,7 +100,7 @@ export default function AIChatWidget() {
                 The Lateef & Co.
               </h3>
               <p className="text-[0.6rem] text-[#8A8A8A] font-light tracking-[0.1em] uppercase">
-                AI Assistant
+                AI Agent
               </p>
             </div>
 
