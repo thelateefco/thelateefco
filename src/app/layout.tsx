@@ -3,6 +3,7 @@ import { Toaster } from "sonner";
 import PageTransition from "../components/animations/PageTransition";
 import PageLoader from "../components/animations/PageLoader";
 import "./globals.css";
+import AIChatWidget from "../components/ai/AIChatWidget";
 
 export const metadata: Metadata = {
   title: "The Lateef & Co. — Web Design & Development Studio, Mumbai",
@@ -83,6 +84,8 @@ export default function RootLayout({
       <body className="cursor-auto">
         <PageLoader />
         <PageTransition>{children}</PageTransition>
+        <AIChatWidget />
+
         <Toaster
           position="bottom-right"
           expand={false}
