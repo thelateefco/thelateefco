@@ -82,8 +82,7 @@ const faqs = [
   {
     question: "What's the investment range?",
     answer:
-      "Projects typically start from ₹1.5L for a comprehensive website. Complex projects with AI integrations or custom applications start from ₹3L. We'll provide a detailed quote after discovery.",
-  },
+"Projects typically start from ₹25k for a focused 3–4 page site. AI automations and integrations start from ₹40k, and custom applications or advanced AI agent work start from ₹1L. We'll provide a detailed quote after discovery.",  },
 ];
 
 export default function ServicesPage() {
