@@ -6,6 +6,7 @@ const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
 const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
 const leadsCollection = process.env.NEXT_PUBLIC_APPWRITE_LEADS_COLLECTION;
 const projectsCollection = process.env.NEXT_PUBLIC_APPWRITE_PROJECTS_COLLECTION;
+const donationsCollection = process.env.NEXT_PUBLIC_APPWRITE_DONATIONS_COLLECTION;
 
 // Validate environment variables
 const isValid = endpoint && projectId;
@@ -31,6 +32,7 @@ export const account = new Account(client);
 export const DATABASE_ID = databaseId || "";
 export const LEADS_COLLECTION = leadsCollection || "leads";
 export const PROJECTS_COLLECTION = projectsCollection || "projects";
+export const DONATIONS_COLLECTION = donationsCollection || "donations";
 
 export default client;
 

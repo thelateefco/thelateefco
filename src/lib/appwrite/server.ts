@@ -1,7 +1,7 @@
 "use server";
 
-import { ID, Query } from "appwrite";
-import { databases } from "./client";
+import { ID, Query } from "node-appwrite";
+import { adminDatabases as databases } from "./server-admin";
 import { DATABASE_ID, LEADS_COLLECTION, PROJECTS_COLLECTION } from "./collections";
 import type { Lead, Project } from "./collections";
 

@@ -80,6 +80,14 @@ export default function Footer() {
               >
                 WhatsApp
               </a>
+              {/* Donate Link - Added here */}
+              <Link
+                href="/donate"
+                className="nav-link text-xs flex items-center gap-1 text-[#B91C1C] hover:text-[#8A1A1A] transition-colors"
+              >
+
+                Donate
+              </Link>
               <span className="text-[#D0D0D5]">|</span>
               <span className="label text-[#8A8A8A] text-[0.5rem]">
                 Built with purpose
