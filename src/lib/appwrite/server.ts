@@ -48,7 +48,7 @@ export async function createLead(data: CreateLeadData) {
     );
     console.log("✅ Lead created in Appwrite:", result.$id);
     revalidatePath("/admin/dashboard");
-    return { success: true, data: result };
+    return { success: true, data: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
     console.error("❌ Error creating lead:", error);
     return { success: false, error: "Failed to save lead" };
@@ -144,7 +144,7 @@ export async function getLeads(limit = 100) {
     );
     return {
       success: true,
-      data: result.documents as unknown as Lead[],
+      data: JSON.parse(JSON.stringify(result.documents)) as unknown as Lead[],
     };
   } catch (error: any) {
     console.error("❌ Error fetching leads:", error?.message || error);
@@ -171,7 +171,7 @@ export async function updateLeadStatus(leadId: string, status: string) {
     );
     console.log("✅ Lead status updated:", result.$id);
     revalidatePath("/admin/dashboard");
-    return { success: true, data: result };
+    return { success: true, data: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
     console.error("❌ Error updating lead status:", error);
     return { success: false, error: "Failed to update lead status" };
@@ -229,7 +229,7 @@ export async function getFeaturedProjects(limit = 3) {
 
     return {
       success: true,
-      data: projects as unknown as Project[],
+      data: JSON.parse(JSON.stringify(projects)) as unknown as Project[],
     };
   } catch (error) {
     console.error("❌ Error fetching featured projects:", error);
@@ -266,7 +266,7 @@ export async function getProjects(publishedOnly = true) {
 
     return {
       success: true,
-      data: projects as unknown as Project[],
+      data: JSON.parse(JSON.stringify(projects)) as unknown as Project[],
     };
   } catch (error) {
     console.error("❌ Error fetching projects:", error);
@@ -302,7 +302,7 @@ export async function getProjectBySlug(slug: string) {
 
     return {
       success: true,
-      data: project as unknown as Project,
+      data: JSON.parse(JSON.stringify(project)) as unknown as Project,
     };
   } catch (error) {
     console.error("❌ Error fetching project:", error);
@@ -350,7 +350,7 @@ export async function createProject(data: {
         order: data.order || 0,
       }
     );
-    return { success: true, data: result };
+    return { success: true, data: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
     console.error("❌ Error creating project:", error);
     return { success: false, error: "Failed to create project" };
