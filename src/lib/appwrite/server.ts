@@ -4,6 +4,7 @@ import { ID, Query } from "node-appwrite";
 import { adminDatabases as databases } from "./server-admin";
 import { DATABASE_ID, LEADS_COLLECTION, PROJECTS_COLLECTION } from "./collections";
 import type { Lead, Project } from "./collections";
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
 
 // ── Leads Functions ──────────────────────────────
 
@@ -46,6 +47,7 @@ export async function createLead(data: CreateLeadData) {
       }
     );
     console.log("✅ Lead created in Appwrite:", result.$id);
+    revalidatePath("/admin/dashboard");
     return { success: true, data: result };
   } catch (error) {
     console.error("❌ Error creating lead:", error);
@@ -126,6 +128,7 @@ export async function trackWhatsAppMessage(data: {
 }
 
 export async function getLeads(limit = 100) {
+  noStore();
   if (!DATABASE_ID || !LEADS_COLLECTION) {
     return { success: false, error: "Appwrite not configured" };
   }
@@ -167,6 +170,7 @@ export async function updateLeadStatus(leadId: string, status: string) {
       }
     );
     console.log("✅ Lead status updated:", result.$id);
+    revalidatePath("/admin/dashboard");
     return { success: true, data: result };
   } catch (error) {
     console.error("❌ Error updating lead status:", error);
@@ -189,6 +193,7 @@ export async function deleteLead(leadId: string) {
       leadId
     );
     console.log("✅ Lead deleted:", leadId);
+    revalidatePath("/admin/dashboard");
     return { success: true };
   } catch (error) {
     console.error("❌ Error deleting lead:", error);
