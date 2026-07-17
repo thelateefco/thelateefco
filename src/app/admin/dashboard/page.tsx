@@ -85,10 +85,12 @@ export default function AdminDashboard() {
       const result = await getLeads();
       if (result.success && result.data) {
         setLeads(result.data);
+      } else {
+        toast.error(result.error || "Failed to fetch leads");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching leads:", error);
-      toast.error("Failed to fetch leads");
+      toast.error(error?.message || "Failed to fetch leads");
     } finally {
       setLoading(false);
     }

@@ -146,9 +146,9 @@ export async function getLeads(limit = 100) {
       success: true,
       data: result.documents as unknown as Lead[],
     };
-  } catch (error) {
-    console.error("❌ Error fetching leads:", error);
-    return { success: false, error: "Failed to fetch leads" };
+  } catch (error: any) {
+    console.error("❌ Error fetching leads:", error?.message || error);
+    return { success: false, error: error?.message || "Failed to fetch leads" };
   }
 }
 
