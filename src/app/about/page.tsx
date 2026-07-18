@@ -193,7 +193,7 @@ export default function AboutPage() {
                   href="/contact"
                   className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-8 py-3.5 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] cursor-pointer no-underline"
                 >
-                  Start a conversation
+                  Find Out How
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

@@ -255,7 +255,7 @@ export default function Contact() {
                   className="w-full sm:w-auto justify-center"
                   aria-label="Message us on WhatsApp"
                 >
-                  Message on WhatsApp
+                  Let's Get Started
                 </Button>
 
                 {/* Drop us a note button */}
@@ -356,7 +356,7 @@ export default function Contact() {
                       className="flex items-center gap-3 px-3 py-2.5 rounded-[7px] hover:bg-[#F5F5F7] transition-colors text-[0.875rem] text-[#000000] font-light"
                     >
                       <MessageCircle className="w-4 h-4 text-[#8A8A8A]" />
-                      <span>Message on WhatsApp</span>
+                      <span>Let's Get Started</span>
                     </a>
                   </div>
 

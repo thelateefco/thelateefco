@@ -106,7 +106,7 @@ export default function Hero() {
               iconPosition="left"
               className="mt-1"
             >
-              Start a conversation
+              Find Out How
             </Button>
           </motion.div>
         </motion.div>

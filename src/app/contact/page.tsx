@@ -45,7 +45,7 @@ export default function ContactPage() {
               <div>
                 <Reveal>
                   <h2 className="font-serif text-[1.75rem] font-medium text-[#000000] mb-8">
-                    Start a conversation
+                    Find Out How
                   </h2>
                 </Reveal>
 
