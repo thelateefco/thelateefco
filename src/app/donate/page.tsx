@@ -9,7 +9,7 @@ export default function DonatePage() {
   return (
     <>
       <Header />
-      <main className="pt-28 md:pt-32 bg-[#ECE6DF] min-h-screen">
+      <main className="pt-28 md:pt-32 bg-[#F5F5F7] min-h-screen">
         <section className="px-6 md:px-10 lg:px-16 pb-28 md:pb-36">
           <div className="max-w-[1280px] mx-auto">
             <Reveal>

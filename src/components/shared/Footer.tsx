@@ -80,6 +80,30 @@ export default function Footer() {
               >
                 WhatsApp
               </a>
+              <a
+                href="https://www.linkedin.com/in/the-lateef-and-co-283426423"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link text-xs"
+              >
+                LinkedIn
+              </a>
+              <a
+                href="https://www.instagram.com/thelateefco/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link text-xs"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://x.com/TheLateefCo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-link text-xs"
+              >
+                Twitter
+              </a>
               {/* Donate Link - Added here */}
               <Link
                 href="/donate"

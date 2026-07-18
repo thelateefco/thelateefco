@@ -84,8 +84,45 @@ export default function AboutPage() {
           </div>
         </section>
 
-     
+        {/* Founder Section */}
+        <section className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 py-20 md:py-32">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+              <Reveal>
+                <div className="relative aspect-square md:aspect-[4/5] rounded-[16px] overflow-hidden bg-[#E8E8EC]">
+                  {/* We can use a placeholder or image if available. For now, a clean dark placeholder with text or initial */}
+                  <div className="absolute inset-0 bg-[#1A1A1A] flex items-center justify-center">
+                    <span className="font-serif text-[6rem] text-[#FFFFFF] opacity-20">L</span>
+                  </div>
+                </div>
+              </Reveal>
 
+              <Reveal delay={0.1}>
+                <div>
+                  <div className="hairline pt-6 mb-8 md:mb-12">
+                    <span className="label">The Founder</span>
+                  </div>
+                  <h2 className="font-serif text-[2rem] md:text-[2.5rem] font-medium text-[#000000] leading-tight mb-2">
+                    Lateef Shaikh
+                  </h2>
+                  <p className="label text-[#8A8A8A] mb-8">Lead Designer & Developer</p>
+                  
+                  <div className="space-y-6">
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      With a deep passion for clean aesthetics and functional design, Lateef founded The Lateef & Co. to bridge the gap between beautiful design and business growth.
+                    </p>
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      Having worked with diverse clients globally, he brings a unique perspective to every project—ensuring that each website is not just a digital brochure, but a strategic asset that captures leads and drives revenue.
+                    </p>
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      When he's not crafting web experiences, you'll find him exploring the latest in AI automation and constantly finding new ways to refine the digital landscape.
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
         {/* Values Section */}
         <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32">
           <div className="max-w-[1280px] mx-auto">
