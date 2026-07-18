@@ -7,11 +7,19 @@ export default function PageLoader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Lock body scroll on mobile while loader is visible
+    document.body.style.overflow = "hidden";
+    document.body.style.touchAction = "none";
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
   }, []);
 
   if (!isLoading) return null;
@@ -25,7 +33,8 @@ export default function PageLoader() {
         delay: 1.2,
         ease: [0.25, 0.1, 0.25, 1]
       }}
-      className="fixed inset-0 z-[9999] bg-[#F5F5F7] flex items-center justify-center pointer-events-none"
+      // Removed pointer-events-none so the overlay blocks touch/click on mobile
+      className="fixed inset-0 z-[9999] bg-[#F5F5F7] flex items-center justify-center"
     >
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -37,7 +46,8 @@ export default function PageLoader() {
         className="flex flex-col items-center gap-4"
       >
         <motion.span
-          className="font-serif text-[2rem] md:text-[3rem] font-medium text-[#000000] tracking-tight"
+          // Added sm: breakpoint for better small-phone sizing
+          className="font-serif text-[1.75rem] sm:text-[2rem] md:text-[3rem] font-medium text-[#000000] tracking-tight whitespace-nowrap"
           animate={{ opacity: 0 }}
           transition={{
             duration: 0.6,
@@ -45,7 +55,7 @@ export default function PageLoader() {
             ease: [0.25, 0.1, 0.25, 1],
           }}
         >
-          The Lateef & Co.
+          The Lateef &amp; Co.
         </motion.span>
         <motion.div
           initial={{ scaleX: 0 }}
