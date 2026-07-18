@@ -128,7 +128,7 @@ export default function ScrollAnimation() {
               From Idea to Impact
             </h2>
             <p className="text-[1rem] text-[#4A4A4A] font-light mt-2 max-w-[38ch] mx-auto">
-              Scroll to see how we transform concepts<br></br> into livin breathing websites.
+              Scroll to see how we transform concepts<br></br> into living breathing websites.
             </p>
           </div>
 
@@ -265,18 +265,18 @@ export default function ScrollAnimation() {
             })}
           </div>
 
-          {/* Progress Indicator */}
+          {/* ✅ Progress Indicator - moved lower on large screens */}
           <motion.div
-            className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-3"
-            style={{ opacity: useTransform(smoothProgress, [0.8, 0.95], [0.3, 0]) }}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3"
+            style={{
+              opacity: useTransform(smoothProgress, [0.8, 0.95], [0.3, 0]),
+              // ✅ Position: lower on large screens, higher on mobile
+              bottom: window.innerWidth >= 1024 ? '1rem' : '1rem',
+            }}
           >
             <span className="label text-[0.45rem] md:text-[0.5rem] tracking-[0.25em] text-[#8A8A8A]">
-              Scroll
+            scroll
             </span>
-            <motion.div
-              className="w-px h-5 bg-[#8A8A8A]"
-              style={{ height: useTransform(smoothProgress, [0, 1], [4, 24]) }}
-            />
           </motion.div>
         </div>
       </div>

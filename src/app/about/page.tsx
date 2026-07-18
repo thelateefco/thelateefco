@@ -112,7 +112,7 @@ export default function AboutPage() {
                       With a deep passion for clean aesthetics and functional design, Lateef founded The Lateef & Co. to bridge the gap between beautiful design and business growth.
                     </p>
                     <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
-                      Having worked with diverse clients globally, he brings a unique perspective to every project—ensuring that each website is not just a digital brochure, but a strategic asset that captures leads and drives revenue.
+                      Having worked with diverse clients globally, he brings a unique perspective to every project - ensuring that each website is not just a digital brochure, but a strategic asset that captures leads and drives revenue.
                     </p>
                     <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
                       When he's not crafting web experiences, you'll find him exploring the latest in AI automation and constantly finding new ways to refine the digital landscape.
