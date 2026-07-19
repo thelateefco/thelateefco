@@ -68,7 +68,7 @@ export default function Hero() {
           animate="visible"
           className="text-center"
         >
-          <motion.h1
+         <motion.h1
   variants={itemVariants}
   className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
 >
