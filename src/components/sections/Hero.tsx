@@ -70,7 +70,7 @@ export default function Hero() {
         >
           <motion.h1
             variants={itemVariants}
-            className="font-serif text-[clamp(2.8rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
+            className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
           >
             Ready to make your competitors{" "}
             <em className="italic-em text-[#FFFFFF]">nervous?</em>
