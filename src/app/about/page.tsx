@@ -92,7 +92,7 @@ export default function AboutPage() {
       <Reveal>
         <div className="relative aspect-square md:aspect-[4/5] rounded-[16px] overflow-hidden bg-[#E8E8EC]">
           <Image
-            src="/images/founder/founder-lateef.png"
+            src="/images/founder/founder-lateef.jpg"
             alt="Lateef Shaikh - Founder of The Lateef & Co."
             fill
             className="object-cover"
