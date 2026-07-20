@@ -10,5 +10,6 @@ export default function ScrollIndicator() {
         <div className="scroll-line-anim" />
       </div>
     </div>
+    //
   );
 }
