@@ -2,12 +2,14 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import Image from "next/image";
 import Button from "../ui/Button";
 import { WHATSAPP_URL } from "../../lib/constants";
 import { trackWhatsAppClick } from "../../lib/utils/tracking";
+import { useState } from "react";
+import Image from "next/image";
 
 export default function Hero() {
+  const [videoError, setVideoError] = useState(false);
   const handleWhatsAppClick = () => {
     trackWhatsAppClick("hero");
   };
@@ -40,21 +42,41 @@ export default function Hero() {
       id="hero"
       className="relative h-screen w-full flex flex-col justify-center bg-[#1A1A1A] pt-12 sm:pt-16 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
-      {/* Background Image with Blur */}
+      {/* ✅ Video Background - No Overlay */}
       <div className="absolute inset-0 z-0">
-        <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
-          <Image
-            src="/images/homepage3.jpg"
-            alt="Background"
-            fill
-className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-[1.5px] md:blur-[2px]"            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-white/50" />
-        </div>
+        {!videoError ? (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            poster="/images/homepage3.jpg"
+            onError={() => setVideoError(true)}
+          >
+            <source src="/images/homeVideo.mp4" type="video/mp4" />
+            {/* Fallback for browsers that don't support video */}
+            <div className="absolute inset-0 bg-[#1A1A1A]" />
+          </video>
+        ) : (
+          <div className="absolute inset-0 bg-[#1A1A1A]">
+            <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
+              <Image
+                src="/images/homepage3.jpg"
+                alt="Background"
+                fill
+                className="object-cover object-top scale-[1.08] sm:scale-100"
+                priority
+                sizes="100vw"
+              />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Background texture overlay */}
+      {/* ✅ No overlay - removed black/40 */}
+
+      {/* Background texture overlay - optional */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none z-0">
         <div className="absolute inset-0 bg-[url('/images/grain.png')] bg-repeat" />
       </div>
@@ -69,19 +91,19 @@ className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-
         >
           <motion.h1
             variants={itemVariants}
-            className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
+            className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF]! leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
           >
             Ready to make
             <br />
             your competitors{" "}
-            <em className="italic-em text-[#FFFFFF]">nervous?</em>
+            <em className="italic-em text-[#FFFFFF]!">nervous?</em>
           </motion.h1>
 
           <motion.div
             variants={itemVariants}
             className="mt-3 md:mt-8 flex flex-col items-center gap-3 md:gap-6"
           >
-            <p className="text-[1rem] sm:text-[1.3rem] md:text-[1.3rem] leading-[1.75] font-light max-w-[38ch] mx-auto text-[#000000] drop-shadow-md">
+            <p className="text-[1rem] sm:text-[1.3rem] md:text-[1.3rem] leading-[1.75] font-light max-w-[38ch] mx-auto text-[#FFFFFF] drop-shadow-md">
               We build websites that bring in customers - not just ones that sit
               there looking pretty.
             </p>
@@ -110,7 +132,7 @@ className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-
               Chat With Me on WhatsApp
             </Button>
 
-            <p className="text-[0.8rem] md:text-[0.85rem] tracking-wide text-[#000000]/60 font-light">
+            <p className="text-[0.8rem] md:text-[0.85rem] tracking-wide text-[#FFFFFF]/60 font-light">
               Trusted by 20+ businesses to build sites that convert
             </p>
           </motion.div>
@@ -124,7 +146,7 @@ className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-
         transition={{ duration: 0.8, delay: 1 }}
         className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 md:gap-2 z-10"
       >
-        <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#FFFFFF]/60">
+        <span className="label text-[0.4rem] md:text-[0.45rem] tracking-[0.2em] text-[#FFFFFF]/60!">
           Explore more
         </span>
         <motion.div
@@ -135,7 +157,7 @@ className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-
             ease: "easeInOut",
           }}
         >
-          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#000000]/60" />
+          <ChevronDown className="w-3 h-3 md:w-4 md:h-4 text-[#FFFFFF]/60" />
         </motion.div>
       </motion.div>
     </section>
