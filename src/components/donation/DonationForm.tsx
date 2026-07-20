@@ -16,6 +16,7 @@ export default function DonationForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     amount: 500,
     message: '',
     anonymous: false,
@@ -81,6 +82,7 @@ export default function DonationForm() {
         prefill: {
           name: formData.name,
           email: formData.email,
+          contact: formData.phone || '',
         },
         notes: {
           message: formData.message,
@@ -119,6 +121,7 @@ export default function DonationForm() {
               setFormData({
                 name: '',
                 email: '',
+                phone: '',
                 amount: 500,
                 message: '',
                 anonymous: false,
@@ -154,9 +157,11 @@ export default function DonationForm() {
         </span>
       </div>
 
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2">
-        <p className="text-xs text-yellow-700 font-light">
-          🧪 Test Mode Active · No real money will be charged
+      {/* ✅ Live Mode - Secure Payment Badge */}
+      <div className="bg-green-50 border border-green-200 rounded-lg px-4 py-2">
+        <p className="text-xs text-green-700 font-light flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          🔒 Secure Payment · Powered by Razorpay
         </p>
       </div>
 
@@ -185,6 +190,19 @@ export default function DonationForm() {
           className="w-full px-4 py-2 bg-[#F5F5F7] border border-[#E8E8EC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent text-sm"
           placeholder="Enter your email"
           required
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-light text-[#4A4A4A] mb-1">
+          Phone Number <span className="text-[#8A8A8A]">(for UPI)</span>
+        </label>
+        <input
+          type="tel"
+          value={formData.phone}
+          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          className="w-full px-4 py-2 bg-[#F5F5F7] border border-[#E8E8EC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent text-sm"
+          placeholder="Enter your phone number (optional)"
         />
       </div>
 
@@ -268,14 +286,12 @@ export default function DonationForm() {
       <div className="space-y-2">
         <div className="flex items-center justify-center gap-1 text-[0.6rem] text-[#8A8A8A]">
           <Shield className="w-3 h-3" />
-          <span>🔑 Test Mode · No real payment</span>
+          <span>🔒 Secured by Razorpay</span>
           <span className="mx-1">·</span>
-          <span>💳 Use test card: 4111 1111 1111 1111</span>
+          <span>💳 Cards · UPI · GPay · Netbanking</span>
         </div>
         <div className="text-center text-[0.55rem] text-[#8A8A8A]">
-          <span>📱 Test UPI: success@razorpay</span>
-          <span className="mx-1">·</span>
-          <span>Any CVV · Any future date</span>
+          <span>💰 Funds settle directly to our bank account</span>
         </div>
       </div>
     </form>

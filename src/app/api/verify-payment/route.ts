@@ -19,6 +19,21 @@ export async function POST(req: Request) {
 
     console.log('📩 Verifying payment...');
 
+    // Basic validation of required fields
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return NextResponse.json(
+        { error: 'Missing payment verification fields' },
+        { status: 400 }
+      );
+    }
+
+    if (amount === undefined || amount === null || isNaN(Number(amount))) {
+      return NextResponse.json(
+        { error: 'Invalid amount' },
+        { status: 400 }
+      );
+    }
+
     const DATABASE_ID = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
     const DONATIONS_COLLECTION = process.env.NEXT_PUBLIC_APPWRITE_DONATIONS_COLLECTION || 'donations';
 
@@ -30,10 +45,23 @@ export async function POST(req: Request) {
     }
 
     // Verify Razorpay signature using SDK
-    const isValid = validatePaymentVerification({
-      order_id: razorpay_order_id,
-      payment_id: razorpay_payment_id
-    }, razorpay_signature, process.env.RAZORPAY_KEY_SECRET!);
+    let isValid = false;
+    try {
+      isValid = validatePaymentVerification(
+        {
+          order_id: razorpay_order_id,
+          payment_id: razorpay_payment_id
+        },
+        razorpay_signature,
+        process.env.RAZORPAY_KEY_SECRET!
+      );
+    } catch (verifyError) {
+      console.error('❌ Signature verification threw:', verifyError);
+      return NextResponse.json(
+        { error: 'Payment verification failed' },
+        { status: 400 }
+      );
+    }
 
     if (!isValid) {
       return NextResponse.json(
@@ -41,6 +69,11 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    // amount arrives from the client in paise (Razorpay's unit).
+    // Convert to rupees for storage, rounding to guarantee a valid integer
+    // for Appwrite's integer attribute (avoids float rounding errors).
+    const amountInRupees = Math.round(Number(amount) / 100);
 
     // Create donation in Appwrite
     const donation = await adminDatabases.createDocument(
@@ -50,7 +83,7 @@ export async function POST(req: Request) {
       {
         name: anonymous ? 'Anonymous' : name,
         email: anonymous ? 'anonymous@donation' : email,
-        amount: amount / 100,
+        amount: amountInRupees,
         currency: 'INR',
         orderId: razorpay_order_id,
         paymentId: razorpay_payment_id,
