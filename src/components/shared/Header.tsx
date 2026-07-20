@@ -58,7 +58,7 @@ export default function Header() {
               transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]
               ${
                 scrolled 
-                  ? "bg-white/80 backdrop-blur-xl rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.06)]" 
+                  ? "bg-white/90 backdrop-blur-xl rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.10)]" 
                   : "bg-white/10 backdrop-blur-sm rounded-xl shadow-none"
               }
             `}
