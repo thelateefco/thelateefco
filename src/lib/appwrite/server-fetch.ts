@@ -68,3 +68,9 @@ export async function listDocuments(
     `/databases/${databaseId}/collections/${collectionId}/documents${queryString}`
   );
 }
+
+// ✅ Add this export
+export const serverDatabases = {
+  listDocuments,
+  createDocument,
+};

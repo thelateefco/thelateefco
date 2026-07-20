@@ -2,8 +2,9 @@
 import Header from "../../components/shared/Header";
 import Footer from "../../components/shared/Footer";
 import Reveal from "../../components/animations/Reveal";
-import DonationForm from "../../components/donation/DonationForm"; // Changed from "../../forms/DonationForm"
-import { Heart, Users, HandHeart } from "lucide-react";
+import DonationForm from "../../components/donation/DonationForm";
+import DonationStats from "../../components/donation/DonationStats";
+import { Heart, Users, HandHeart, IndianRupee, TrendingUp } from "lucide-react";
 
 export default function DonatePage() {
   return (
@@ -30,10 +31,23 @@ export default function DonatePage() {
                 </Reveal>
 
                 <Reveal delay={0.1}>
-                  <p className="text-[0.9375rem] leading-[1.8] text-[#4A4A4A] font-light max-w-[36ch] mb-10">
+                  <p className="text-[0.9375rem] leading-[1.8] text-[#4A4A4A] font-light max-w-[36ch] mb-6">
                     Every contribution, no matter how small, helps us support families in need.
                     Your donation goes directly to providing food, education, and medical support.
                   </p>
+                </Reveal>
+
+                {/* ✅ Donation Stats - Live counter */}
+                <Reveal delay={0.12}>
+                  <div className="mb-8 p-4 bg-[#FFFFFF]/80 rounded-xl border border-[#E8E8EC] shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                      <TrendingUp className="w-3.5 h-3.5 text-[#B91C1C]" />
+                      <span className="text-[0.6rem] font-light text-[#4A4A4A] uppercase tracking-wider">
+                        Live Impact
+                      </span>
+                    </div>
+                    <DonationStats />
+                  </div>
                 </Reveal>
 
                 <Reveal delay={0.15}>
@@ -62,6 +76,20 @@ export default function DonatePage() {
                         </h3>
                         <p className="text-[0.8125rem] text-[#4A4A4A] font-light">
                           We share regular updates on how your contributions are making an impact.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#1A1A1A] flex items-center justify-center shrink-0 mt-0.5">
+                        <IndianRupee className="w-4 h-4 text-[#FFFFFF]" />
+                      </div>
+                      <div>
+                        <h3 className="font-serif text-[1rem] font-medium text-[#1A1A1A]">
+                          Every Rupee Counts
+                        </h3>
+                        <p className="text-[0.8125rem] text-[#4A4A4A] font-light">
+                          Even a small contribution can change lives. Join us in spreading hope.
                         </p>
                       </div>
                     </div>
