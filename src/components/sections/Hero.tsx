@@ -51,7 +51,7 @@ export default function Hero() {
             loop
             playsInline
             className="absolute inset-0 w-full h-full object-cover"
-            poster="/images/homepage3.jpg"
+            poster="/images/homepage10.jpg"
             onError={() => setVideoError(true)}
           >
             <source src="/images/homeVideo.mp4" type="video/mp4" />
