@@ -16,8 +16,8 @@ export interface ButtonProps {
   rel?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
-  id?: string;  // ← Added id prop
-  "aria-label"?: string;  // ← Added aria-label
+  id?: string;
+  "aria-label"?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
@@ -45,10 +45,11 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       "font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase",
       "px-6 py-3.5 md:px-7 md:py-4",
       "rounded-[7px]",
-      "transition-colors duration-300 ease-out",
+      "transition-[background-color,box-shadow] duration-300 ease-out",
       "border border-transparent",
       "cursor-pointer",
       "no-underline",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A1A1A]/40 focus-visible:ring-offset-2",
       "disabled:opacity-60 disabled:cursor-not-allowed",
       className
     );
@@ -56,7 +57,8 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     const variantStyles = {
       primary: cn(
         "bg-[#1A1A1A] text-[#ECE6DF]",
-        "hover:bg-[#2E2E2E]",
+        "shadow-[0_1px_2px_rgba(0,0,0,0.05)]",
+        "hover:bg-[#2E2E2E] hover:shadow-[0_8px_20px_rgba(0,0,0,0.18)]",
         "active:bg-[#1A1A1A]"
       ),
       secondary: cn(
@@ -85,6 +87,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     if (href) {
       return (
         <motion.a
+          ref={ref as React.Ref<HTMLAnchorElement>}
           href={href}
           target={target}
           rel={rel}
@@ -104,6 +107,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     // Render as button
     return (
       <motion.button
+        ref={ref as React.Ref<HTMLButtonElement>}
         type={type}
         disabled={disabled}
         onClick={onClick}
@@ -114,7 +118,9 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
         whileTap={{ scale: 0.98 }}
         transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
         {...(props as any)}
-      />
+      >
+        {content}
+      </motion.button>
     );
   }
 );

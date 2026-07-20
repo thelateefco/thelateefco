@@ -98,7 +98,7 @@ export default function Header() {
                   }
                   iconPosition="left"
                 >
-                  WhatsApp
+                  Chat on WhatsApp
                 </Button>
               </nav>
 
@@ -127,7 +127,7 @@ export default function Header() {
               </button>
             </div>
           </div>
-       </div>
+        </div>
       </header>
 
       <MobileNav

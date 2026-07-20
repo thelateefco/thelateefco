@@ -47,8 +47,7 @@ export default function Hero() {
             src="/images/homepage3.jpg"
             alt="Background"
             fill
-            className="object-cover object-top scale-[1.08] sm:scale-100 blur-[3px] sm:blur-[4px] md:blur-[5px]"
-            priority
+className="object-cover object-top scale-[1.08] sm:scale-100 blur-[1px] sm:blur-[1.5px] md:blur-[2px]"            priority
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-white/50" />
@@ -68,19 +67,19 @@ export default function Hero() {
           animate="visible"
           className="text-center"
         >
-         <motion.h1
-  variants={itemVariants}
-  className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
->
-  Ready to make
-  <br />
-  your competitors{" "}
-  <em className="italic-em text-[#FFFFFF]">nervous?</em>
-</motion.h1>
+          <motion.h1
+            variants={itemVariants}
+            className="font-serif text-[clamp(3.2rem,7vw,6.5rem)] font-medium text-[#FFFFFF] leading-[1.05] tracking-tight max-w-[14ch] mx-auto drop-shadow-lg"
+          >
+            Ready to make
+            <br />
+            your competitors{" "}
+            <em className="italic-em text-[#FFFFFF]">nervous?</em>
+          </motion.h1>
 
           <motion.div
             variants={itemVariants}
-            className="mt-3 md:mt-8 flex flex-col items-center gap-3 md:gap-8"
+            className="mt-3 md:mt-8 flex flex-col items-center gap-3 md:gap-6"
           >
             <p className="text-[1rem] sm:text-[1.3rem] md:text-[1.3rem] leading-[1.75] font-light max-w-[38ch] mx-auto text-[#000000] drop-shadow-md">
               We build websites that bring in customers - not just ones that sit
@@ -108,12 +107,16 @@ export default function Hero() {
               iconPosition="left"
               className="mt-1"
             >
-              Find Out How
+              Chat With Me on WhatsApp
             </Button>
+
+            <p className="text-[0.8rem] md:text-[0.85rem] tracking-wide text-[#000000]/60 font-light">
+              Trusted by 20+ businesses to build sites that convert
+            </p>
           </motion.div>
         </motion.div>
       </div>
-   
+
       {/* Explore more cue at bottom of Hero */}
       <motion.div
         initial={{ opacity: 0 }}
