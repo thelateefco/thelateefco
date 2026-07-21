@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Reveal from "../animations/Reveal";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -54,11 +55,25 @@ const itemVariants = {
 
 export default function Testimonials() {
   return (
-    <section className="dark-section py-28 md:py-36 px-6 md:px-10 lg:px-16">
-      <div className="max-w-[1280px] mx-auto">
+    <section className="relative py-28 md:py-36 px-6 md:px-10 lg:px-16 overflow-hidden">
+      {/* ✅ Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/footer/footer2.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+
+      <div className="max-w-[1280px] mx-auto relative z-10">
         <Reveal>
           <div className="hairline pt-6 mb-16 md:mb-20">
-            <span className="label">What our clients say</span>
+            <span className="label text-[#8A8A8A]!">What our clients say</span>
           </div>
         </Reveal>
 
@@ -107,10 +122,7 @@ export default function Testimonials() {
                 <cite className="font-serif text-[1.125rem] font-medium text-[#ECE6DF] not-italic block">
                   {testimonial.name}
                 </cite>
-                {/* <span className="text-[#8A8A8A] text-[0.8125rem] font-light block mt-0.5">
-                  {testimonial.business}
-                </span> */}
-                <span className="text-[#6A6A6A] text-[0.6875rem] font-light block mt-0.5">
+                <span className="text-[#8A8A8A] text-[0.6875rem] font-light block mt-0.5">
                   {testimonial.location}
                 </span>
               </div>

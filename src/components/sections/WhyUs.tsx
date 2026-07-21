@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Reveal from "../animations/Reveal";
+import Image from "next/image";
 
 const pillars = [
   {
@@ -47,13 +48,27 @@ export default function WhyUs() {
   return (
     <section
       id="why"
-      className="dark-section py-28 md:py-36 px-6 md:px-10 lg:px-16"
+      className="relative py-28 md:py-36 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
-      <div className="max-w-[1280px] mx-auto">
+      {/* ✅ Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/footer/footer3.jpg"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/75" />
+      </div>
+
+      <div className="max-w-[1280px] mx-auto relative z-10">
         <Reveal>
-          <h2 className="font-serif text-[clamp(2rem,5vw,4rem)] font-medium text-[#ECE6DF] leading-[1.1] tracking-tight mb-6 max-w-[20ch]">
+          <h2 className="font-serif text-[clamp(2rem,5vw,4rem)] font-medium text-[#ECE6DF]! leading-[1.1] tracking-tight mb-6 max-w-[20ch]">
             Not a website.{" "}
-            <em className="italic-em text-[#ECE6DF]">An asset that works for you.</em>
+            <em className="italic-em text-[#ECE6DF]!">An asset that works for you.</em>
           </h2>
         </Reveal>
 
@@ -82,7 +97,7 @@ export default function WhyUs() {
                   : ""
               } ${i > 0 ? "md:pl-12" : ""}`}
             >
-              <h3 className="font-serif text-[1.375rem] md:text-[1.5rem] font-medium text-[#ECE6DF] mb-4 leading-snug">
+              <h3 className="font-serif text-[1.375rem] md:text-[1.5rem] font-medium text-[#ECE6DF]! mb-4 leading-snug">
                 {pillar.title}
               </h3>
               <p className="text-[#A0A0A0] text-[0.9375rem] leading-[1.8] font-light">
