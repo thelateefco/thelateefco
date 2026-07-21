@@ -5,51 +5,33 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
 const STEPS = [
-  { label: "A vague idea.", delay: 0 },
-  { label: "Becomes a strategy.", delay: 0.25 },
-  { label: "Becomes a website that works.", delay: 0.5 },
+  { label: "Messy idea." },
+  { label: "Clear direction." },
+  { label: "Finished website." },
 ];
 
 const IMAGES = {
-  wireframe: "/images/projects/projectaimagixbefore.png",
-  design: "/images/projects/projectaimagixafter.png",
+  before: "/images/projects/projectaimagixafter.png",
+  after: "/images/projects/projectaimagixbefore.png",
 };
 
-export default function ScrollAnimation() {
+export default function ScrollRevealSlider() {
   const containerRef = useRef<HTMLElement>(null);
-  const [imageErrors, setImageErrors] = useState({ wireframe: false, design: false });
+  const [imageErrors, setImageErrors] = useState({ before: false, after: false });
   const [progress, setProgress] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
 
-  // Framer Motion scroll tracking
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 28,
+    stiffness: 90,
+    damping: 30,
     restDelta: 0.001,
-    restSpeed: 0.001,
   });
 
-  // Browser transforms - starts visible
-  const browserScale = useTransform(smoothProgress, [0, 0.3, 0.7], [0.92, 1, 1]);
-  const browserOpacity = useTransform(smoothProgress, [0, 0.02, 0.15], [0.6, 1, 1]);
-  const browserY = useTransform(smoothProgress, [0, 0.15, 0.7], [20, 0, 0]);
-
-  const wireframeOpacity = useTransform(smoothProgress, [0, 0.1, 0.4], [1, 1, 0]);
-  const designOpacity = useTransform(smoothProgress, [0.25, 0.45, 0.7], [0, 0, 1]);
-
-  const wireframeScale = useTransform(smoothProgress, [0, 0.4], [1, 1.08]);
-  const designScale = useTransform(smoothProgress, [0.45, 0.75], [0.95, 1]);
-
-  const handleImageError = (type: "wireframe" | "design") => {
-    setImageErrors((prev) => ({ ...prev, [type]: true }));
-  };
-
-  // Manual scroll tracking as fallback
+  // Manual fallback tracking
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -58,8 +40,6 @@ export default function ScrollAnimation() {
     let rafId: number;
 
     const updateProgress = () => {
-      if (!container) return;
-
       const rect = container.getBoundingClientRect();
       const sectionTop = rect.top + window.scrollY;
       const sectionHeight = container.scrollHeight;
@@ -68,214 +48,202 @@ export default function ScrollAnimation() {
 
       const start = sectionTop;
       const end = sectionTop + sectionHeight - windowHeight;
-      const rawProgress = (scrollTop - start) / (end - start);
-      const clampedProgress = Math.max(0, Math.min(1, rawProgress));
-
-      setProgress(clampedProgress);
+      const raw = (scrollTop - start) / (end - start);
+      setProgress(Math.max(0, Math.min(1, raw)));
       ticking = false;
     };
 
-    const handleScroll = () => {
+    const onScroll = () => {
       if (!ticking) {
         ticking = true;
         rafId = requestAnimationFrame(updateProgress);
       }
     };
 
-    const handleResize = () => {
-      updateProgress();
-    };
-
     setTimeout(updateProgress, 100);
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleResize, { passive: true });
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          updateProgress();
-        }
-      },
-      { threshold: [0, 0.1, 0.5, 1] }
-    );
-
-    observer.observe(container);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateProgress, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateProgress);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
-  // Use manual progress as fallback
-  const activeProgress = progress > 0.001 ? progress : scrollYProgress;
+  const handleImageError = (type: "before" | "after") =>
+    setImageErrors((prev) => ({ ...prev, [type]: true }));
+
+  // The wipe: a vertical divider line moves left → right across the frame,
+  // and the "after" image is revealed via clip-path as the divider passes.
+  const wipePercent = useTransform(smoothProgress, [0.15, 0.7], [0, 100]);
+  const dividerX = useTransform(wipePercent, (v) => `${v}%`);
+  const clipPath = useTransform(wipePercent, (v) => `inset(0 0 0 ${v}%)`);
+
+  const frameScale = useTransform(smoothProgress, [0, 0.15, 0.85, 1], [0.94, 1, 1, 1.02]);
+  const frameOpacity = useTransform(smoothProgress, [0, 0.08], [0.4, 1]);
+  const frameRotate = useTransform(smoothProgress, [0, 0.15], [-1.5, 0]);
+
+  const headingOpacity = useTransform(smoothProgress, [0, 0.08], [0, 1]);
+  const headingY = useTransform(smoothProgress, [0, 0.08], [16, 0]);
+
+  const tagOpacity = useTransform(smoothProgress, [0, 0.7, 0.85], [1, 1, 0]);
 
   return (
     <section
       ref={containerRef}
-      className="relative h-[220vh] md:h-[250vh] bg-[#FFFFFF]"
-      aria-label="Scroll-triggered animation showing our process"
+      className="relative h-[220vh] md:h-[250vh] bg-[#0B0B0C]"
+      aria-label="Scroll-triggered before and after reveal"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">
         <div className="max-w-[1280px] mx-auto w-full">
-          {/* Heading - Always visible */}
-          <div className="text-center mb-4 md:mb-6">
-            <h2 className="font-serif text-[clamp(2rem,3vw,2.5rem)] font-medium text-[#000000] leading-[1.1] tracking-tight">
-              From Idea to Impact
-            </h2>
-            <p className="text-[1rem] text-[#4A4A4A] font-light mt-2 max-w-[38ch] mx-auto">
-              Scroll to see how we transform concepts<br></br> into living breathing websites.
-            </p>
-          </div>
-
-          <motion.p
-            className="label text-[#8A8A8A] text-center mb-4 md:mb-6"
-            style={{
-              opacity: useTransform(smoothProgress, [0, 0.05, 0.15], [0.5, 1, 1]),
-              y: useTransform(smoothProgress, [0, 0.05, 0.15], [8, 0, 0]),
-            }}
-          >
-            FROM IDEA TO IMPACT
-          </motion.p>
-
+          {/* Heading */}
           <motion.div
-            className="relative mx-auto w-full max-w-4xl aspect-[16/10] bg-[#1A1A1A] rounded-xl overflow-hidden shadow-2xl"
-            style={{
-              scale: browserScale,
-              opacity: browserOpacity,
-              y: browserY,
-            }}
+            className="text-center mb-6 md:mb-10"
+            style={{ opacity: headingOpacity, y: headingY }}
           >
-            {/* Browser Chrome */}
-            <div className="absolute top-0 left-0 right-0 h-8 bg-[#2A2A2A] flex items-center px-4 gap-2 z-20">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
-                <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-              </div>
-              <div className="flex-1 mx-4">
-                <div className="h-4 bg-[#3A3A3A] rounded-md max-w-[200px] mx-auto" />
-              </div>
-            </div>
-
-            {/* Browser Content - Wireframe Image */}
-            <motion.div
-              className="absolute inset-0 top-8"
-              style={{ opacity: wireframeOpacity }}
-            >
-              {!imageErrors.wireframe && IMAGES.wireframe ? (
-                <div className="relative w-full h-full">
-                  <motion.div
-                    className="relative w-full h-full"
-                    style={{ scale: wireframeScale }}
-                  >
-                    <Image
-                      src={IMAGES.wireframe}
-                      alt="Website wireframe"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                      onError={() => handleImageError("wireframe")}
-                    />
-                  </motion.div>
-                </div>
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-[#1A1A1A] p-8">
-                  <div className="text-[#8A8A8A] text-sm font-light mb-2">📐</div>
-                  <div className="text-[#8A8A8A] text-sm font-light">Wireframe</div>
-                </div>
-              )}
-            </motion.div>
-
-            {/* Browser Content - Finished Design Image */}
-            <motion.div
-              className="absolute inset-0 top-8"
-              style={{ opacity: designOpacity }}
-            >
-              {!imageErrors.design && IMAGES.design ? (
-                <div className="relative w-full h-full">
-                  <motion.div
-                    className="relative w-full h-full"
-                    style={{ scale: designScale }}
-                  >
-                    <Image
-                      src={IMAGES.design}
-                      alt="Final website design"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                      onError={() => handleImageError("design")}
-                    />
-                  </motion.div>
-                </div>
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7] p-8">
-                  <div className="text-[#8A8A8A] text-sm font-light mb-2">🎨</div>
-                  <div className="text-[#8A8A8A] text-sm font-light">Final Design</div>
-                </div>
-              )}
-            </motion.div>
-
-            {/* Subtle glow/shadow overlay during transition */}
-            <motion.div
-              className="absolute inset-0 top-8 pointer-events-none z-10"
-              style={{
-                background: useTransform(
-                  smoothProgress,
-                  [0.15, 0.45, 0.75],
-                  [
-                    "radial-gradient(circle at center, transparent 0%, transparent 100%)",
-                    "radial-gradient(circle at center, rgba(26,26,26,0.15) 0%, transparent 70%)",
-                    "radial-gradient(circle at center, transparent 0%, transparent 100%)",
-                  ]
-                ),
-              }}
-            />
+            <p className="text-[0.7rem] md:text-[0.75rem] tracking-[0.3em] text-[#8A8A8A] font-light mb-3">
+              BEFORE / AFTER
+            </p>
+            <h2 className="font-serif text-[clamp(2rem,3.2vw,2.75rem)] font-medium text-white! leading-[1.1] tracking-tight">
+              Same site. Different world.
+            </h2>
+            <p className="text-[1rem] text-[#9A9A9A] font-light mt-3 max-w-[42ch] mx-auto">
+              Keep scrolling - the line sweeps across and drags the finished
+              site out from underneath the draft.
+            </p>
           </motion.div>
 
-          {/* Step Text Reveal */}
-          <div className="mt-6 md:mt-8 text-center space-y-1.5 md:space-y-2">
-            {STEPS.map((step, index) => {
-              const stepStart = 0.4 + index * 0.15;
-              const stepEnd = stepStart + 0.2;
-              const opacity = useTransform(
-                smoothProgress,
-                [stepStart, stepEnd],
-                [0, 1]
-              );
-              const y = useTransform(
-                smoothProgress,
-                [stepStart, stepEnd],
-                [15, 0]
-              );
-
-              return (
-                <motion.p
-                  key={index}
-                  className="font-serif text-[1.125rem] md:text-[1.5rem] text-[#000000] font-medium"
-                  style={{ opacity, y }}
-                >
-                  {step.label}
-                </motion.p>
-              );
-            })}
-          </div>
-
-          {/* ✅ Progress Indicator - moved lower on large screens */}
+          {/* Frame */}
           <motion.div
-            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3"
+            className="relative mx-auto w-full max-w-4xl aspect-[16/10] rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
             style={{
-              opacity: useTransform(smoothProgress, [0.8, 0.95], [0.3, 0]),
-              // ✅ Position: lower on large screens, higher on mobile
-              bottom: window.innerWidth >= 1024 ? '1rem' : '1rem',
+              scale: frameScale,
+              opacity: frameOpacity,
+              rotate: frameRotate,
             }}
           >
-            <span className="label text-[0.45rem] md:text-[0.5rem] tracking-[0.25em] text-[#8A8A8A]">
-            scroll
+            {/* ✅ Base layer: BEFORE image - NO grayscale */}
+            <div className="absolute inset-0">
+              {!imageErrors.before && IMAGES.before ? (
+                <Image
+                  src={IMAGES.before}
+                  alt="Before: early draft"
+                  fill
+                  className="object-cover" // ✅ Removed grayscale and contrast
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  onError={() => handleImageError("before")}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-[#161616]">
+                  <div className="text-[#6A6A6A] text-sm font-light mb-2">✏️</div>
+                  <div className="text-[#6A6A6A] text-sm font-light">Before</div>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/10" />
+            </div>
+
+            {/* ✅ Revealed layer: AFTER image - NO grayscale */}
+            <motion.div className="absolute inset-0" style={{ clipPath }}>
+              {!imageErrors.after && IMAGES.after ? (
+                <Image
+                  src={IMAGES.after}
+                  alt="After: finished design"
+                  fill
+                  className="object-cover" // ✅ Removed grayscale and contrast
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  onError={() => handleImageError("after")}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7]">
+                  <div className="text-[#8A8A8A] text-sm font-light mb-2">✨</div>
+                  <div className="text-[#8A8A8A] text-sm font-light">After</div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Divider line + handle */}
+            <motion.div
+              className="absolute top-0 bottom-0 w-[2px] bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.6)] z-20"
+              style={{ left: dividerX }}
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-lg">
+                <span className="text-[10px] tracking-widest text-black">
+                  ↔
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Corner tags */}
+            <motion.div
+              className="absolute top-4 left-4 z-20 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur text-[0.65rem] tracking-[0.2em] text-white/80"
+              style={{ opacity: tagOpacity }}
+            >
+              BEFORE
+            </motion.div>
+            <motion.div
+              className="absolute top-4 right-4 z-20 px-2.5 py-1 rounded-full bg-white/80 backdrop-blur text-[0.65rem] tracking-[0.2em] text-black/70"
+              style={{ opacity: tagOpacity }}
+            >
+              AFTER
+            </motion.div>
+          </motion.div>
+
+          {/* Step text + progress dots */}
+          <div className="mt-8 md:mt-10 flex flex-col items-center gap-4">
+            <div className="flex items-center gap-2">
+              {STEPS.map((_, i) => {
+                const dotStart = 0.15 + i * 0.22;
+                const dotOpacity = useTransform(
+                  smoothProgress,
+                  [dotStart - 0.05, dotStart],
+                  [0.25, 1]
+                );
+                const dotScale = useTransform(
+                  smoothProgress,
+                  [dotStart - 0.05, dotStart],
+                  [1, 1.4]
+                );
+                return (
+                  <motion.span
+                    key={i}
+                    className="w-1.5 h-1.5 rounded-full bg-white"
+                    style={{ opacity: dotOpacity, scale: dotScale }}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="text-center h-8 relative w-full max-w-md">
+              {STEPS.map((step, i) => {
+                const start = 0.15 + i * 0.22;
+                const end = start + 0.18;
+                const opacity = useTransform(
+                  smoothProgress,
+                  [start - 0.05, start, end, end + 0.1],
+                  [0, 1, 1, 0]
+                );
+                const y = useTransform(smoothProgress, [start - 0.05, start], [10, 0]);
+                return (
+                  <motion.p
+                    key={i}
+                    className="absolute inset-0 font-serif text-[1.1rem] md:text-[1.4rem] text-white font-medium"
+                    style={{ opacity, y }}
+                  >
+                    {step.label}
+                  </motion.p>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Scroll hint */}
+          <motion.div
+            className="absolute left-1/2 -translate-x-1/2 bottom-4 flex items-center gap-2"
+            style={{ opacity: useTransform(smoothProgress, [0.8, 0.95], [0.35, 0]) }}
+          >
+            <span className="text-[0.45rem] md:text-[0.5rem] tracking-[0.25em] text-[#8A8A8A]">
+              scroll
             </span>
           </motion.div>
         </div>
