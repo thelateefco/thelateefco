@@ -271,7 +271,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            <motion.div variants={itemVariants}>
+            {/* <motion.div variants={itemVariants}>
               <div className="mt-14 sm:mt-16 pt-8 hairline">
                 <p className="label text-[#8A8A8A] mb-2">Based in</p>
                 <p className="text-[#000000] font-light text-sm">
@@ -284,7 +284,7 @@ export default function Contact() {
                   Locally & internationally
                 </p>
               </div>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
           {/* Right column - decorative */}
