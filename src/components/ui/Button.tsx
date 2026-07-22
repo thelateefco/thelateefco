@@ -56,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     const variantStyles = {
       primary: cn(
-        "bg-[#1A1A1A] text-[#ECE6DF]",
+        "bg-[#140f0a] text-[#ECE6DF]",
         "shadow-[0_1px_2px_rgba(0,0,0,0.05)]",
         "hover:bg-[#2E2E2E] hover:shadow-[0_8px_20px_rgba(0,0,0,0.18)]",
         "active:bg-[#1A1A1A]"

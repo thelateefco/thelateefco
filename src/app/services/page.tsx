@@ -193,7 +193,7 @@ export default function ServicesPage() {
                 </p>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] cursor-pointer no-underline"
+                  className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-6 py-3 rounded-[7px] transition-colors duration-300 ease-out bg-[#14040a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] cursor-pointer no-underline"
                 >
                   Get in touch
                   <ArrowRight className="w-4 h-4" />

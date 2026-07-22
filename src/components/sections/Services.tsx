@@ -269,7 +269,7 @@ export default function Services() {
                             className={`px-2.5 py-1 rounded-full text-[0.45rem] sm:text-[0.5rem] font-medium tracking-[0.06em] uppercase transition-colors duration-300 ${
                               isActive 
                                 ? "bg-[#2A2A2A] text-[#F5F5F7]" 
-                                : "bg-[#E8E8EC] text-[#4A4A4A] shadow-[inset_2px_2px_4px_#d0d0d4,_inset_-2px_-2px_4px_#ffffff]"
+                                : "bg-[#E8E8EC] text-[#4A4A4A] shadow-[inset_2px_2px_4px_#d0d0d4"
                             }`}
                           >
                             {tag}

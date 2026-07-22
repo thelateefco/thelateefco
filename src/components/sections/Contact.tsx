@@ -262,7 +262,7 @@ export default function Contact() {
                 <button
                   id="contact-note"
                   onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#000000] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#140f0a] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline"
                   aria-label="Drop us a note"
                 >
                   <Mail className="w-4 h-4" />

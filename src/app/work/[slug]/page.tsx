@@ -167,7 +167,7 @@ export default async function CaseStudyPage({
                 </div>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-8 py-4 rounded-[7px] transition-colors duration-300 ease-out bg-[#000000] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] cursor-pointer no-underline shrink-0"
+                  className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-8 py-4 rounded-[7px] transition-colors duration-300 ease-out bg-[#140f0a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] cursor-pointer no-underline shrink-0"
                 >
                   Start your project
                   <ArrowRight className="w-4 h-4" />
