@@ -92,7 +92,7 @@ export default function ScrollRevealSlider() {
   return (
     <section
       ref={containerRef}
-      className="relative h-[220vh] md:h-[250vh] bg-[#0B0B0C]"
+      className="relative h-[220vh] md:h-[250vh] bg-[#140f0a]"
       aria-label="Scroll-triggered before and after reveal"
     >
       <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden px-6 md:px-10 lg:px-16">

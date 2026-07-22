@@ -68,7 +68,7 @@ export default function AIChatWidget() {
       {/* Chat Button - Now with text instead of icon */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-[#000000] text-[#FFFFFF] shadow-lg hover:bg-[#1A1A1A] transition-colors duration-300 flex items-center gap-2"
+        className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-full bg-[#1e1006] text-[#FFFFFF] shadow-lg hover:bg-[#2d180a] transition-colors duration-300 flex items-center gap-2"
         aria-label={isOpen ? "Close chat" : "Open chat"}
       >
         {isOpen ? (
@@ -94,9 +94,9 @@ export default function AIChatWidget() {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] bg-[#FFFFFF] rounded-[16px] shadow-2xl border border-[#E8E8EC] overflow-hidden"
           >
-            {/* Header */}
-            <div className="bg-[#000000] text-[#FFFFFF] px-5 py-4">
-              <h3 className="font-serif text-[1.1rem] font-medium">
+            {/* ✅ Header - Now with white text */}
+            <div className="bg-[#1e1006] px-5 py-4">
+              <h3 className="font-serif text-[1.1rem] font-medium text-[#FFFFFF]!">
                 The Lateef & Co.
               </h3>
               <p className="text-[0.6rem] text-[#8A8A8A] font-light tracking-[0.1em] uppercase">
@@ -108,7 +108,7 @@ export default function AIChatWidget() {
             <div className="h-[350px] overflow-y-auto px-4 py-4 bg-[#F5F5F7]">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
-                  <div className="w-10 h-10 rounded-full bg-[#000000] flex items-center justify-center mb-3">
+                  <div className="w-10 h-10 rounded-full bg-[#1e1006] flex items-center justify-center mb-3">
                     <MessageCircle className="w-5 h-5 text-[#FFFFFF]" />
                   </div>
                   <p className="font-serif text-[1rem] font-medium text-[#000000]">
@@ -129,7 +129,7 @@ export default function AIChatWidget() {
                     <div
                       className={`max-w-[85%] rounded-[12px] px-4 py-2.5 ${
                         msg.role === "user"
-                          ? "bg-[#000000] text-[#FFFFFF]"
+                          ? "bg-[#1e1006] text-[#FFFFFF]"
                           : "bg-[#FFFFFF] text-[#000000] shadow-sm border border-[#E8E8EC]"
                       }`}
                     >
@@ -144,9 +144,9 @@ export default function AIChatWidget() {
                 <div className="flex justify-start mb-3">
                   <div className="bg-[#FFFFFF] rounded-[12px] px-4 py-2.5 shadow-sm border border-[#E8E8EC]">
                     <div className="flex items-center gap-1.5">
-                      <span className="w-2 h-2 bg-[#000000]/30 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                      <span className="w-2 h-2 bg-[#000000]/30 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                      <span className="w-2 h-2 bg-[#000000]/30 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                      <span className="w-2 h-2 bg-[#1e1006]/30 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-2 h-2 bg-[#1e1006]/30 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-2 h-2 bg-[#1e1006]/30 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                     </div>
                   </div>
                 </div>
@@ -169,13 +169,13 @@ export default function AIChatWidget() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type a message..."
-                className="flex-1 px-3 py-2.5 text-[0.875rem] font-light text-[#000000] bg-[#F5F5F7] border-none rounded-[8px] focus:outline-none focus:ring-1 focus:ring-[#000000] placeholder:text-[#8A8A8A]"
+                className="flex-1 px-3 py-2.5 text-[0.875rem] font-light text-[#000000] bg-[#F5F5F7] border-none rounded-[8px] focus:outline-none focus:ring-1 focus:ring-[#1e1006] placeholder:text-[#8A8A8A]"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="px-3.5 py-2.5 rounded-[8px] bg-[#000000] text-[#FFFFFF] hover:bg-[#1A1A1A] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3.5 py-2.5 rounded-[8px] bg-[#1e1006] text-[#FFFFFF] hover:bg-[#2d180a] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 aria-label="Send message"
               >
                 {isLoading ? (

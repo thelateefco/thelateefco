@@ -234,7 +234,7 @@ export default function Services() {
                       w-full text-left p-4 sm:p-5 md:p-6 rounded-[14px] 
                       transition-all duration-300 cursor-pointer
                       ${isActive 
-                        ? "bg-[#1A1A1A] text-[#F5F5F7] border  shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
+                        ? "bg-[#140f0a] text-[#F5F5F7] border  shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
                         : "bg-[#F5F5F7] text-[#000000]  shadow-[8px_8px_16px_#e0e0e4,_-8px_-8px_16px_#ffffff] hover:shadow-[6px_6px_12px_#e0e0e4,_-6px_-6px_12px_#ffffff] hover:border-[#D0D0D5]"
                       }
                     `}
@@ -290,7 +290,7 @@ export default function Services() {
                   onClick={() => handleCardClick(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     activeIndex === index
-                      ? "bg-[#000000] w-5"
+                      ? "bg-[#1f0f0a] w-5"
                       : "bg-[#D0D0D5] hover:bg-[#8A8A8A]"
                   }`}
                   aria-label={`Show ${services[index].title}`}
