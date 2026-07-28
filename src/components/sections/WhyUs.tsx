@@ -8,12 +8,12 @@ const pillars = [
   {
     id: "precision",
     title: "Built with precision.",
-    body: "We don't apply generic templates and call it a day. Every decision - layout, type, structure, copy - is considered in the context of your business and your customers.",
+    body: "I don't apply generic templates and call it a day. Every decision - layout, type, structure, copy - is considered in the context of your business and your customers.",
   },
   {
     id: "purpose",
     title: "Built with purpose.",
-    body: "Decoration is easy. Function is harder. We prioritise the things that move your business forward: clarity, trust, and conversion - in that order.",
+    body: "Decoration is easy. Function is harder. I prioritise the things that move your business forward: clarity, trust, and conversion - in that order.",
   },
   {
     id: "results",

@@ -31,7 +31,7 @@ export default function AboutPage() {
             <Reveal delay={0.1}>
               <p className="text-[1.0625rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[48ch]">
                 The Lateef & Co. is a boutique web studio based in Mumbai, working with
-                ambitious businesses across India and internationally. We're small enough
+                ambitious businesses across India and internationally. I am small enough
                 to care deeply, experienced enough to deliver.
               </p>
             </Reveal>
@@ -49,7 +49,7 @@ export default function AboutPage() {
                   </h2>
                   <p className="body-text text-[0.9375rem] leading-[1.8] text-[#000000] mb-4">
                     Lateef (لطیف) means "gentle" or "kind" in Arabic - a reminder that
-                    good design doesn't shout; it invites. We believe the best websites
+                    good design doesn't shout; it invites. I believe the best websites
                     feel effortless, even when there's deep strategy underneath.
                   </p>
                   <p className="body-text text-[0.9375rem] leading-[1.8] text-[#000000]">
@@ -66,10 +66,10 @@ export default function AboutPage() {
                   </h2>
                   <ul className="space-y-4">
                     {[
-                      "We start with business outcomes, not design trends",
-                      "We work transparently - no hidden costs, no jargon",
-                      "We build to last - clean code, scalable architecture",
-                      "We stay available - before, during, and after launch",
+                      "I start with business outcomes, not design trends",
+                      "I work transparently - no hidden costs, no jargon",
+                      "I build to last - clean code, scalable architecture",
+                      "I stay available - before, during, and after launch",
                     ].map((item) => (
                       <li key={item} className="flex items-start gap-3">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#000000] mt-2.5 shrink-0" />
@@ -150,13 +150,13 @@ export default function AboutPage() {
                   icon: Target,
                   title: "Built for results",
                   description:
-                    "A beautiful website that doesn't generate enquiries is an expensive art project. We design for outcomes, not just aesthetics.",
+                    "A beautiful website that doesn't generate enquiries is an expensive art project. I design for outcomes, not just aesthetics.",
                 },
                 {
                   icon: Coffee,
                   title: "Built with you",
                   description:
-                    "We work collaboratively, not in isolation. Your input matters at every stage - it's how we build something you're proud of.",
+                    "I work collaboratively, not in isolation. Your input matters at every stage - it's how I build something you're proud of.",
                 },
               ].map((value, i) => {
                 const Icon = value.icon;
@@ -193,7 +193,7 @@ export default function AboutPage() {
                   <em className="italic-em text-[#000000]">worth remembering?</em>
                 </h2>
                 <p className="text-[0.9375rem] text-[#4A4A4A] font-light leading-[1.7] mb-8">
-                  Let's talk about your project and see how we can help you stand out.
+                  Let's talk about your project and see how i can help you stand out.
                 </p>
                 <Link
                   href="/contact"

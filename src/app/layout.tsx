@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     apple: "/images/projects/icon.png",
   },
   description:
-    "We build websites that bring in customers - not just ones that sit there looking pretty. Web design, development & AI automation for businesses in Mumbai and beyond.",
+    "I build websites that bring in customers - not just ones that sit there looking pretty. Web design, development & AI automation for businesses in Mumbai and beyond.",
   keywords: [
     "web design Mumbai",
     "web development India",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "The Lateef & Co. - Web Design & Development Studio",
     description:
-      "We build websites that bring in customers - not just ones that sit there looking pretty.",
+      "I build websites that bring in customers - not just ones that sit there looking pretty.",
     type: "website",
     locale: "en_IN",
     url: "https://thelateefco.com",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "The Lateef & Co. - Web Design & Development Studio",
     description:
-      "We build websites that bring in customers - not just ones that sit there looking pretty.",
+      "I build websites that bring in customers - not just ones that sit there looking pretty.",
     images: ["/og-image.jpg"],
   },
   robots: {

@@ -11,7 +11,7 @@ const services = [
     title: "Business Automation",
     icon: Zap,
     description:
-      "Eliminate manual busywork by automating your lead capture, follow-ups, and internal operations end-to-end. From CRM sync to email automation, we build systems that run themselves.",
+      "Eliminate manual busywork by automating your lead capture, follow-ups, and internal operations end-to-end. From CRM sync to email automation, I build systems that run themselves.",
     features: [
       "Lead Capture & CRM Sync",
       "Email & DM Automation",
@@ -39,7 +39,7 @@ const services = [
     title: "AI Integration",
     icon: Bot,
     description:
-      "Embed AI directly into your business - from smart chat agents to content and workflow tools your customers actually use. We turn ambiguous AI ideas into production features your users trust.",
+      "Embed AI directly into your business - from smart chat agents to content and workflow tools your customers actually use. I turn ambiguous AI ideas into production features your users trust.",
     features: [
       "AI Chat & Support Agents",
       "Custom AI Features",
@@ -53,7 +53,7 @@ const services = [
     title: "Brand Strategy",
     icon: Sparkles,
     description:
-      "Before we write a single line of code, we define who you are, who you're speaking to, and what you want them to feel. A clear brand strategy ensures your website doesn't just look good - it connects.",
+      "Before I write a single line of code, I define who you are, who you're speaking to, and what you want them to feel. A clear brand strategy ensures your website doesn't just look good - it connects.",
     features: [
       "Strategy & Positioning",
       "Audience Definition",
@@ -67,22 +67,22 @@ const faqs = [
   {
     question: "How long does a typical project take?",
     answer:
-      "Most projects take 4-6 weeks from kickoff to launch. We start with a discovery week, then 2-3 weeks of design and development, followed by a launch week. Timelines vary based on project scope.",
+      "Most projects take 4-6 weeks from kickoff to launch. I start with a discovery week, then 2-3 weeks of design and development, followed by a launch week. Timelines vary based on project scope.",
   },
   {
     question: "What does your process look like?",
     answer:
-      "We follow a structured 4-phase process: Discovery (understand your business), Design (create in the browser), Build (develop in parallel with design), and Launch (deploy and support).",
+      "I follow a structured 4-phase process: Discovery (understand your business), Design (create in the browser), Build (develop in parallel with design), and Launch (deploy and support).",
   },
   {
     question: "Do you offer ongoing support?",
     answer:
-      "Yes. We provide 30 days of free post-launch support. For ongoing needs, we offer monthly retainer packages for maintenance, updates, and continuous improvement.",
+      "Yes. I provide 30 days of free post-launch support. For ongoing needs, I offer monthly retainer packages for maintenance, updates, and continuous improvement.",
   },
   {
     question: "What's the investment range?",
     answer:
-"Projects typically start from ₹25k for a focused 3–4 page site. AI automations and integrations start from ₹40k, and custom applications or advanced AI agent work start from ₹1L. We'll provide a detailed quote after discovery.",  },
+"Projects typically start from ₹25k for a focused 3–4 page site. AI automations and integrations start from ₹40k, and custom applications or advanced AI agent work start from ₹1L. I'll provide a detailed quote after discovery.",  },
 ];
 
 export default function ServicesPage() {
@@ -95,7 +95,7 @@ export default function ServicesPage() {
           <div className="max-w-[1280px] mx-auto">
             <Reveal>
               <div className="hairline pt-6 mb-12">
-                <span className="label">What we do</span>
+                <span className="label">What I do</span>
               </div>
             </Reveal>
 
@@ -109,8 +109,8 @@ export default function ServicesPage() {
 
             <Reveal delay={0.1}>
               <p className="text-[1.0625rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[42ch]">
-                We don't just build websites - we build digital assets that grow your business.
-                Here's what we specialize in.
+              I don't just build websites - I build digital assets that grow your business.
+                Here's what I specialize in.
               </p>
             </Reveal>
           </div>
@@ -167,7 +167,7 @@ export default function ServicesPage() {
           <div className="max-w-[1280px] mx-auto">
             <Reveal>
               <div className="hairline pt-6 mb-12 md:mb-16">
-                <span className="label">Questions? We've got answers.</span>
+                <span className="label">Questions? I've got answers.</span>
               </div>
             </Reveal>
 

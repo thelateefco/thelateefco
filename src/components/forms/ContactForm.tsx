@@ -75,7 +75,7 @@ export default function ContactForm({
         });
 
         toast.success("Message sent!", {
-          description: "We'll be in touch within one business day.",
+          description: "I'll be in touch within one business day.",
         });
         reset();
         onSuccess?.();
@@ -161,7 +161,7 @@ export default function ContactForm({
 
       <motion.div variants={fieldVariants} className="flex flex-col gap-2">
         <label htmlFor="contact-message" className="label text-[#4A4A4A]">
-          What can we help with? <span className="text-[#8A8A8A]">*</span>
+          What can I help with? <span className="text-[#8A8A8A]">*</span>
         </label>
         <textarea
           id="contact-message"

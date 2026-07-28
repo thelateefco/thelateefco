@@ -68,7 +68,7 @@ export default function WorkPage() {
 
             <Reveal delay={0.1}>
               <p className="text-[1.0625rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[42ch]">
-                Here's a glimpse of what we've built for our clients.
+                Here's a glimpse of what I've built for our clients.
               </p>
             </Reveal>
           </div>
@@ -100,7 +100,7 @@ export default function WorkPage() {
                   Coming soon.
                 </p>
                 <p className="body-text text-[0.9375rem] text-[#4A4A4A] max-w-[38ch] mx-auto">
-                  We're working on some exciting projects. Check back soon to see our latest work.
+                  I'am working on some exciting projects. Check back soon to see our latest work.
                 </p>
               </div>
             ) : (

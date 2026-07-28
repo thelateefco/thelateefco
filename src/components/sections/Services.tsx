@@ -11,7 +11,7 @@ const services = [
     number: "01",
     title: "Business Automation",
     description:
-      "Eliminate manual busywork by automating your lead capture, follow-ups, and internal operations end-to-end. From CRM sync to email automation, we build systems that run themselves.",
+      "Eliminate manual busywork by automating your lead capture, follow-ups, and internal operations end-to-end. From CRM sync to email automation, I build systems that run themselves.",
     tags: ["Lead Capture", "CRM Sync", "Email Automation", "Operations"],
     image: "/images/services/businessauto.jpg",
     imageAlt: "Business Automation Process",
@@ -31,7 +31,7 @@ const services = [
     number: "03",
     title: "AI Integration",
     description:
-      "Embed AI directly into your business - from smart chat agents to content and workflow tools your customers actually use. We turn ambiguous AI ideas into production features your users trust.",
+      "Embed AI directly into your business - from smart chat agents to content and workflow tools your customers actually use. I turn ambiguous AI ideas into production features your users trust.",
     tags: ["AI Chat", "Custom AI", "Workflow Automation", "Smart Agents"],
     image: "/images/services/aiintegrate.jpg",
     imageAlt: "AI Integration Process",
@@ -127,7 +127,7 @@ export default function Services() {
       <div className="max-w-[1280px] mx-auto">
         <Reveal>
           <div className="flex items-center justify-between gap-6 mb-8 md:mb-14 hairline pt-6">
-            <span className="label">What we do</span>
+            <span className="label">What I do</span>
           </div>
         </Reveal>
 
@@ -143,7 +143,7 @@ export default function Services() {
           >
             <motion.div variants={itemVariants} className="mb-6">
               <p className="text-[0.9375rem] text-[#4A4A4A] font-light leading-[1.7] max-w-[38ch]">
-                We don't just build websites - we build digital assets that grow your business.
+                I don't just build websites - I build digital assets that grow your business.
               </p>
             </motion.div>
 

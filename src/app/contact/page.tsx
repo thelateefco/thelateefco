@@ -126,7 +126,7 @@ export default function ContactPage() {
                 <Reveal delay={0.25}>
                   <div className="mt-12 pt-8 hairline">
                     <p className="text-[0.8125rem] text-[#8A8A8A] font-light leading-[1.6]">
-                      We typically respond to all inquiries within
+                    I typically respond to all inquiries within
                       <br />
                       one business day.
                     </p>
@@ -151,7 +151,7 @@ export default function ContactPage() {
                     Ready to work together?
                   </p>
                   <p className="text-[0.875rem] text-[#4A4A4A] font-light">
-                    Let's talk about your project and see how we can help.
+                    Let's talk about your project and see how i can help.
                   </p>
                 </div>
                 <Link

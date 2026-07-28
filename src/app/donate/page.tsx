@@ -75,7 +75,7 @@ export default function DonatePage() {
                           100% Transparent
                         </h3>
                         <p className="text-[0.8125rem] text-[#4A4A4A] font-light">
-                          We share regular updates on how your contributions are making an impact.
+                          I share regular updates on how your contributions are making an impact.
                         </p>
                       </div>
                     </div>

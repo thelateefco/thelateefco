@@ -14,14 +14,14 @@ const testimonials = [
   },
   {
     id: "2",
-    quote: "We came to them with a vague idea and they delivered a polished, conversion-focused website that our customers actually trust. The AI integration for booking was a game-changer.",
+    quote: "I came with a vague idea and he delivered a polished, conversion-focused website that our customers actually trust. The AI integration for booking was a game-changer.",
     name: "Sheikh Zainab",
     business: "Saffron Table",
     location: "Dubai",
   },
   {
     id: "3",
-    quote: "They built us a site that made us more confident in our advertisements. The attention to detail and strategic thinking sets them apart.",
+    quote: "He built me a site that made me more confident in my advertisements. The attention to detail and strategic thinking sets him apart.",
     name: "Shruti Malani",
     business: "Verdant Studio",
     location: "India",

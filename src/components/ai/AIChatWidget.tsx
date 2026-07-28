@@ -115,7 +115,7 @@ export default function AIChatWidget() {
                     Hello! 👋
                   </p>
                   <p className="text-[0.8125rem] text-[#4A4A4A] font-light mt-1 max-w-[220px]">
-                    Ask me about our services or how we can help your business.
+                    Ask me about our services or how I can help your business.
                   </p>
                 </div>
               ) : (

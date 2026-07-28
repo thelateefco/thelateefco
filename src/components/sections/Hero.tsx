@@ -104,7 +104,7 @@ export default function Hero() {
             className="mt-3 md:mt-8 flex flex-col items-center gap-3 md:gap-6"
           >
             <p className="text-[1rem] sm:text-[1.3rem] md:text-[1.3rem] leading-[1.75] font-light max-w-[38ch] mx-auto text-[#FFFFFF] drop-shadow-md">
-              We build websites that bring in customers - not just ones that sit
+              I build websites that bring in customers - not just ones that sit
               there looking pretty.
             </p>
 

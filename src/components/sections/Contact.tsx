@@ -161,7 +161,7 @@ export default function Contact() {
 
       if (emailResult.success) {
         toast.success("Message sent!", {
-          description: "We'll get back to you within one business day.",
+          description: "I'll get back to you within one business day.",
         });
 
         // Reset form
@@ -174,7 +174,7 @@ export default function Contact() {
         // If email fails but Appwrite worked, still show success
         if (leadResult.success) {
           toast.success("Message received!", {
-            description: "We'll get back to you within one business day.",
+            description: "I'll get back to you within one business day.",
           });
           setIsPopupOpen(false);
           setFormData({ name: "", business: "", email: "" });
