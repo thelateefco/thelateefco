@@ -9,6 +9,7 @@ import Process from "../../components/sections/Process";
 import Testimonials from "../../components/sections/Testimonials";
 import Contact from "../../components/sections/Contact";
 import Footer from "../../components/shared/Footer";
+import AIAddons from "@/src/components/sections/AIAddons";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <ScrollAnimationWithFallback />
         <TrustBar />
         <Services />
+        <AIAddons />
         <WhyUs />
         <Work />
         <Process />
