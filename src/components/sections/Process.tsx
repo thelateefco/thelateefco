@@ -10,7 +10,7 @@ const steps = [
     number: "01",
     title: "Discovery",
     duration: "Week 1",
-    body: "I start with a focused conversation - your business, your customers, what's working, what isn't. Then I audit your current digital presence and map what the site actually needs to achieve. No briefs for the sake of briefs.",
+    body: "I start with a focused conversation - your business, your customers, what's working, what isn't. Then I audit your current digital presence and map what the site needs to do, not just look like. No briefs for the sake of briefs.",
   },
   {
     id: "design",
@@ -31,7 +31,7 @@ const steps = [
     number: "04",
     title: "Launch",
     duration: "Week 6",
-    body: "I handle the technical side of going live - domain, hosting, redirects, analytics - so you don't have to coordinate between multiple vendors. After launch, I stay available for 30 days to catch anything that needs attention.",
+    body: "I handle the technical side of going live - domain, hosting, redirects, analytics - so you're not coordinating between multiple vendors. Then I stay on for 30 days after launch to catch anything that needs attention.",
   },
 ];
 

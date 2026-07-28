@@ -8,17 +8,17 @@ const pillars = [
   {
     id: "precision",
     title: "Built with precision.",
-    body: "I don't apply generic templates and call it a day. Every decision - layout, type, structure, copy - is considered in the context of your business and your customers.",
+    body: "No generic templates, no filler. Every decision - layout, type, structure, copy - is made in the context of your business and the customers you're trying to reach.",
   },
   {
     id: "purpose",
     title: "Built with purpose.",
-    body: "Decoration is easy. Function is harder. I prioritise the things that move your business forward: clarity, trust, and conversion - in that order.",
+    body: "Decoration is easy. Function is harder. I design around what actually moves your business forward: clarity first, trust second, conversion third.",
   },
   {
     id: "results",
     title: "Built for results.",
-    body: "A beautiful website that doesn't generate enquiries is an expensive art project. Ours are designed from the ground up to work - to attract, to persuade, and to convert.",
+    body: "A beautiful site that generates no enquiries is an expensive art project. Yours is built from the ground up to attract, to persuade, and to convert.",
   },
 ];
 
@@ -74,9 +74,9 @@ export default function WhyUs() {
 
         <Reveal delay={0.1}>
           <p className="text-[#A0A0A0] text-[1rem] md:text-[1.0625rem] font-light leading-[1.8] max-w-[48ch] mb-20 md:mb-28">
-            Most agencies focus on the deliverable. We focus on the outcome.
-            There&apos;s a difference - and your customers will feel it the
-            moment they land on your site.
+            Most agencies focus on the deliverable. I focus on the outcome.
+            It&apos;s a different way of working - and your customers will
+            feel it the moment they land on your site.
           </p>
         </Reveal>
 
