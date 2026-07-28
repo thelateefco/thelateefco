@@ -11,8 +11,8 @@ const STEPS = [
 ];
 
 const IMAGES = {
-  before: "/images/projects/projectaimagixafter.png",
-  after: "/images/projects/projectaimagixbefore.png",
+  before: "/images/projects/projectaimagixafter2.png",
+  after: "/images/projects/projectaimagixbefore2.png",
 };
 
 export default function ScrollRevealSlider() {
@@ -136,8 +136,7 @@ export default function ScrollRevealSlider() {
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#161616]">
-                  <div className="text-[#6A6A6A] text-sm font-light mb-2">✏️</div>
-                  <div className="text-[#6A6A6A] text-sm font-light">Before</div>
+                  <div className="text-[#6A6A6A] text-sm font-light">After</div>
                 </div>
               )}
               <div className="absolute inset-0 bg-black/10" />
@@ -156,8 +155,7 @@ export default function ScrollRevealSlider() {
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-[#F5F5F7]">
-                  <div className="text-[#8A8A8A] text-sm font-light mb-2">✨</div>
-                  <div className="text-[#8A8A8A] text-sm font-light">After</div>
+                  <div className="text-[#8A8A8A] text-sm font-light">Before</div>
                 </div>
               )}
             </motion.div>

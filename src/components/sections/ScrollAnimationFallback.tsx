@@ -11,7 +11,7 @@ const STEPS = [
   { label: "Becomes a website that works.", delay: 0.5 },
 ];
 
-const FALLBACK_IMAGE = "/images/projects/projectaimagixafter.png";
+const FALLBACK_IMAGE = "/images/projects/projectaimagixafter2.png";
 
 export default function ScrollAnimationWithFallback() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
