@@ -104,7 +104,7 @@ export default function AIAddons() {
   const visibleCards = getVisibleCards();
 
   return (
-    <section className="bg-[#F7F4F0] px-6 md:px-10 lg:px-16 py-20 md:py-28">
+    <section className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 py-20 md:py-28 border-t border-[#E0E0E4]">
       <div className="max-w-[1280px] mx-auto">
         {/* Heading */}
         <div className="text-center mb-6">

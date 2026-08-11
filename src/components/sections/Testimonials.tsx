@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Reveal from "../animations/Reveal";
 import Image from "next/image";
+import ParallaxBackground from "../shared/ParallaxBackground";
 
 const testimonials = [
   {
@@ -56,8 +57,8 @@ const itemVariants = {
 export default function Testimonials() {
   return (
     <section className="relative py-28 md:py-36 px-6 md:px-10 lg:px-16 overflow-hidden">
-      {/* ✅ Background Image */}
-      <div className="absolute inset-0 z-0">
+      {/* ✅ Background Image with Parallax */}
+      <ParallaxBackground speed={20}>
         <Image
           src="/images/footer/footer2.jpg"
           alt="Background"
@@ -68,7 +69,7 @@ export default function Testimonials() {
         />
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-black/70" />
-      </div>
+      </ParallaxBackground>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
         <Reveal>

@@ -185,42 +185,6 @@ export default function Services() {
             viewport={{ once: true }}
             className="order-1 md:order-2"
           >
-            {/* Mobile: Mini Image with overlay */}
-            <motion.div variants={itemVariants} className="md:hidden mb-6">
-              <div className="relative w-full aspect-[16/9] rounded-[12px] overflow-hidden bg-[#D0D0D5]/20">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeIndex}
-                    variants={imageFadeVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={activeService.image}
-                      alt={activeService.imageAlt || activeService.title}
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                      priority
-                    />
-                  </motion.div>
-                </AnimatePresence>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#000000]/60 via-[#000000]/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-[#FFFFFF] font-serif text-lg font-medium">
-                    {activeService.title}
-                  </p>
-                </div>
-                <div className="absolute top-4 right-4">
-                  <span className="font-serif text-[2rem] font-medium text-[#FFFFFF]/20">
-                    {activeService.number}
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
             <div className="flex flex-col gap-4 md:gap-5">
               {services.map((service, index) => {
                 const isActive = activeIndex === index;
@@ -231,24 +195,25 @@ export default function Services() {
                     variants={itemVariants}
                     onClick={() => handleCardClick(index)}
                     className={`
-                      w-full text-left p-4 sm:p-5 md:p-6 rounded-[14px] 
-                      transition-all duration-300 cursor-pointer
+                      w-full text-left p-5 md:p-6 rounded-[16px] 
+                      transition-all duration-300 cursor-pointer overflow-hidden
                       ${isActive 
-                        ? "bg-[#140f0a] text-[#F5F5F7] border  shadow-[0_4px_24px_rgba(26,26,26,0.15)]" 
-                        : "bg-[#F5F5F7] text-[#000000]  shadow-[8px_8px_16px_#e0e0e4,_-8px_-8px_16px_#ffffff] hover:shadow-[6px_6px_12px_#e0e0e4,_-6px_-6px_12px_#ffffff] hover:border-[#D0D0D5]"
+                        ? "bg-[#140f0a] text-[#F5F5F7] shadow-[0_8px_30px_rgba(20,15,10,0.25)] border border-[#2A241F]" 
+                        : "bg-[#F5F5F7] text-[#000000] shadow-[8px_8px_18px_#e0e0e4,_-8px_-8px_18px_#ffffff] hover:shadow-[6px_6px_14px_#e0e0e4,_-6px_-6px_14px_#ffffff] border border-transparent"
                       }
                     `}
                   >
+                    {/* Header: Title & Number */}
                     <div className="flex items-center justify-between gap-3">
                       <span
-                        className={`font-serif text-[1rem] sm:text-[1.1rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
+                        className={`font-serif text-[1.125rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
                           isActive ? "text-[#F5F5F7]" : "text-[#000000]"
                         }`}
                       >
                         {service.title}
                       </span>
                       <span
-                        className={`font-serif text-[1rem] sm:text-[1.1rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
+                        className={`font-serif text-[1.125rem] md:text-[1.25rem] font-medium transition-colors duration-300 ${
                           isActive ? "text-[#FFFFFF]" : "text-[#8A8A8A]"
                         }`}
                       >
@@ -256,20 +221,46 @@ export default function Services() {
                       </span>
                     </div>
 
-                    <div className="mt-1.5 md:mt-2">
-                      <p className={`text-[0.8125rem] sm:text-[0.875rem] leading-[1.6] transition-colors duration-300 ${
+                    {/* Mobile Image preview directly inside active card */}
+                    <AnimatePresence>
+                      {isActive && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                          className="md:hidden mt-3.5 mb-1 overflow-hidden"
+                        >
+                          <div className="relative w-full aspect-[16/9] rounded-[10px] overflow-hidden shadow-inner">
+                            <Image
+                              src={service.image}
+                              alt={service.imageAlt || service.title}
+                              fill
+                              className="object-cover"
+                              sizes="100vw"
+                              priority
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Description & Tags */}
+                    <div className="mt-2.5">
+                      <p className={`text-[0.85rem] md:text-[0.875rem] leading-[1.65] transition-colors duration-300 ${
                         isActive ? "text-[#D0D0D5]" : "text-[#4A4A4A]"
                       }`}>
                         {service.description}
                       </p>
-                      <div className="flex flex-wrap gap-1.5 mt-2.5">
-                        {service.tags.slice(0, 3).map((tag) => (
+                      <div className="flex flex-wrap gap-1.5 mt-3">
+                        {service.tags.map((tag) => (
                           <span
                             key={tag}
-                            className={`px-2.5 py-1 rounded-full text-[0.45rem] sm:text-[0.5rem] font-medium tracking-[0.06em] uppercase transition-colors duration-300 ${
+                            className={`px-2.5 py-1 rounded-full text-[0.5rem] font-medium tracking-[0.06em] uppercase transition-colors duration-300 ${
                               isActive 
-                                ? "bg-[#2A2A2A] text-[#F5F5F7]" 
-                                : "bg-[#E8E8EC] text-[#4A4A4A] shadow-[inset_2px_2px_4px_#d0d0d4"
+                                ? "bg-[#28211A] text-[#F5F5F7] border border-white/10" 
+                                : "bg-[#E8E8EC] text-[#4A4A4A]"
                             }`}
                           >
                             {tag}

@@ -7,6 +7,7 @@ import { WHATSAPP_URL } from "../../lib/constants";
 import { trackWhatsAppClick } from "../../lib/utils/tracking";
 import { useState } from "react";
 import Image from "next/image";
+import ParallaxBackground from "../shared/ParallaxBackground";
 
 export default function Hero() {
   const [videoError, setVideoError] = useState(false);
@@ -42,8 +43,8 @@ export default function Hero() {
       id="hero"
       className="relative h-screen w-full flex flex-col justify-center bg-[#1A1A1A] pt-12 sm:pt-16 md:pt-24 pb-3 sm:pb-10 md:pb-16 px-6 md:px-10 lg:px-16 overflow-hidden"
     >
-      {/* ✅ Video Background - No Overlay */}
-      <div className="absolute inset-0 z-0">
+      {/* ✅ Video & Fallback Background with Parallax */}
+      <ParallaxBackground speed={18}>
         {!videoError ? (
           <video
             autoPlay
@@ -60,7 +61,7 @@ export default function Hero() {
           </video>
         ) : (
           <div className="absolute inset-0 bg-[#1A1A1A]">
-            <div className="relative w-full h-[calc(100%+50px)] sm:h-full -top-[25px] sm:top-0">
+            <div className="relative w-full h-full">
               <Image
                 src="/images/homepage3.jpg"
                 alt="Background"
@@ -72,7 +73,7 @@ export default function Hero() {
             </div>
           </div>
         )}
-      </div>
+      </ParallaxBackground>
 
       {/* ✅ No overlay - removed black/40 */}
 

@@ -5,6 +5,7 @@ import { MapPin, Users, Target, Briefcase, Award, Coffee, Heart, Zap } from "luc
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import ParallaxBackground from "../../components/shared/ParallaxBackground";
 
 export default function AboutPage() {
   return (
@@ -91,14 +92,16 @@ export default function AboutPage() {
     <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
       <Reveal>
         <div className="relative aspect-square md:aspect-[4/5] rounded-[16px] overflow-hidden bg-[#E8E8EC]">
-          <Image
-            src="/images/founder/founder-lateef.jpg"
-            alt="Lateef Shaikh - Founder of The Lateef & Co."
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority
-          />
+          <ParallaxBackground speed={12} className="absolute inset-0 z-0">
+            <Image
+              src="/images/founder/founder-lateef.jpg"
+              alt="Lateef Shaikh - Founder of The Lateef & Co."
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
+            />
+          </ParallaxBackground>
         </div>
       </Reveal>
 

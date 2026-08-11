@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getProjectBySlug } from "../../../lib/appwrite/server";
 import { getImageUrl } from "../../../lib/utils/images";
 import Image from "next/image";
+import ParallaxBackground from "../../../components/shared/ParallaxBackground";
 
 const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -92,14 +93,16 @@ export default async function CaseStudyPage({
                   shadow-[8px_8px_20px_rgba(163,177,198,0.35),-8px_-8px_20px_rgba(255,255,255,0.8)]
                 ">
                   <div className="relative aspect-[16/9] m-3 rounded-[16px] overflow-hidden shadow-[inset_2px_2px_6px_rgba(163,177,198,0.3),inset_-2px_-2px_6px_rgba(255,255,255,0.6)]">
-                    <Image
-                      src={imageUrl}
-                      alt={project.title}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 80vw"
-                      priority
-                    />
+                    <ParallaxBackground speed={12} className="absolute inset-0 z-0">
+                      <Image
+                        src={imageUrl}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 80vw"
+                        priority
+                      />
+                    </ParallaxBackground>
                   </div>
                 </div>
               </Reveal>
