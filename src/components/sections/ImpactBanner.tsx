@@ -1,32 +1,76 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Reveal from "../animations/Reveal";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 const stats = [
   {
-    value: "99+",
+    value: 99,
+    suffix: "+",
     label: "PageSpeed Score",
     description: "Built on clean Next.js architecture with near-instant page load times.",
   },
   {
-    value: "3x",
+    value: 3,
+    suffix: "x",
     label: "Avg. Enquiry Increase",
     description: "Conversion-first layout structured to turn passive readers into buyers.",
   },
   {
-    value: "24/7",
+    value: 24,
+    suffix: "/7",
     label: "AI Customer Capture",
     description: "Automated chat & workflow agents capturing leads while you sleep.",
   },
   {
-    value: "100%",
+    value: 100,
+    suffix: "%",
     label: "Bespoke Codebase",
     description: "Zero slow templates, zero fragile plugins, 100% custom built for longevity.",
   },
 ];
+
+function CountUp({
+  target,
+  suffix,
+  inView,
+}: {
+  target: number;
+  suffix: string;
+  inView: boolean;
+}) {
+  const [count, setCount] = useState(0);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (!inView || startedRef.current) return;
+    startedRef.current = true;
+
+    const duration = 1400;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  }, [inView, target]);
+
+  return (
+    <span className="font-serif text-[3rem] md:text-[3.75rem] font-medium text-[#000000] leading-none block mb-3 tabular-nums">
+      {count}
+      <span>{suffix}</span>
+    </span>
+  );
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -52,6 +96,9 @@ const itemVariants = {
 };
 
 export default function ImpactBanner() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(gridRef, { once: true, margin: "-80px" });
+
   return (
     <section className="bg-[#FFFFFF] py-24 md:py-36 px-6 md:px-10 lg:px-16 text-[#000000] border-t border-[#E0E0E4]">
       <div className="max-w-[1280px] mx-auto">
@@ -70,16 +117,17 @@ export default function ImpactBanner() {
 
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-7 py-3.5 rounded-[7px] bg-[#140f0a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] transition-colors shrink-0 cursor-pointer no-underline"
+              className="group inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-7 py-3.5 rounded-[7px] bg-[#140f0a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(20,15,10,0.3)] shrink-0 cursor-pointer no-underline"
             >
               Start your project
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
           </div>
         </Reveal>
 
         {/* Stats Grid */}
         <motion.div
+          ref={gridRef}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -104,9 +152,7 @@ export default function ImpactBanner() {
               "
             >
               <div>
-                <span className="font-serif text-[3rem] md:text-[3.75rem] font-medium text-[#000000] leading-none block mb-3 tabular-nums">
-                  {stat.value}
-                </span>
+                <CountUp target={stat.value} suffix={stat.suffix} inView={inView} />
                 <h3 className="font-serif text-[1.125rem] font-medium text-[#000000] mb-2">
                   {stat.label}
                 </h3>

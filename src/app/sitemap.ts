@@ -22,12 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    {
-      url: `${baseUrl}/work`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
+    // { url: `${baseUrl}/work`, ... }, // Hidden – not deleted
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),

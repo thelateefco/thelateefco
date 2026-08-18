@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Reveal from "../../components/animations/Reveal";
 import { getFeaturedProjects } from "../../lib/appwrite/server";
-import { getImageUrl } from "../../lib/utils/images";
+import { getImageUrl, getAllProjectImages } from "../../lib/utils/images";
 import type { Project } from "../../lib/appwrite/collections";
 
 const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
@@ -33,15 +33,10 @@ export default function Work() {
     fetchProjects();
   }, []);
 
-  // Get image URL - checks images field first, then featuredImage
+  // Get image URL using getAllProjectImages helper
   const getProjectImage = (project: Project) => {
-    if (project.images) {
-      return getImageUrl(project.images);
-    }
-    if (project.featuredImage) {
-      return getImageUrl(project.featuredImage);
-    }
-    return "";
+    const images = getAllProjectImages(project);
+    return images.length > 0 ? images[0] : "";
   };
 
   return (

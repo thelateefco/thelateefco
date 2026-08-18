@@ -60,6 +60,61 @@ const stepVariants = {
   },
 };
 
+function ProcessStep({ step, i }: { step: (typeof steps)[0]; i: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isActive = useInView(ref, { margin: "-40% 0px -40% 0px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      variants={stepVariants}
+      whileHover={{ x: 4 }}
+      transition={{ duration: 0.4, ease: SOOTHING_EASE }}
+      className="relative pb-16 md:pb-20 last:pb-0 group"
+      style={{
+        opacity: isActive ? 1 : 0.4,
+        transition: "opacity 0.5s ease",
+      }}
+    >
+      {/* Timeline dot */}
+      <motion.div
+        animate={{ scale: isActive ? 1.3 : 1 }}
+        transition={{ duration: 0.4, ease: SOOTHING_EASE }}
+        className={`absolute -left-[27px] md:-left-[37px] top-0 w-3 h-3 rounded-full border-2 transition-colors duration-500 ${
+          isActive
+            ? "border-[#1A1A1A] bg-[#1A1A1A] shadow-[0_0_0_4px_rgba(26,26,26,0.12)]"
+            : "border-[#1A1A1A] bg-[#ECE6DF] shadow-[2px_2px_5px_rgba(163,177,198,0.4)]"
+        }`}
+      />
+
+      <div className="grid md:grid-cols-[120px_1fr_1fr] gap-6 md:gap-10">
+        <div className="flex items-start gap-4">
+          <span
+            className={`label transition-colors duration-500 ${
+              isActive ? "text-[#1A1A1A]" : "text-[#8A8A8A]"
+            }`}
+          >
+            {step.number}
+          </span>
+          <span className="label text-[#8A8A8A] text-[0.55rem]">
+            {step.duration}
+          </span>
+        </div>
+
+        <div>
+          <h3 className="font-serif text-[1.75rem] md:text-[2rem] font-medium text-[#1A1A1A] leading-tight">
+            {step.title}
+          </h3>
+        </div>
+
+        <div>
+          <p className="body-text text-[0.9375rem] leading-[1.8]">{step.body}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Process() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
@@ -96,43 +151,7 @@ export default function Process() {
           className="flex flex-col"
         >
           {steps.map((step, i) => (
-            <motion.div
-              key={step.id}
-              variants={stepVariants}
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.4, ease: SOOTHING_EASE }}
-              className="relative pb-16 md:pb-20 last:pb-0 group"
-            >
-              {/* Timeline dot */}
-              <motion.div
-                whileHover={{ scale: 1.3 }}
-                transition={{ duration: 0.3, ease: SOOTHING_EASE }}
-                className="absolute -left-[27px] md:-left-[37px] top-0 w-3 h-3 rounded-full border-2 border-[#1A1A1A] bg-[#ECE6DF] shadow-[2px_2px_5px_rgba(163,177,198,0.4)]"
-              />
-
-              <div className="grid md:grid-cols-[120px_1fr_1fr] gap-6 md:gap-10">
-                <div className="flex items-start gap-4">
-                  <span className="label text-[#8A8A8A] transition-colors duration-300 group-hover:text-[#1A1A1A]">
-                    {step.number}
-                  </span>
-                  <span className="label text-[#8A8A8A] text-[0.55rem]">
-                    {step.duration}
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="font-serif text-[1.75rem] md:text-[2rem] font-medium text-[#1A1A1A] leading-tight">
-                    {step.title}
-                  </h3>
-                </div>
-
-                <div>
-                  <p className="body-text text-[0.9375rem] leading-[1.8]">
-                    {step.body}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            <ProcessStep key={step.id} step={step} i={i} />
           ))}
         </motion.div>
       </div>

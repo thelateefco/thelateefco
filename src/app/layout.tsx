@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import PageTransition from "../components/animations/PageTransition";
 import PageLoader from "../components/animations/PageLoader";
+import SmoothScrollProvider from "../components/providers/SmoothScrollProvider";
 import "./globals.css";
 import AIChatWidget from "../components/ai/AIChatWidget";
 
@@ -82,9 +83,10 @@ export default function RootLayout({
        
       </head>
       <body className="cursor-auto">
-        <PageLoader />
-        <PageTransition>{children}</PageTransition>
-        <AIChatWidget />
+        <SmoothScrollProvider>
+          <PageLoader />
+          <PageTransition>{children}</PageTransition>
+          <AIChatWidget />
 
         <Toaster
           position="bottom-right"
@@ -104,6 +106,7 @@ export default function RootLayout({
           }}
           theme="dark"
         />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

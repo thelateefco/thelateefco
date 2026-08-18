@@ -1,12 +1,12 @@
 /* ── Google Fonts ────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
 
 @import "tailwindcss";
 
 @theme {
   /* ── Font Families ────────────────────────────────── */
-  --font-serif: "PT Serif", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Helvetica Neue", Helvetica, "Inter", Arial, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, "Inter", system-ui, -apple-system, sans-serif;
 
   /* ── Brand Colors ────────────────────────────────── */
   --color-white: #FFFFFF;
@@ -45,8 +45,8 @@ html {
 body {
   background-color: #FFFFFF;
   color: #000000;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-weight: 300;
+  font-family: 'Helvetica Neue', Helvetica, 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 400;
   line-height: 1.6;
 }
 
@@ -63,28 +63,28 @@ body {
 
 /* ── Typography ───────────────────────────────────────── */
 h1, h2, h3, h4 {
-  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
-  font-weight: 400;
+  font-family: 'Helvetica Neue', Helvetica, 'Plus Jakarta Sans', Arial, sans-serif;
+  font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: #000000;
 }
 
 /* Display text gets tighter tracking */
 .text-display {
-  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
-  font-weight: 400;
-  letter-spacing: -0.025em;
+  font-family: 'Helvetica Neue', Helvetica, 'Plus Jakarta Sans', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
   line-height: 1.05;
   color: #000000;
 }
 
-/* Italic emphasis */
-em, .italic-em {
-  font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+/* Italic emphasis - Clean Unified Helvetica Oblique */
+em, .italic-em, .font-serif-italic {
+  font-family: 'Helvetica Neue', Helvetica, 'Inter', Arial, sans-serif;
   font-style: italic;
-  font-weight: 400;
-  color: #000000;
+  font-weight: 300;
+  letter-spacing: -0.01em;
 }
 
 /* Tabular numerals for stats/dates */
@@ -128,46 +128,62 @@ em, .italic-em {
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: #140f0a;
+  justify-content: center;
+  gap: 0.625rem;
+  background: #140f0a;
   color: #FFFFFF;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, 'Inter', sans-serif;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.875rem 1.875rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-out;
   cursor: pointer;
-  border: none;
   text-decoration: none;
 }
 
 .btn-primary:hover {
-  background-color: #1A1A1A;
+  background: #251e18;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.625rem;
   background-color: transparent;
-  color: #000000;
-  font-family: 'Inter', sans-serif;
+  color: #140f0a;
+  font-family: 'Helvetica Neue', Helvetica, 'Inter', sans-serif;
   font-size: 0.8125rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.875rem 1.875rem;
-  border: 1px solid #000000;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  padding: 0.875rem 2rem;
+  border-radius: 9999px;
+  border: 1px solid #140f0a;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
   text-decoration: none;
 }
 
 .btn-outline:hover {
-  background-color: #000000;
+  background-color: #140f0a;
   color: #FFFFFF;
+  box-shadow: 0 8px 25px rgba(20, 15, 10, 0.25);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-outline:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .body-text {
@@ -202,13 +218,18 @@ em, .italic-em {
   width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFFFF;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E0E0E4;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+* {
+  scrollbar-width: none; /* Firefox */
+  scrollbar-color: transparent transparent;
 }
 
 /* ── Nav Links ───────────────────────────────────────── */
@@ -308,4 +329,47 @@ em, .italic-em {
     transform: none !important;
     opacity: 1 !important;
   }
+}
+
+/* ── Marquee ─────────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 18s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Footer link hover ───────────────────────────────── */
+.footer-link {
+  position: relative;
+  display: inline-block;
+  color: #4A4A4A;
+  transition: color 0.2s ease;
+}
+
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: #000000;
+  transition: width 0.25s ease;
+}
+
+.footer-link:hover {
+  color: #000000;
+}
+
+.footer-link:hover::after {
+  width: 100%;
 }

@@ -41,12 +41,11 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
     ref
   ) => {
     const baseStyles = cn(
-      "inline-flex items-center justify-center gap-2",
-      "font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase",
+      "group inline-flex items-center justify-center gap-2.5",
+      "font-sans text-[0.8125rem] font-semibold tracking-[0.06em] uppercase",
       "px-6 py-3.5 md:px-7 md:py-4",
-      "rounded-[7px]",
-      "transition-[background-color,box-shadow] duration-300 ease-out",
-      "border border-transparent",
+      "rounded-full",
+      "transition-all duration-300 ease-out",
       "cursor-pointer",
       "no-underline",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A1A1A]/40 focus-visible:ring-offset-2",
@@ -56,27 +55,28 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
 
     const variantStyles = {
       primary: cn(
-        "bg-[#140f0a] text-[#ECE6DF]",
-        "shadow-[0_1px_2px_rgba(0,0,0,0.05)]",
-        "hover:bg-[#2E2E2E] hover:shadow-[0_8px_20px_rgba(0,0,0,0.18)]",
-        "active:bg-[#1A1A1A]"
+        "bg-[#140f0a] text-[#FFFFFF]",
+        "border border-[#140f0a]",
+        "shadow-[0_4px_14px_rgba(20,15,10,0.18)]",
+        "hover:bg-[#2A221B] hover:shadow-[0_8px_25px_rgba(20,15,10,0.28)]",
+        "active:scale-[0.98]"
       ),
       secondary: cn(
-        "bg-transparent text-[#1A1A1A]",
-        "border-[#1A1A1A]",
-        "hover:bg-[#1A1A1A] hover:text-[#ECE6DF]",
-        "active:bg-[#1A1A1A] active:text-[#ECE6DF]"
+        "bg-transparent text-[#140f0a]",
+        "border border-[#140f0a]",
+        "hover:bg-[#140f0a] hover:text-[#FFFFFF]",
+        "active:scale-[0.98]"
       ),
     };
 
     const content = (
       <>
         {icon && iconPosition === "left" && (
-          <span className="shrink-0">{icon}</span>
+          <span className="shrink-0 transition-transform duration-300 group-hover:-translate-x-0.5">{icon}</span>
         )}
         <span>{children}</span>
         {icon && iconPosition === "right" && (
-          <span className="shrink-0">{icon}</span>
+          <span className="shrink-0 transition-transform duration-300 group-hover:translate-x-1">{icon}</span>
         )}
       </>
     );

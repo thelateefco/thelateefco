@@ -252,20 +252,23 @@ export default function Contact() {
                     </svg>
                   }
                   iconPosition="left"
-                  className="w-full sm:w-auto justify-center"
+                  className="group w-full sm:w-auto justify-center hover:shadow-[0_8px_24px_rgba(20,15,10,0.25)] hover:-translate-y-0.5 transition-all duration-300"
                   aria-label="Message us on WhatsApp"
                 >
-                  Let's Get Started
+                  <span className="flex items-center gap-2">
+                    Let&apos;s Get Started
+                    <span className="inline-block translate-x-0 group-hover:translate-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300">→</span>
+                  </span>
                 </Button>
 
                 {/* Drop us a note button */}
                 <button
                   id="contact-note"
                   onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-colors duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#140f0a] hover:text-[#F5F5F7] active:bg-[#000000] active:text-[#F5F5F7] cursor-pointer no-underline"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-all duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#140f0a] hover:text-[#F5F5F7] hover:border-[#140f0a] hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)] active:scale-[0.98] cursor-pointer no-underline"
                   aria-label="Drop us a note"
                 >
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4 transition-transform duration-300 group-hover:rotate-[-8deg]" />
                   Drop us a note
                 </button>
               </div>

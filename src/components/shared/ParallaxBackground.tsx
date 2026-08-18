@@ -11,7 +11,7 @@ interface ParallaxBackgroundProps {
 
 export default function ParallaxBackground({
   children,
-  speed = 15,
+  speed = 8,
   className = "absolute inset-0 z-0 overflow-hidden",
 }: ParallaxBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +27,7 @@ export default function ParallaxBackground({
     <div ref={containerRef} className={className}>
       <motion.div
         style={{ y }}
-        className="relative w-full h-[130%] -top-[15%] pointer-events-none"
+        className="relative w-full h-[140%] -top-[20%] pointer-events-none"
       >
         {children}
       </motion.div>

@@ -1,57 +1,70 @@
 "use client";
 
-import { motion } from "framer-motion";
-
 const locations = [
-  { country: "India" },
-  { country: "Dubai" },
-  { country: "USA" },
-  { country: "Australia" },
+  "India",
+  "Dubai",
+  "USA",
+  "Australia",
+  "India",
+  "Dubai",
+  "USA",
+  "Australia",
 ];
 
 export default function TrustBar() {
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 border-t border-b border-[#D0D0D5]"
-    >
-      <div className="max-w-[1280px] mx-auto">
-        <div className="py-6 md:py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#4A4A4A"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
-            <span className="label text-[0.6rem] tracking-[0.15em] text-[#4A4A4A]">
-              Working with businesses across
-            </span>
-          </div>
+    <section className="bg-[#F5F5F7] border-t border-b border-[#D0D0D5] overflow-hidden">
+      <div className="py-5 md:py-6 flex items-center gap-0">
+        {/* Static label */}
+        <div className="shrink-0 flex items-center gap-3 pl-6 md:pl-10 lg:pl-16 pr-8 border-r border-[#D0D0D5] mr-8 bg-[#F5F5F7] z-10">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#4A4A4A"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="shrink-0"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+            <path d="M2 12h20" />
+          </svg>
+          <span className="label text-[0.6rem] tracking-[0.15em] text-[#4A4A4A] whitespace-nowrap">
+            Working with businesses across
+          </span>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {locations.map((loc) => (
-              <div key={loc.country} className="flex items-center gap-2">
-                <span className="text-[0.8125rem] font-light text-[#4A4A4A]">
-                  {loc.country}
-                </span>
-              </div>
+        {/* Marquee track */}
+        <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex animate-marquee gap-12 pr-12">
+            {locations.map((loc, i) => (
+              <span
+                key={`a-${i}`}
+                className="text-[0.8125rem] font-light text-[#4A4A4A] whitespace-nowrap flex items-center gap-3"
+              >
+                <span className="w-1 h-1 rounded-full bg-[#C0B9B1] inline-block" />
+                {loc}
+              </span>
+            ))}
+          </div>
+          {/* Duplicate for seamless loop */}
+          <div className="flex animate-marquee gap-12 pr-12" aria-hidden="true">
+            {locations.map((loc, i) => (
+              <span
+                key={`b-${i}`}
+                className="text-[0.8125rem] font-light text-[#4A4A4A] whitespace-nowrap flex items-center gap-3"
+              >
+                <span className="w-1 h-1 rounded-full bg-[#C0B9B1] inline-block" />
+                {loc}
+              </span>
             ))}
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

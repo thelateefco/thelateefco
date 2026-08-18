@@ -5,7 +5,7 @@ import Services from "../../components/sections/Services";
 import AIAddons from "@/src/components/sections/AIAddons";
 import ImpactBanner from "../../components/sections/ImpactBanner";
 import WhyUs from "../../components/sections/WhyUs";
-import Work from "../../components/sections/Work";
+// import Work from "../../components/sections/Work"; // Hidden – not deleted
 import Process from "../../components/sections/Process";
 import Testimonials from "../../components/sections/Testimonials";
 import Contact from "../../components/sections/Contact";
@@ -22,7 +22,7 @@ export default function Home() {
         <AIAddons />
         <ImpactBanner />
         <WhyUs />
-        <Work />
+        {/* <Work /> */}  {/* Hidden – not deleted */}
         <Process />
         <Testimonials />
         <Contact />

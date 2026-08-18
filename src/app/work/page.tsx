@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getProjects } from "../../lib/appwrite/server";
-import { getImageUrl } from "../../lib/utils/images";
+import { getImageUrl, getAllProjectImages } from "../../lib/utils/images";
 import type { Project } from "../../lib/appwrite/collections";
 
 const SOOTHING_EASE = [0.16, 1, 0.3, 1] as const;
@@ -21,7 +21,7 @@ export default function WorkPage() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const result = await getProjects(true);
+        const result = await getProjects(false);
         if (result.success && result.data) {
           setProjects(result.data);
         }
@@ -35,15 +35,10 @@ export default function WorkPage() {
     fetchProjects();
   }, []);
 
-  // Get image URL - checks images field first, then featuredImage
+  // Get image URL using getAllProjectImages helper
   const getProjectImage = (project: Project) => {
-    if (project.images) {
-      return getImageUrl(project.images);
-    }
-    if (project.featuredImage) {
-      return getImageUrl(project.featuredImage);
-    }
-    return "";
+    const images = getAllProjectImages(project);
+    return images.length > 0 ? images[0] : "";
   };
 
   return (
@@ -59,10 +54,10 @@ export default function WorkPage() {
             </Reveal>
 
             <Reveal>
-              <h1 className="font-serif text-[clamp(2.5rem,6vw,4.5rem)] font-medium text-[#000000] leading-[1.05] tracking-tight max-w-[14ch] mb-6">
+              <h1 className="font-sans text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-[#000000] leading-[1.05] tracking-tight max-w-[14ch] mb-6">
                 Projects that
                 <br />
-                <em className="italic-em text-[#000000]">speak for themselves.</em>
+                <em className="italic font-sans font-light text-[#4A4A4A]">speak for themselves.</em>
               </h1>
             </Reveal>
 

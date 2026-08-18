@@ -203,6 +203,17 @@ export async function deleteLead(leadId: string) {
 
 // ── Projects Functions ──────────────────────────────
 
+import { parseTags } from "../utils/images";
+
+const isTrue = (val: unknown) => {
+  if (val === true) return true;
+  if (typeof val === "string") {
+    const s = val.trim().toLowerCase();
+    return s === "true";
+  }
+  return false;
+};
+
 export async function getFeaturedProjects(limit = 3) {
   if (!DATABASE_ID || !PROJECTS_COLLECTION) {
     console.error("❌ Appwrite not configured for projects");
@@ -214,26 +225,28 @@ export async function getFeaturedProjects(limit = 3) {
       DATABASE_ID,
       PROJECTS_COLLECTION,
       [
-        Query.equal("published", "true"),
-        Query.equal("featured", true),
         Query.orderAsc("order"),
-        Query.limit(limit),
+        Query.limit(100),
       ]
     );
 
-    const projects = result.documents.map((doc) => ({
-      ...doc,
-      published: doc.published === "true",
-      featured: doc.featured === true,
-    }));
+    const featuredProjects = result.documents
+      .map((doc) => ({
+        ...doc,
+        published: isTrue(doc.published),
+        featured: isTrue(doc.featured),
+        tags: parseTags(doc.tags),
+      }))
+      .filter((p) => p.published && p.featured)
+      .slice(0, limit);
 
     return {
       success: true,
-      data: JSON.parse(JSON.stringify(projects)) as unknown as Project[],
+      data: JSON.parse(JSON.stringify(featuredProjects)) as unknown as Project[],
     };
-  } catch (error) {
-    console.error("❌ Error fetching featured projects:", error);
-    return { success: false, error: "Failed to fetch featured projects" };
+  } catch (error: any) {
+    console.error("❌ Error fetching featured projects:", error?.message || error);
+    return { success: false, error: error?.message || "Failed to fetch featured projects" };
   }
 }
 
@@ -248,29 +261,30 @@ export async function getProjects(publishedOnly = true) {
       Query.limit(100),
     ];
 
-    if (publishedOnly) {
-      queries.push(Query.equal("published", "true"));
-    }
-
     const result = await databases.listDocuments(
       DATABASE_ID,
       PROJECTS_COLLECTION,
       queries
     );
 
-    const projects = result.documents.map((doc) => ({
+    let projects = result.documents.map((doc) => ({
       ...doc,
-      published: doc.published === "true",
-      featured: doc.featured === true,
+      published: isTrue(doc.published),
+      featured: isTrue(doc.featured),
+      tags: parseTags(doc.tags),
     }));
+
+    if (publishedOnly) {
+      projects = projects.filter((p) => p.published);
+    }
 
     return {
       success: true,
       data: JSON.parse(JSON.stringify(projects)) as unknown as Project[],
     };
-  } catch (error) {
-    console.error("❌ Error fetching projects:", error);
-    return { success: false, error: "Failed to fetch projects" };
+  } catch (error: any) {
+    console.error("❌ Error fetching projects:", error?.message || error);
+    return { success: false, error: error?.message || "Failed to fetch projects" };
   }
 }
 
@@ -285,7 +299,6 @@ export async function getProjectBySlug(slug: string) {
       PROJECTS_COLLECTION,
       [
         Query.equal("slug", slug),
-        Query.equal("published", "true"),
         Query.limit(1),
       ]
     );
@@ -294,19 +307,20 @@ export async function getProjectBySlug(slug: string) {
       return { success: false, error: "Project not found" };
     }
 
+    const doc = result.documents[0];
     const project = {
-      ...result.documents[0],
-      published: result.documents[0].published === "true",
-      featured: result.documents[0].featured === true,
+      ...doc,
+      published: doc.published === "true" || doc.published === true,
+      featured: doc.featured === true || doc.featured === "true",
     };
 
     return {
       success: true,
       data: JSON.parse(JSON.stringify(project)) as unknown as Project,
     };
-  } catch (error) {
-    console.error("❌ Error fetching project:", error);
-    return { success: false, error: "Failed to fetch project" };
+  } catch (error: any) {
+    console.error("❌ Error fetching project by slug:", error?.message || error);
+    return { success: false, error: error?.message || "Failed to fetch project" };
   }
 }
 
