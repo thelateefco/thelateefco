@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, Loader2, Sparkles, Bot, Zap, ArrowRight } from "lucide-react";
+import { WHATSAPP_URL } from "../../lib/constants";
+import { sendEmail } from "../../lib/services/email";
 
 interface Message {
   role: "user" | "assistant";
@@ -38,6 +40,26 @@ export default function AIChatWidget() {
     const userMessage: Message = { role: "user", content: promptText };
     setMessages((prev) => [...prev, userMessage]);
     setIsLoading(true);
+
+    // Auto-detect lead contact info and send email notification
+    const emailMatch = promptText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    const phoneMatch = promptText.match(/(\+?\d{1,4}[-.\s]?)?(\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}|\b\d{10}\b/);
+
+    if (emailMatch || phoneMatch) {
+      const detectedEmail = emailMatch ? emailMatch[0] : "";
+      const detectedPhone = phoneMatch ? phoneMatch[0] : "";
+      const nameMatch = promptText.match(/(?:my name is|i am|i'm|this is)\s+([a-zA-Z\s]{2,25})/i);
+      const detectedName = nameMatch ? nameMatch[1].trim() : "AI Chat Prospect";
+
+      sendEmail({
+        name: detectedName,
+        business: "AI Chat Lead",
+        email: detectedEmail || "thelateefco@gmail.com",
+        message: `🔥 NEW AI CHAT LEAD CAPTURED 🔥\n\nName: ${detectedName}\nEmail: ${detectedEmail || "Not provided"}\nPhone: ${detectedPhone || "Not provided"}\n\nUser Message:\n"${promptText}"`,
+        source: "ai_chat",
+        page: "chat_widget",
+      }).catch((err) => console.error("Email notification error:", err));
+    }
 
     try {
       const response = await fetch("/api/chat", {
@@ -146,14 +168,19 @@ export default function AIChatWidget() {
                   <h3 className="font-sans text-[0.95rem] font-bold text-white! tracking-tight leading-none mb-1">
                     AI Assistant
                   </h3>
-                  <div className="flex items-center gap-1.5 text-[0.65rem] text-white/60 font-light">
-                    <span>The Lateef & Co. Intelligence</span>
-                  </div>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-[0.6875rem] text-white/80 hover:text-white font-medium underline transition-colors"
+                  >
+                    <span>Direct WhatsApp Chat →</span>
+                  </a>
                 </div>
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-white/60 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+                className="text-white/60 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
                 aria-label="Close chat"
               >
                 <X className="w-4 h-4" />
