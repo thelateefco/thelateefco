@@ -117,10 +117,10 @@ export default function ImpactBanner() {
 
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 font-sans text-[0.75rem] font-medium tracking-[0.06em] uppercase px-7 py-3.5 rounded-[7px] bg-[#140f0a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(20,15,10,0.3)] shrink-0 cursor-pointer no-underline"
+              className="group inline-flex items-center gap-2 font-sans text-[0.8125rem] font-semibold tracking-[0.06em] uppercase px-7 py-3.5 rounded-xl bg-[#140f0a] text-[#FFFFFF] hover:bg-[#1A1A1A] active:bg-[#000000] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(20,15,10,0.3)] shrink-0 cursor-pointer no-underline"
             >
               Start your project
-              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
         </Reveal>

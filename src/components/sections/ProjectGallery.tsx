@@ -167,7 +167,7 @@ export default function ProjectGallery({ images, title }: ProjectGalleryProps) {
             {/* Top Bar Controls */}
             <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-20 text-[#FFFFFF]">
               <span className="text-xs uppercase tracking-widest text-[#FFFFFF]/70 font-mono">
-                {title} — {selectedIndex + 1} / {images.length}
+                {title} - {selectedIndex + 1} / {images.length}
               </span>
               <button
                 onClick={closeLightbox}

@@ -12,7 +12,7 @@ export const COMPANY = {
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
-  // { label: "Work", href: "/work" }, // Hidden – not deleted
+  // { label: "Work", href: "/work" }, // Hidden - not deleted
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

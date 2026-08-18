@@ -86,7 +86,7 @@ export default function AIChatWidget() {
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             className="fixed bottom-20 right-6 z-50 hidden sm:flex items-center gap-2 bg-[#140f0a] text-white px-3.5 py-2 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.3)] border border-white/15 text-[0.75rem] font-sans"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span className="font-medium text-white/90">Have questions? Ask AI!</span>
             <button
               onClick={(e) => {
@@ -165,7 +165,7 @@ export default function AIChatWidget() {
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center px-2">
                   <div className="w-12 h-12 rounded-2xl bg-[#140f0a] flex items-center justify-center mb-3 shadow-md border border-white/10">
-                    <Sparkles className="w-6 h-6 text-amber-300 animate-pulse" />
+                    <Sparkles className="w-6 h-6 text-amber-300" />
                   </div>
                   <h4 className="font-sans text-[1.05rem] font-bold text-[#140f0a]">
                     How can I help you today?

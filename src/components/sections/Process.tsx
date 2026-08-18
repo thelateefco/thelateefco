@@ -16,14 +16,14 @@ const steps = [
     id: "design",
     number: "02",
     title: "Design",
-    duration: "Weeks 2–3",
+    duration: "Weeks 2-3",
     body: "I design in the browser with real content from day one - not abstract wireframes. You'll see how the site looks and moves before a single line of production code is written. Feedback loops are tight, revisions are structured.",
   },
   {
     id: "build",
     number: "03",
     title: "Build",
-    duration: "Weeks 3–5",
+    duration: "Weeks 3-5",
     body: "Development happens in parallel as design is confirmed, so nothing gets rebuilt twice. I build on modern, fast infrastructure - performance and accessibility are baked in, not bolted on at the end.",
   },
   {

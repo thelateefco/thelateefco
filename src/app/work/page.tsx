@@ -57,7 +57,7 @@ export default function WorkPage() {
               <h1 className="font-sans text-[clamp(2.5rem,6vw,4.5rem)] font-bold text-[#000000] leading-[1.05] tracking-tight max-w-[14ch] mb-6">
                 Projects that
                 <br />
-                <em className="italic font-sans font-light text-[#4A4A4A]">speak for themselves.</em>
+                <em className="italic font-sans font-bold text-[#000000]">speak for themselves.</em>
               </h1>
             </Reveal>
 

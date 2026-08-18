@@ -252,7 +252,7 @@ export default function Contact() {
                     </svg>
                   }
                   iconPosition="left"
-                  className="group w-full sm:w-auto justify-center hover:shadow-[0_8px_24px_rgba(20,15,10,0.25)] hover:-translate-y-0.5 transition-all duration-300"
+                  className="group w-full sm:w-auto rounded-xl justify-center hover:shadow-[0_8px_24px_rgba(20,15,10,0.25)] hover:-translate-y-0.5 transition-all duration-300"
                   aria-label="Message us on WhatsApp"
                 >
                   <span className="flex items-center gap-2">
@@ -265,7 +265,7 @@ export default function Contact() {
                 <button
                   id="contact-note"
                   onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-[7px] transition-all duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#140f0a] hover:text-[#F5F5F7] hover:border-[#140f0a] hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)] active:scale-[0.98] cursor-pointer no-underline"
+                  className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 font-sans text-[0.8125rem] font-medium tracking-[0.06em] uppercase px-6 py-3.5 md:px-7 md:py-4 rounded-xl transition-all duration-300 ease-out border border-[#000000] bg-transparent text-[#000000] hover:bg-[#140f0a] hover:text-[#F5F5F7] hover:border-[#140f0a] hover:shadow-[0_4px_16px_rgba(0,0,0,0.15)] active:scale-[0.98] cursor-pointer no-underline"
                   aria-label="Drop us a note"
                 >
                   <Mail className="w-4 h-4 transition-transform duration-300 group-hover:rotate-[-8deg]" />
