@@ -51,11 +51,11 @@ export default function Hero() {
             muted
             loop
             playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            poster="/images/homepage10.jpg"
+            className="absolute inset-0 w-full h-full object-cover object-[71%_top] sm:object-top"
+            poster="/images/homepage16.jpg"
             onError={() => setVideoError(true)}
           >
-            <source src="/images/homeVideo.mp4" type="video/mp4" />
+            {/* <source src="/images/homeVideo.mp4" type="video/mp4" /> */}
             {/* Fallback for browsers that don't support video */}
             <div className="absolute inset-0 bg-[#1A1A1A]" />
           </video>
@@ -63,10 +63,10 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[#1A1A1A]">
             <div className="relative w-full h-full">
               <Image
-                src="/images/homepage3.jpg"
+                src="/images/homepage16.jpg"
                 alt="Background"
                 fill
-                className="object-cover object-top scale-[1.08] sm:scale-100"
+                className="object-cover object-[72%_top] sm:object-top scale-[1.08] sm:scale-100"
                 priority
                 sizes="100vw"
               />

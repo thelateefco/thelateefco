@@ -55,10 +55,10 @@ export default function WhyUs() {
       {/* ✅ Background Image with Parallax */}
       <ParallaxBackground speed={20}>
         <Image
-          src="/images/footer/footer3.jpg"
+          src="/images/footer/footer7.jpg"
           alt="Background"
           fill
-          className="object-cover"
+          className="object-cover object-[72%_center] sm:object-center"
           priority
           sizes="100vw"
         />

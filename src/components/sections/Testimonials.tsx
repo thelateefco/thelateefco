@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import Reveal from "../animations/Reveal";
 import Image from "next/image";
 import ParallaxBackground from "../shared/ParallaxBackground";
+import { Star } from "lucide-react";
 
 const testimonials = [
   {
     id: "1",
+    rating: 5,
     quote: "The Lateef & Co. completely transformed our online presence. Within 60 days, we saw a 3× increase in qualified enquiries. They understood our firm's voice immediately.",
     name: "Sunil Kabadiya",
     business: "Meridian Law Chambers",
@@ -15,6 +17,7 @@ const testimonials = [
   },
   {
     id: "2",
+    rating: 5,
     quote: "I came with a vague idea and he delivered a polished, conversion-focused website that our customers actually trust. The AI integration for booking was a game-changer.",
     name: "Sheikh Zainab",
     business: "Saffron Table",
@@ -22,6 +25,7 @@ const testimonials = [
   },
   {
     id: "3",
+    rating: 5,
     quote: "He built me a site that made me more confident in my advertisements. The attention to detail and strategic thinking sets him apart.",
     name: "Shruti Malani",
     business: "Verdant Studio",
@@ -42,13 +46,12 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.7,
+      duration: 0.5,
       ease: SOOTHING_EASE,
     },
   },
@@ -60,21 +63,24 @@ export default function Testimonials() {
       {/* ✅ Background Image with Parallax */}
       <ParallaxBackground speed={20}>
         <Image
-          src="/images/footer/footer2.jpg"
+          src="/images/footer/footer8.jpg"
           alt="Background"
           fill
-          className="object-cover"
+          className="object-cover object-[72%_center] sm:object-center transform-gpu"
           priority
+          quality={75}
           sizes="100vw"
         />
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/70" />
+        <div className="absolute inset-0 bg-black/45" />
       </ParallaxBackground>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
         <Reveal>
-          <div className="hairline pt-6 mb-16 md:mb-20">
-            <span className="label text-[#8A8A8A]!">What our clients say</span>
+          <div className="mb-12 md:mb-16">
+            <h2 className="font-serif text-[clamp(2rem,4vw,3.2rem)] font-medium text-[#ECE6DF]! leading-[1.1] tracking-tight">
+              What my clients say
+            </h2>
           </div>
         </Reveal>
 
@@ -82,40 +88,25 @@ export default function Testimonials() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
+          viewport={{ once: true, margin: "-50px" }}
           className="grid md:grid-cols-3 gap-8 md:gap-10"
         >
           {testimonials.map((testimonial) => (
             <motion.div
               key={testimonial.id}
               variants={itemVariants}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.5, ease: SOOTHING_EASE }}
-              className="group flex flex-col rounded-[16px] p-2 -m-2 transition-colors duration-500"
+              className="group flex flex-col rounded-2xl p-6 md:p-8 transform-gpu bg-white/[0.06] backdrop-blur-sm sm:backdrop-blur-md border border-white/15 hover:border-white/35 hover:bg-white/[0.12] transition-all duration-200 ease-out hover:-translate-y-1.5 shadow-xl will-change-transform"
             >
-              <motion.div
-                className="mb-6"
-                whileHover={{ scale: 1 }}
-                transition={{ duration: 0.4, ease: SOOTHING_EASE }}
-              >
-                <svg
-                  width="32"
-                  height="32"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#ECE6DF"
-                  strokeWidth="1"
-                  aria-hidden="true"
-                  className="opacity-60 transition-opacity duration-500 group-hover:opacity-100"
-                >
-                  <path d="M10 11h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
-                  <path d="M19 11h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
-                  <path d="M10 19h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
-                  <path d="M19 19h-4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1z" />
-                </svg>
-              </motion.div>
+              <div className="flex items-center gap-1 mb-5">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]"
+                  />
+                ))}
+              </div>
 
-              <blockquote className="text-[#ECE6DF] text-[0.9375rem] font-light leading-[1.8] mb-6 flex-1">
+              <blockquote className="text-[#ECE6DF] text-[0.95rem] font-light leading-[1.8] mb-6 flex-1">
                 "{testimonial.quote}"
               </blockquote>
 
@@ -123,8 +114,8 @@ export default function Testimonials() {
                 <cite className="font-serif text-[1.125rem] font-medium text-[#ECE6DF] not-italic block">
                   {testimonial.name}
                 </cite>
-                <span className="text-[#8A8A8A] text-[0.6875rem] font-light block mt-0.5">
-                  {testimonial.location}
+                <span className="text-[#8A8A8A] text-[0.75rem] font-light block mt-1">
+                  {testimonial.business} &bull; {testimonial.location}
                 </span>
               </div>
             </motion.div>

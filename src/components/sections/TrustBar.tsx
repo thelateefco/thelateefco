@@ -1,15 +1,7 @@
 "use client";
 
-const locations = [
-  "India",
-  "Dubai",
-  "USA",
-  "Australia",
-  "India",
-  "Dubai",
-  "USA",
-  "Australia",
-];
+const baseLocations = ["India", "Dubai", "USA", "Australia"];
+const locations = [...baseLocations, ...baseLocations, ...baseLocations, ...baseLocations];
 
 export default function TrustBar() {
   return (
@@ -39,8 +31,8 @@ export default function TrustBar() {
         </div>
 
         {/* Marquee track */}
-        <div className="flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex animate-marquee gap-12 pr-12">
+        <div className="flex overflow-hidden pointer-events-none [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex shrink-0 animate-marquee gap-12 pr-12">
             {locations.map((loc, i) => (
               <span
                 key={`a-${i}`}
@@ -52,7 +44,7 @@ export default function TrustBar() {
             ))}
           </div>
           {/* Duplicate for seamless loop */}
-          <div className="flex animate-marquee gap-12 pr-12" aria-hidden="true">
+          <div className="flex shrink-0 animate-marquee gap-12 pr-12" aria-hidden="true">
             {locations.map((loc, i) => (
               <span
                 key={`b-${i}`}
