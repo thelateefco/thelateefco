@@ -12,8 +12,8 @@ export default function AboutPage() {
     <>
       <Header />
       <main className="pt-28 md:pt-32 bg-[#FFFFFF]">
-        {/* Hero Section */}
-        <section className="px-6 md:px-10 lg:px-16 pb-12 md:pb-20">
+        {/* Hero & Founder Section */}
+        <section className="px-6 md:px-10 lg:px-16 pb-16 md:pb-24">
           <div className="max-w-[1280px] mx-auto">
             <Reveal>
               <div className="hairline pt-6 mb-12">
@@ -30,17 +30,59 @@ export default function AboutPage() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <p className="text-[1.0625rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[48ch]">
+              <p className="text-[1.0625rem] leading-[1.75] text-[#4A4A4A] font-light max-w-[48ch] mb-12 md:mb-16">
                 The Lateef & Co. is a boutique web studio based in Mumbai, working with
                 ambitious businesses across India and internationally. I am small enough
                 to care deeply, experienced enough to deliver.
               </p>
             </Reveal>
+
+            {/* Founder Section at Top */}
+            <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center bg-[#F5F5F7] p-6 sm:p-10 md:p-14 rounded-[24px]">
+              <Reveal>
+                <div className="relative aspect-square md:aspect-[4/5] rounded-[16px] overflow-hidden bg-[#E8E8EC]">
+                  <ParallaxBackground speed={12} className="absolute inset-0 z-0">
+                    <Image
+                      src="/images/founder/founder-lateef.jpg"
+                      alt="Lateef Shaikh - Founder of The Lateef & Co."
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      priority
+                    />
+                  </ParallaxBackground>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <div>
+                  <div className="hairline pt-6 mb-6 md:mb-8">
+                    <span className="label">The Founder</span>
+                  </div>
+                  <h2 className="font-serif text-[2rem] md:text-[2.5rem] font-medium text-[#000000] leading-tight mb-2">
+                    Lateef Shaikh
+                  </h2>
+                  <p className="label text-[#8A8A8A] mb-6">Lead Designer & Developer</p>
+                  
+                  <div className="space-y-5">
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      With a deep passion for clean aesthetics and functional design, Lateef founded The Lateef & Co. to bridge the gap between beautiful design and business growth.
+                    </p>
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      Having worked with diverse clients globally, he brings a unique perspective to every project - ensuring that each website is not just a digital brochure, but a strategic asset that captures leads and drives revenue.
+                    </p>
+                    <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
+                      When he's not crafting web experiences, you'll find him exploring the latest in AI automation and constantly finding new ways to refine the digital landscape.
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </section>
 
         {/* Story Section */}
-        <section className="px-6 md:px-10 lg:px-16 pb-20 md:pb-32">
+        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-24">
           <div className="max-w-[1280px] mx-auto">
             <div className="grid md:grid-cols-2 gap-16 md:gap-24">
               <Reveal>
@@ -85,52 +127,6 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-
-        {/* Founder Section */}
-<section className="bg-[#F5F5F7] px-6 md:px-10 lg:px-16 py-20 md:py-32">
-  <div className="max-w-[1280px] mx-auto">
-    <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center">
-      <Reveal>
-        <div className="relative aspect-square md:aspect-[4/5] rounded-[16px] overflow-hidden bg-[#E8E8EC]">
-          <ParallaxBackground speed={12} className="absolute inset-0 z-0">
-            <Image
-              src="/images/founder/founder-lateef.jpg"
-              alt="Lateef Shaikh - Founder of The Lateef & Co."
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-            />
-          </ParallaxBackground>
-        </div>
-      </Reveal>
-
-      <Reveal delay={0.1}>
-        <div>
-          <div className="hairline pt-6 mb-8 md:mb-12">
-            <span className="label">The Founder</span>
-          </div>
-          <h2 className="font-serif text-[2rem] md:text-[2.5rem] font-medium text-[#000000] leading-tight mb-2">
-            Lateef Shaikh
-          </h2>
-          <p className="label text-[#8A8A8A] mb-8">Lead Designer & Developer</p>
-          
-          <div className="space-y-6">
-            <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
-              With a deep passion for clean aesthetics and functional design, Lateef founded The Lateef & Co. to bridge the gap between beautiful design and business growth.
-            </p>
-            <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
-              Having worked with diverse clients globally, he brings a unique perspective to every project - ensuring that each website is not just a digital brochure, but a strategic asset that captures leads and drives revenue.
-            </p>
-            <p className="body-text text-[0.9375rem] leading-[1.8] text-[#4A4A4A]">
-              When he's not crafting web experiences, you'll find him exploring the latest in AI automation and constantly finding new ways to refine the digital landscape.
-            </p>
-          </div>
-        </div>
-      </Reveal>
-    </div>
-  </div>
-</section>
 
         {/* Values Section */}
         <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32">
