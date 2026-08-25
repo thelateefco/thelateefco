@@ -3,9 +3,10 @@ import { NextResponse } from 'next/server';
 import { createLead } from '../../../lib/appwrite/server';
 
 const WORKING_MODELS = [
-  'groq/compound-mini',
   'openai/gpt-oss-120b',
   'openai/gpt-oss-20b',
+  'qwen/qwen3.6-27b',
+  'groq/compound-mini',
 ];
 
 export async function POST(req: Request) {

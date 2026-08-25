@@ -232,6 +232,26 @@ em, .italic-em, .font-serif-italic {
   scrollbar-color: transparent transparent;
 }
 
+/* ── Custom Scrollbar Utility ────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(20, 15, 10, 0.25);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 15, 10, 0.5);
+}
+.custom-scrollbar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(20, 15, 10, 0.25) rgba(0, 0, 0, 0.03) !important;
+}
+
 /* ── Nav Links ───────────────────────────────────────── */
 .nav-link {
   position: relative;
